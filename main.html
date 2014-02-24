@@ -3,18 +3,38 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="styles.css"></link>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
-	<script type="text/javascript" src="grid.js"></script>
 	<script type="text/javascript" src="hexMaths.js"></script>
-	
-	<script type="text/javascript">
+	<script type="text/javascript" src="gridFactory.js"></script>
+	<script type="text/javascript">	
+		grid = null;
+		gridLarge = null;
+		
+		canvasClick = function(e){
+			var clickX = e.pageX - $("#canvas").offset().left;
+			var clickY = e.pageY - $("#canvas").offset().top;
+
+			var coordinates = gridLarge.getGridPositionFromCoordinates(clickX, clickY);
+
+			gridLarge.drawHexAtGridIndex(coordinates.x, coordinates.y, { fillColour: "red", text: "BOOM!" });
+		};
+		
 		$(document).ready(function () {
-			grid.init(hexMaths);
+			var canvas = $("#canvas");
+			var context = canvas[0].getContext("2d");
 			
-			grid.drawHexGrid(15, 11, { strokeWidth: 2, strokeColour: "grey" });
+			var gridSize = 20;
+			var tileSize = 4.75 * window.hexMaths.getSectionWidth(gridSize);
+			
+			grid = window.gridFactoryMakeGrid(context, window.hexMaths, gridSize);
+			gridLarge = window.gridFactoryMakeGrid(context, window.hexMaths, tileSize);
+			
+			grid.drawHexGrid(31, 18, { strokeWidth: 2, strokeColour: "grey" });
+			
+			canvas.click(canvasClick);
 		});
 	</script>
 </head>
-<body>
-	<canvas id="canvas" width="800" height="600"></canvas>
+<body onload="canvasInit();">
+	<canvas id="canvas" width="1200" height="800" onclick="canvasClick();"></canvas>
 </body>
 </html>

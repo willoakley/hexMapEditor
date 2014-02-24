@@ -30,6 +30,14 @@ window.hexMaths = {
 		return sideLength + this.getH(sideLength);
 	},
 	
+	getSectionWidth: function (sideLength) {
+		return this.getOffsetWidth(sideLength);
+	},
+	
+	getSectionHeight: function (sideLength) {
+		return this.getR(sideLength);
+	},
+	
 	getR: function (sideLength) {
 		return this.CosThirtyDegrees * sideLength;
 	},
