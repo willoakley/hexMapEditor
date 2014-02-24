@@ -1,22 +1,23 @@
-window.hexGridFactory = function (canvasContext, hexMathsHelper, hexSideLength, gridLeftOffset, gridTopOffset) {
-	if (hexSideLength === undefined) {
-		hexSideLength = 30.0;
-	}
+window.hexGridFactory = function (canvasContext, hexMathsHelper, gridOptions) {
+	var defaultGridOptions = {
+		hexSideLength: 30.0,
+		gridLeftOffset: 0.0,
+		gridTopOffset: 0.0,
+		hexesAcross: 10,
+		hexesDown: 10,
+	};
 	
-	if (gridLeftOffset === undefined) {
-		gridLeftOffset = 0.0;
-	}
+	gridOptions = gridOptions || {};
+	gridOptions = $.extend(defaultGridOptions, gridOptions);
 	
-	if (gridTopOffset === undefined) {
-		gridTopOffset = 0.0;
-	}
-
 	return /* new grid */ {
 		context: canvasContext,
 		hexMaths: hexMathsHelper,
-		sideLength: hexSideLength,
-		gridLeftOffset: gridLeftOffset,
-		gridTopOffset: gridTopOffset,
+		sideLength: gridOptions.hexSideLength,
+		gridLeftOffset: gridOptions.gridLeftOffset,
+		gridTopOffset: gridOptions.gridTopOffset,
+		hexesAcross: gridOptions.hexesAcross,
+		hexesDown: gridOptions.hexesDown,
 
 		_defaultOptions: function (options) {
 			var defaultDrawOptions = {
@@ -133,31 +134,31 @@ window.hexGridFactory = function (canvasContext, hexMathsHelper, hexSideLength, 
 			return currentIndex;
 		},
 		
-		drawGrid: function (hexesAcross, hexesDown, options) {
-			options = this._defaultOptions(options);
+		drawGrid: function (hexOptions) {
+			hexOptions = this._defaultOptions(hexOptions);
 			
-			for (var x = 0; x < hexesAcross; x++) {
-				for (var y = 0; y < hexesDown; y++) {
+			for (var x = 0; x < this.hexesAcross; x++) {
+				for (var y = 0; y < this.hexesDown; y++) {
 					var offset = this.getCoordinatesFromGridPosition(x, y)
 				
-					options.offsetLeft = offset.x;
-					options.offsetTop = offset.y;
-					options.text = "[" + x + "," + y + "]";
+					hexOptions.offsetLeft = offset.x;
+					hexOptions.offsetTop = offset.y;
+					hexOptions.text = "[" + x + "," + y + "]";
 					
-					this._drawHex(options);
+					this._drawHex(hexOptions);
 				}
 			}
 		},
 		
-		drawHexAtGridIndex: function (x, y, options) {
-			options = this._defaultOptions(options);
+		drawHexAtGridIndex: function (x, y, hexOptions) {
+			hexOptions = this._defaultOptions(hexOptions);
 			
 			var offset = this.getCoordinatesFromGridPosition(x, y);
 			
-			options.offsetLeft = offset.x;
-			options.offsetTop = offset.y;
+			hexOptions.offsetLeft = offset.x;
+			hexOptions.offsetTop = offset.y;
 			
-			this._drawHex(options);
+			this._drawHex(hexOptions);
 		},
 		
 		getCoordinatesFromGridPosition: function (xIn, yIn) {
@@ -170,12 +171,12 @@ window.hexGridFactory = function (canvasContext, hexMathsHelper, hexSideLength, 
 				topOffset = topOffset + (height / 2.0);
 			}
 			
-			return { x: gridLeftOffset + leftOffset, y: gridTopOffset + topOffset };
+			return { x: this.gridLeftOffset + leftOffset, y: this.gridTopOffset + topOffset };
 		},
 		
 		getGridPositionFromCoordinates: function (x, y) {
-			x = x - gridLeftOffset;
-			y = y - gridTopOffset;
+			x = x - this.gridLeftOffset;
+			y = y - this.gridTopOffset;
 
 			var sectionWidth = this.hexMaths.getSectionWidth(this.sideLength);
 			var sectionHeight = this.hexMaths.getSectionHeight(this.sideLength);

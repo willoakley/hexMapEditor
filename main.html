@@ -1,44 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="styles.css"></link>
+	<link rel="stylesheet" type="text/css" href="css/styles.css"></link>
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"></link>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 	<script type="text/javascript" src="hexMaths.js"></script>
 	<script type="text/javascript" src="hexGridFactory.js"></script>
 	<script type="text/javascript" src="tileGridFactory.js"></script>
 	<script type="text/javascript">	
-		hexes = null;
-		tiles = null;
+		var hexes = null;
+		var tiles = null;
+		var canvas = null;
 		
-		canvasClick = function(e){
-			var clickX = e.pageX - $("#canvas").offset().left;
-			var clickY = e.pageY - $("#canvas").offset().top;
+		function canvasClick(ev) {
+			var clickX = ev.pageX - canvas.offset().left;
+			var clickY = ev.pageY - canvas.offset().top;
 
 			var coordinates = hexes.getGridPositionFromCoordinates(clickX, clickY);
-			hexes.drawHexAtGridIndex(coordinates.x, coordinates.y, { fillColour: "red", text: "BOOM!" });
-			
-			var neigbours = hexes.getNeghbouringGridIndex(coordinates, hexes.directions.northEast);
-			console.log(coordinates.x + "," + coordinates.y + " -> " + neigbours.x + "," + neigbours.y);
+			hexes.drawHexAtGridIndex(coordinates.x, coordinates.y, { fillColour: "red", text: "click" });
 		};
+
+		function allowDrop(ev) {
+			ev.preventDefault();
+		}
+		
+		function drag(ev) {
+			var data = $(ev.currentTarget).data("drag-data");
+			
+			ev.dataTransfer.setData("Text", JSON.stringify(data));
+		}
+
+		function drop(ev) {
+			ev.preventDefault();
+			
+			var clickX = ev.pageX - canvas.offset().left;
+			var clickY = ev.pageY - canvas.offset().top;
+			var data = JSON.parse(ev.dataTransfer.getData("Text"));
+
+			console.log("drop-at:[" + clickX + "," + clickY + "] data:" + data);
+
+			var coordinates = hexes.getGridPositionFromCoordinates(clickX, clickY);
+			hexes.drawHexAtGridIndex(coordinates.x, coordinates.y, { fillColour: "green", text: data });
+		}
 		
 		$(document).ready(function () {
-			var canvas = $("#canvas");
+			canvas = $("#canvas");
 			var context = canvas[0].getContext("2d");
 			
-			var gridSize = 23;
-			
-			hexes = window.hexGridFactory(context, window.hexMaths, gridSize);
-			hexes.drawGrid(31, 18, { strokeWidth: 2, strokeColour: "grey" });
+			hexes = window.hexGridFactory(context, window.hexMaths, { hexSideLength: 25, hexesAcross: 31, hexesDown: 18 });
+			hexes.drawGrid({ strokeWidth: 2, strokeColour: "grey" });
 			
 			tiles = window.tileGridFactory(context, window.hexMaths, hexes);
+			tiles.drawGrid();
 			
 			canvas.click(canvasClick);
-			
-			tiles.drawGrid();
 		});
 	</script>
 </head>
 <body>
-	<canvas id="canvas" width="1200" height="800"></canvas>
+	<section>
+		<i class="fa fa-circle" draggable="true" data-drag-data="circle" ondragstart="drag(event)"></i>
+		<i class="fa fa-camera" draggable="true" data-drag-data="camera" ondragstart="drag(event)"></i>
+	</section>
+	<canvas id="canvas" width="1200" height="800" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="canvasClick(event)"></canvas>
 </body>
 </html>

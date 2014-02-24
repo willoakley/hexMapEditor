@@ -12,8 +12,7 @@ window.tileGridFactory = function (canvasContext, hexMathsHelper, grid) {
 		drawGrid: function() {
 			var topLeft = {x:3, y:0};
 			var topRight = grid.followPathForGridIndex(topLeft, [ grid.directions.southEast, grid.directions.southEast, grid.directions.northEast, grid.directions.northEast ]);
-			console.log(topRight);
-			var t = 1;
+			//console.log(topRight);
 			// HOWTO:
 			/*
 				Get a hex to start from. Suggested is one where it all fits on the grid
