@@ -5,8 +5,8 @@ window.hexMaths = {
 	hexPointsAtOffset: function (leftOffset, topOffset, sideLength) {
 		var r = this.getR(sideLength);
 		var h = this.getH(sideLength);
-		var height = 2.0 * r;
-		var width = sideLength + 2.0 * h;
+		var height = this.getHeight(sideLength);
+		var width = this.getWidth(sideLength);
 		
 		return [ 
 				{ x: leftOffset + h,                y: topOffset },
@@ -16,6 +16,18 @@ window.hexMaths = {
 				{ x: leftOffset + h,                y: topOffset + height },
 				{ x: leftOffset,                    y: topOffset + r },
 			];
+	},
+	
+	getHeight: function (sideLength) {
+		return 2.0 * this.getR(sideLength);
+	},
+	
+	getWidth: function (sideLength) {
+		return sideLength + 2.0 * this.getH(sideLength);
+	},
+	
+	getOffsetWidth: function (sideLength) {
+		return sideLength + this.getH(sideLength);
 	},
 	
 	getR: function (sideLength) {
