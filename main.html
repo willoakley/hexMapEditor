@@ -4,37 +4,41 @@
 	<link rel="stylesheet" type="text/css" href="styles.css"></link>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 	<script type="text/javascript" src="hexMaths.js"></script>
-	<script type="text/javascript" src="gridFactory.js"></script>
+	<script type="text/javascript" src="hexGridFactory.js"></script>
+	<script type="text/javascript" src="tileGridFactory.js"></script>
 	<script type="text/javascript">	
-		grid = null;
-		gridLarge = null;
+		hexes = null;
+		tiles = null;
 		
 		canvasClick = function(e){
 			var clickX = e.pageX - $("#canvas").offset().left;
 			var clickY = e.pageY - $("#canvas").offset().top;
 
-			var coordinates = gridLarge.getGridPositionFromCoordinates(clickX, clickY);
-
-			gridLarge.drawHexAtGridIndex(coordinates.x, coordinates.y, { fillColour: "red", text: "BOOM!" });
+			var coordinates = hexes.getGridPositionFromCoordinates(clickX, clickY);
+			hexes.drawHexAtGridIndex(coordinates.x, coordinates.y, { fillColour: "red", text: "BOOM!" });
+			
+			var neigbours = hexes.getNeghbouringGridIndex(coordinates, hexes.directions.northEast);
+			console.log(coordinates.x + "," + coordinates.y + " -> " + neigbours.x + "," + neigbours.y);
 		};
 		
 		$(document).ready(function () {
 			var canvas = $("#canvas");
 			var context = canvas[0].getContext("2d");
 			
-			var gridSize = 20;
-			var tileSize = 4.75 * window.hexMaths.getSectionWidth(gridSize);
+			var gridSize = 23;
 			
-			grid = window.gridFactoryMakeGrid(context, window.hexMaths, gridSize);
-			gridLarge = window.gridFactoryMakeGrid(context, window.hexMaths, tileSize);
+			hexes = window.hexGridFactory(context, window.hexMaths, gridSize);
+			hexes.drawGrid(31, 18, { strokeWidth: 2, strokeColour: "grey" });
 			
-			grid.drawHexGrid(31, 18, { strokeWidth: 2, strokeColour: "grey" });
+			tiles = window.tileGridFactory(context, window.hexMaths, hexes);
 			
 			canvas.click(canvasClick);
+			
+			tiles.drawGrid();
 		});
 	</script>
 </head>
-<body onload="canvasInit();">
-	<canvas id="canvas" width="1200" height="800" onclick="canvasClick();"></canvas>
+<body>
+	<canvas id="canvas" width="1200" height="800"></canvas>
 </body>
 </html>

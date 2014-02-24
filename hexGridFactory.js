@@ -1,14 +1,22 @@
-window.hexGridFactory = function (canvasContext, hexMathsHelper, hexSideLength) {
+window.hexGridFactory = function (canvasContext, hexMathsHelper, hexSideLength, gridLeftOffset, gridTopOffset) {
 	if (hexSideLength === undefined) {
 		hexSideLength = 30.0;
+	}
+	
+	if (gridLeftOffset === undefined) {
+		gridLeftOffset = 0.0;
+	}
+	
+	if (gridTopOffset === undefined) {
+		gridTopOffset = 0.0;
 	}
 
 	return /* new grid */ {
 		context: canvasContext,
 		hexMaths: hexMathsHelper,
 		sideLength: hexSideLength,
-		gridLeftOffset: 0.0,
-		gridTopOffset: 0.0,
+		gridLeftOffset: gridLeftOffset,
+		gridTopOffset: gridTopOffset,
 
 		_defaultOptions: function (options) {
 			var defaultDrawOptions = {
@@ -79,7 +87,53 @@ window.hexGridFactory = function (canvasContext, hexMathsHelper, hexSideLength) 
 			return { x: Math.floor(xIn), y: Math.floor(yIn) };
 		},
 
-		drawHexGrid: function (hexesAcross, hexesDown, options) {
+		_oddNegbouringHexIndexMap: Object.freeze({
+			north:     { x: 0,  y: -1 },
+			south:     { x: 0,  y: 1 },
+			northEast: { x: 1,  y: -1 },
+			northWest: { x: -1, y: -1 },
+			southEast: { x: 1,  y: 0 },
+			southWest: { x: -1, y: 0 },
+		}),
+		
+		_evenNegbouringHexIndexMap: Object.freeze({
+			north:     { x: 0,  y: -1 },
+			south:     { x: 0,  y: 1 },
+			northEast: { x: 1,  y: 0 },
+			northWest: { x: -1,  y: 0 },
+			southEast: { x: 1, y: 1 },
+			southWest: { x: -1, y: 1 },
+		}),
+		
+		directions: Object.freeze({
+			north: "north",
+			south: "south",
+			northEast: "northEast",
+			southEast: "southEast",
+			southWest: "southWest",
+			northWest: "northWest",
+		}),
+		
+		getNeghbouringGridIndex: function (index, direction) {
+			var map = this._evenNegbouringHexIndexMap;
+			
+			if (index.x % 2 == 1) {
+				map = this._oddNegbouringHexIndexMap;
+			}
+		
+			return { x: index.x + map[direction].x, y: index.y + map[direction].y, };
+		},
+		
+		followPathForGridIndex: function (index, pathArray) {
+			var currentIndex = index;
+			for (var ii = 0; ii < pathArray.length; ii++) {
+				currentIndex = this.getNeghbouringGridIndex(currentIndex, pathArray[ii]);
+			}
+
+			return currentIndex;
+		},
+		
+		drawGrid: function (hexesAcross, hexesDown, options) {
 			options = this._defaultOptions(options);
 			
 			for (var x = 0; x < hexesAcross; x++) {
