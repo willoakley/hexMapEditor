@@ -39,11 +39,18 @@ $(document).ready(function () {
 	canvas = $("#canvas");
 	var context = canvas[0].getContext("2d");
 	
-	hexes = window.hexGridFactory(context, window.hexMaths, { hexSideLength: 25, hexesAcross: 31, hexesDown: 18 });
+	hexes = window.hexGridFactory(context, window.hexMaths, { hexSideLength: 10, hexesAcross: 31, hexesDown: 18 });
 	hexes.drawGrid({ strokeWidth: 2, strokeColour: "grey" });
 	
-	tiles = window.tileGridFactory(context, window.hexMaths, hexes);
-	tiles.drawGrid();
+	tiles = window.hexGridFactory(context, window.hexMaths, {
+		hexesAcross: 4,
+		hexesDown: 4,
+		/* Some magic figures here but they do scale correctly: */
+		hexSideLength: hexes.sideLength * 7,
+		gridLeftOffset: hexes.sideLength * 1.44, 
+		gridTopOffset: hexes.sideLength * 0.88,
+	});
+	tiles.drawGrid({ strokeWidth: 1, strokeColour: "blue", fill: false });
 	
 	canvas.click(canvasClick);
 });
