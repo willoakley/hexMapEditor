@@ -10,3 +10,10 @@ section
 	float:left;
 	padding: 8px;
 }
+
+.fake-link
+{
+	text-decoration:underline;
+	color:blue;
+	cursor:pointer;
+}
