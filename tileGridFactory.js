@@ -10,23 +10,37 @@ window.tileGridFactory = function (canvasContext, hexMathsHelper, grid) {
 		grid: grid,
 
 		drawGrid: function() {
+			var context = this.context;
+			
 			var topLeft = {x:3, y:0};
 			var topRight = grid.followPathForGridIndex(topLeft, [ grid.directions.southEast, grid.directions.southEast, grid.directions.northEast, grid.directions.northEast ]);
-			//console.log(topRight);
-			// HOWTO:
-			/*
-				Get a hex to start from. Suggested is one where it all fits on the grid
-				
-				for that hex get it's points. 
-				select the top left point
-				move SE twice then NE twice
-				for that hex get it's points. 
-				select the top right point
-				.... repeat the above to come full circle
-				
-			*/
+			var right = grid.followPathForGridIndex(topRight, [ grid.directions.south, grid.directions.south, grid.directions.southEast, grid.directions.southEast ]);
+			var bottomRight = grid.followPathForGridIndex(right, [ grid.directions.southWest, grid.directions.southWest, grid.directions.south, grid.directions.south ]);
+			var bottomLeft = grid.followPathForGridIndex(bottomRight, [ grid.directions.northWest, grid.directions.northWest, grid.directions.southWest, grid.directions.southWest ]);
+			var left = grid.followPathForGridIndex(bottomLeft, [ grid.directions.north, grid.directions.north, grid.directions.northWest, grid.directions.northWest ]);
 			
-			// TODO: make a way to do the walking hex thing.
+			
+			var cornerHexes = [topLeft, topRight, right, bottomRight, bottomLeft, left];
+			
+			context.beginPath();		
+			
+			for (var ii = 0; ii < cornerHexes.length; ii++) {
+				var offset = this.grid.getCoordinatesFromGridPosition(cornerHexes[ii].x, cornerHexes[ii].y);
+				var point = this.hexMaths.hexPointsAtOffset(offset.x, offset.y, this.grid.sideLength)[ii];
+
+				if (ii == 0) {
+					context.moveTo(point.x, point.y);
+					continue;
+				}
+				
+				context.lineTo(point.x, point.y);
+			}
+			
+			context.closePath();
+			
+			context.lineWidth = 5;
+			context.strokeStyle = "black";
+			context.stroke();
 		},
 	};
 };
