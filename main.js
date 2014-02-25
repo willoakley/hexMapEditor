@@ -34,6 +34,8 @@ function drop(ev) {
 }
 
 $(document).ready(function () {
+	$(".draggable").attr("draggable", "true").attr("ondragstart", "drag(event)");
+
 	canvas = $("#canvas");
 	var context = canvas[0].getContext("2d");
 	

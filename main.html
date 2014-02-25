@@ -11,9 +11,18 @@
 </head>
 <body>
 	<section>
-		<i class="fa fa-circle" draggable="true" data-drag-data="circle" ondragstart="drag(event)"></i>
-		<i class="fa fa-camera" draggable="true" data-drag-data="camera" ondragstart="drag(event)"></i>
+		<h3>Tiles:</h3>
+		<i class="fa fa-fire-extinguisher draggable" data-drag-data="fire"></i>
+		<i class="fa fa-dashboard draggable" data-drag-data="dash"></i>
 	</section>
-	<canvas id="canvas" width="1200" height="800" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="canvasClick(event)"></canvas>
+	<section>
+		<h3>Objects:</h3>
+		<i class="fa fa-circle draggable" data-drag-data="circle"></i>
+		<i class="fa fa-camera draggable" data-drag-data="camera"></i>
+	</section>
+	<section>
+		<h3>Map:</h3>
+		<canvas id="canvas" width="1200" height="800" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="canvasClick(event)"></canvas>
+	</section>
 </body>
 </html>
