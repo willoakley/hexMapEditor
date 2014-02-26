@@ -139,6 +139,11 @@ window.hexGridFactory = function (canvasContext, hexMathsHelper, gridOptions) {
 			
 			for (var x = 0; x < this.hexesAcross; x++) {
 				for (var y = 0; y < this.hexesDown; y++) {
+					// Don't render odd hexes on last row to keep grid mirrored with top edge
+					if (y == this.hexesDown - 1 && x % 2 == 1) {
+						continue;
+					}
+
 					var offset = this.getCoordinatesFromGridPosition(x, y)
 				
 					hexOptions.offsetLeft = offset.x;
