@@ -1,3 +1,9 @@
+/*
+	FUTURE:
+	- Tiles should acept an array of {x, y, howToRenderThisHex} objects
+	- when drawing it should loop through this collection and render them assuming the co-ordiantes are within the bounds of hexesAcross and hexesDown values
+*/
+
 window.tile = function (context, hexMaths, options) {
 	var defaultOptions = {
 		hexSideLength: 30.0,
