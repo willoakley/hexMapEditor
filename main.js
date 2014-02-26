@@ -33,33 +33,48 @@ function drop(ev) {
 	hexes.drawHexAtGridIndex(coordinates.x, coordinates.y, { fillColour: "green", text: data });
 }
 
+function addTileToMenu(tileName) {
+	$("<canvas id=\"menuTile_"+tileName+"\"/>")
+		.attr("class", "draggable")
+		.attr("width", "150")
+		.attr("height", "150")
+		.attr("width", "150")
+		.data("drag-data", tileName).appendTo($(".parts.tiles"));
+	$("<br />").appendTo($(".parts.tiles"));
+
+	var tileContext = $("#menuTile_"+tileName)[0].getContext("2d");
+	window.tile(tileContext, window.hexMaths, { hexSideLength: 10, gridLeftOffset: 2.0, gridTopOffset: 2.0 }).drawTile();
+}
+
 $(document).ready(function () {
-	$(".draggable").attr("draggable", "true").attr("ondragstart", "drag(event)");
+	var tileName = "plainTile";
+	
+	addTileToMenu("One");
+	addTileToMenu("Two");
 
 	canvas = $("#canvas");
 	var context = canvas[0].getContext("2d");
 	canvas.click(canvasClick);
 
-	hexes = window.hexGridFactory(context, window.hexMaths, { hexSideLength: 10, hexesAcross: 31, hexesDown: 18 });
-	hexes.drawGrid({ strokeWidth: 2, strokeColour: "grey" });
+	hexes = window.hexGridFactory(context, window.hexMaths, { hexSideLength: 16, hexesAcross: 39, hexesDown: 29 });
+	// Do not draw these. They are there for calculations and debugging only
+	//hexes.drawGrid({ strokeWidth: 1, strokeColour: "grey", fill: false });
 
 	tiles = window.hexGridFactory(context, window.hexMaths, {
-		hexesAcross: 4,
+		hexesAcross: 5,
 		hexesDown: 4,
 		/* Some magic figures here but they do scale correctly: */
 		hexSideLength: hexes.sideLength * 7,
 		gridLeftOffset: hexes.sideLength * 1.44, 
 		gridTopOffset: hexes.sideLength * 0.88,
 	});
-	tiles.drawGrid({ strokeWidth: 1, strokeColour: "blue", fill: false });
+	tiles.drawGrid({ strokeWidth: 2, strokeColour: "black", fill: false });
 
 	$("#downloadMapLink").click(function () {
 		this.href = canvas[0].toDataURL('image/png');
 	});
 	
-	var testTileContext = $("#testTileCanvas")[0].getContext("2d");
-	var testTile = window.tile(testTileContext, window.hexMaths, {});
-	testTile.drawTile();
+	$(".draggable").attr("draggable", "true").attr("ondragstart", "drag(event)");
 });
 
 

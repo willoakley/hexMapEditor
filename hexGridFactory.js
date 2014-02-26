@@ -76,7 +76,7 @@ window.hexGridFactory = function (canvasContext, hexMathsHelper, gridOptions) {
 				var maxWidth = this.hexMaths.getOffsetWidth(this.sideLength);
 				var textLeft = options.offsetLeft + (this.hexMaths.getWidth(this.sideLength) / 2.0);
 				var textTop = options.offsetTop + (this.hexMaths.getHeight(this.sideLength) / 2.0);
-				
+
 				context.fillStyle = options.textColour;
 				context.textAlign = 'center';
 				context.font = "bold " + options.textSize + "px " + options.textFont;
@@ -148,7 +148,7 @@ window.hexGridFactory = function (canvasContext, hexMathsHelper, gridOptions) {
 				
 					hexOptions.offsetLeft = offset.x;
 					hexOptions.offsetTop = offset.y;
-					hexOptions.text = "[" + x + "," + y + "]";
+					//hexOptions.text = "[" + x + "," + y + "]";
 					
 					this._drawHex(hexOptions);
 				}
