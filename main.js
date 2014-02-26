@@ -22,7 +22,7 @@ function drag(ev) {
 
 function drop(ev) {
 	ev.preventDefault();
-	
+
 	var clickX = ev.pageX - canvas.offset().left;
 	var clickY = ev.pageY - canvas.offset().top;
 	var data = JSON.parse(ev.dataTransfer.getData("Text"));
@@ -56,4 +56,16 @@ $(document).ready(function () {
 	$("#downloadMapLink").click(function () {
 		this.href = canvas[0].toDataURL('image/png');
 	});
+	
+	var testTileContext = $("#testTileCanvas")[0].getContext("2d");
+	var testTile = window.tile(testTileContext, window.hexMaths, {});
+	testTile.drawTile();
 });
+
+
+
+
+
+
+
+
