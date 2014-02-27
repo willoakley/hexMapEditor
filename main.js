@@ -33,34 +33,35 @@ function drop(ev) {
 	hexes.drawHexAtGridIndex(coordinates.x, coordinates.y, { fillColour: "green", text: data });
 }
 
-function addTileToMenu(tileName) {
-	$("<canvas id=\"menuTile_"+tileName+"\"/>")
+function addTileToMenu(newTile) {
+	var id = "menuTile_" + newTile.name;
+	$("<canvas id=\"" + id + "\"/>")
 		.attr("class", "draggable")
 		.attr("width", "150")
 		.attr("height", "150")
-		.attr("width", "150")
-		.data("drag-data", tileName).appendTo($(".parts.tiles"));
+		.data("drag-data", newTile.name).appendTo($(".parts.tiles"));
 	$("<br />").appendTo($(".parts.tiles"));
 
-	var tileContext = $("#menuTile_"+tileName)[0].getContext("2d");
-	window.tile(tileContext, window.hexMaths, { hexSideLength: 10, gridLeftOffset: 2.0, gridTopOffset: 2.0 }).drawTile();
+	var tileContext = $("#" + id)[0].getContext("2d");
+	window.tile(tileContext, window.hexMaths, { hexSideLength: 10, gridLeftOffset: 2.0, gridTopOffset: 2.0 }, newTile.featurePaths).drawTile();
 }
 
 $(document).ready(function () {
 	var tileName = "plainTile";
 	
-	addTileToMenu("One");
-	addTileToMenu("Two");
+	for(var newTileKey in window.tileMenuItems) {
+		addTileToMenu(window.tileMenuItems[newTileKey]);
+	}
 
 	canvas = $("#canvas");
 	var context = canvas[0].getContext("2d");
 	canvas.click(canvasClick);
 
-	hexes = window.hexGridFactory(context, window.hexMaths, { hexSideLength: 16, hexesAcross: 39, hexesDown: 29 });
+	hexes = window.hexGridFactory.createHexGrid(context, window.hexMaths, { hexSideLength: 16, hexesAcross: 39, hexesDown: 29 });
 	// Do not draw these. They are there for calculations and debugging only
 	//hexes.drawGrid({ strokeWidth: 1, strokeColour: "grey", fill: false });
 
-	tiles = window.hexGridFactory(context, window.hexMaths, {
+	tiles = window.hexGridFactory.createHexGrid(context, window.hexMaths, {
 		hexesAcross: 5,
 		hexesDown: 4,
 		/* Some magic figures here but they do scale correctly: */
@@ -68,7 +69,7 @@ $(document).ready(function () {
 		gridLeftOffset: hexes.sideLength * 1.44, 
 		gridTopOffset: hexes.sideLength * 0.88,
 	});
-	tiles.drawGrid({ strokeWidth: 2, strokeColour: "black", fill: false });
+	tiles.drawGrid({ stroke: true, strokeWidth: 2, strokeColour: "black" });
 
 	$("#downloadMapLink").click(function () {
 		this.href = canvas[0].toDataURL('image/png');
