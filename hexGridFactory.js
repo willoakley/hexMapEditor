@@ -90,20 +90,20 @@ window.hexGridFactory = function (canvasContext, hexMathsHelper, gridOptions) {
 
 		_oddNegbouringHexIndexMap: Object.freeze({
 			north:     { x: 0,  y: -1 },
+			northEast: { x: 1,  y: 0 },
+			southEast: { x: 1,  y: 1 },
 			south:     { x: 0,  y: 1 },
-			northEast: { x: 1,  y: -1 },
-			northWest: { x: -1, y: -1 },
-			southEast: { x: 1,  y: 0 },
-			southWest: { x: -1, y: 0 },
+			southWest: { x: -1, y: 1 },
+			northWest: { x: -1, y: 0 },
 		}),
 		
 		_evenNegbouringHexIndexMap: Object.freeze({
 			north:     { x: 0,  y: -1 },
+			northEast: { x: 1,  y: -1 },
+			southEast: { x: 1, y: 0 },
 			south:     { x: 0,  y: 1 },
-			northEast: { x: 1,  y: 0 },
-			northWest: { x: -1,  y: 0 },
-			southEast: { x: 1, y: 1 },
-			southWest: { x: -1, y: 1 },
+			southWest: { x: -1, y: 0 },
+			northWest: { x: -1,  y: -1 },
 		}),
 		
 		directions: Object.freeze({
@@ -122,7 +122,7 @@ window.hexGridFactory = function (canvasContext, hexMathsHelper, gridOptions) {
 				map = this._oddNegbouringHexIndexMap;
 			}
 		
-			return { x: index.x + map[direction].x, y: index.y + map[direction].y, };
+			return { x: index.x + map[direction].x, y: index.y + map[direction].y };
 		},
 		
 		followPathForGridIndex: function (index, pathArray) {
@@ -222,8 +222,7 @@ window.hexGridFactory = function (canvasContext, hexMathsHelper, gridOptions) {
 			}
 			
 			var differenceBetweenStartOfXSectionAndXPosition = x - (sectionX * sectionWidth);
-			if (differenceBetweenStartOfXSectionAndXPosition >= this.hexMaths.getH(this.sideLength))
-			{
+			if (differenceBetweenStartOfXSectionAndXPosition >= this.hexMaths.getH(this.sideLength)) {
 				//...then we're in the unsloped/rectangular section of the hex section (unique across both halves and section types A and B.
 				// No more work is needed to find the x position. 
 				return this._gridIndex(sectionX, yGridPosition);
@@ -243,8 +242,7 @@ window.hexGridFactory = function (canvasContext, hexMathsHelper, gridOptions) {
 			var angleInRadians = Math.atan(differenceBetweenStartOfXSectionAndXPosition / differenceBetweenStartOfYSectionAndYPosition);
 			var rightOfLine = Math.abs(angleInRadians * radiansToDegrees) >= 30.00;
 
-			if (rightOfLine)
-			{
+			if (rightOfLine) {
 				//inside the hex at the current position
 				return this._gridIndex(sectionX, yGridPosition);
 			}
@@ -252,13 +250,11 @@ window.hexGridFactory = function (canvasContext, hexMathsHelper, gridOptions) {
 			// Left of line so will be in a hex to the left
 			var xGridPosition = sectionX - 1;
 
-			if (columnIsEven && isSegmentTypeA)
-			{
+			if (columnIsEven && isSegmentTypeA) {
 				return this._gridIndex(xGridPosition, yGridPosition - 1);
 			}
 
-			if ((!columnIsEven) && (!isSegmentTypeA))
-			{
+			if ((!columnIsEven) && (!isSegmentTypeA)) {
 				return this._gridIndex(xGridPosition, yGridPosition + 1);
 			}
 
