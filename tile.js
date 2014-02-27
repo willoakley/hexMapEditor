@@ -4,7 +4,7 @@
 	- when drawing it should loop through this collection and render them assuming the co-ordiantes are within the bounds of hexesAcross and hexesDown values
 */
 
-window.tile = function (context, hexMaths, options) {
+window.tile = function (context, hexMaths, options, collectionOfHexesWithPaths) {
 	var defaultOptions = {
 		hexSideLength: 30.0,
 		gridLeftOffset: 0.0,
@@ -13,6 +13,10 @@ window.tile = function (context, hexMaths, options) {
 	
 	options = $.extend(defaultOptions, options);
 	
+	if (collectionOfHexesWithPaths === undefined || collectionOfHexesWithPaths.length == undefined) {
+		collectionOfHexesWithPaths = [];
+	}
+	
 	return {
 		context: context,
 		hexMaths: hexMaths,
@@ -20,15 +24,10 @@ window.tile = function (context, hexMaths, options) {
 		tileSize: 7,
 		gridLeftOffset: options.gridLeftOffset,
 		gridTopOffset: options.gridTopOffset,
+		hexPaths: collectionOfHexesWithPaths,
 		
-		_drawInnerHexeMarkings: function() {
-			var innerHexes = window.hexGridFactory(this.context, this.hexMaths, {
-				hexSideLength: this.hexSideLength,
-				hexesAcross: this.tileSize + 2,
-				hexesDown: this.tileSize,
-				gridLeftOffset: this.gridLeftOffset,
-				gridTopOffset: this.gridTopOffset,
-			})
+		_drawInnerHexeMarkings: function(innerHexes) {
+			
 			
 			var innerHexStyleOptions = { strokeWidth: 2, strokeColour: "white", fill: false };
 
@@ -76,7 +75,37 @@ window.tile = function (context, hexMaths, options) {
 			
 			surroundingHex.drawGrid({ stroke: false, fillColour: "grey" });
 			
-			this._drawInnerHexeMarkings();
+			var innerHexes = window.hexGridFactory(this.context, this.hexMaths, {
+				hexSideLength: this.hexSideLength,
+				hexesAcross: this.tileSize + 2,
+				hexesDown: this.tileSize,
+				gridLeftOffset: this.gridLeftOffset,
+				gridTopOffset: this.gridTopOffset,
+			});
+			
+			var topLeftHexGridIndex = { x: 2, y: 0 };
+			
+			// test collection for now. this will be an argument to a tile eventually
+			var hpc = [
+				// BUG: northEast and southEast directions don't seem to be working from [2,0] position. check east versions as well
+				{ moveDirection: innerHexes.directions.south, hexDrawOptions: { fillColour: "blue", text: "D1" } },
+			];
+			
+			var currentPosition = topLeftHexGridIndex;
+			for (var ii = 0; ii < hpc.length; ii++) {
+				var hexWithPath = hpc[ii];
+				if (hexWithPath.moveDirection != null) {
+					currentPosition = innerHexes.getNeghbouringGridIndex(currentPosition, hexWithPath.moveDirection);
+				}
+				
+				if (hexWithPath.hexDrawOptions == undefined || hexWithPath.hexDrawOptions == null) {
+					continue;
+				}
+				
+				innerHexes.drawHexAtGridIndex(currentPosition.x, currentPosition.y, hexWithPath.hexDrawOptions);
+			}
+
+			this._drawInnerHexeMarkings(innerHexes);
 
 			surroundingHex.drawGrid({ fill: false, strokeColour: "black", strokeWidth: 2 });   
 		},
