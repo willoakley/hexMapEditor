@@ -5,7 +5,7 @@ window.hexFormatOptions = {
 
 /* featurePaths are walked from the upper-left-most hex in the tile. moveDirection is not optional options (n, ne, se, s, se, sw).  */
 window.tileMenuItems = {
-	plain: { 
+	plain: {
 		name: "plain", 
 		featurePaths: [ ]
 	},
@@ -13,15 +13,21 @@ window.tileMenuItems = {
 	riverOne: {
 		name: "riverOne", 
 		featurePaths: [ 
-			{ moveDirection: "s", hexFormatOptions: window.hexFormatOptions.depthOneWater }
+			{ moveDirection: "s", hexFormatOptions: window.hexFormatOptions.depthOneWater },
 		]
 	},
 										
 	riverTwo: {
 		name: "riverTwo",
 		featurePaths: [ 
-			{ moveDirection: "s" },
-			{ moveDirection: "se", hexFormatOptions: window.hexFormatOptions.depthOneWater }
+			{ moveDirection: "se" },
+			{ moveDirection: "ne", hexFormatOptions: window.hexFormatOptions.depthOneWater },
+			{ moveDirection: "s", hexFormatOptions: window.hexFormatOptions.depthOneWater },
+			{ moveDirection: "s", hexFormatOptions: window.hexFormatOptions.depthOneWater },
+			{ moveDirection: "s", hexFormatOptions: window.hexFormatOptions.depthOneWater },
+			{ moveDirection: "s", hexFormatOptions: window.hexFormatOptions.depthOneWater },
+			{ moveDirection: "s", hexFormatOptions: window.hexFormatOptions.depthOneWater },
+			{ moveDirection: "s", hexFormatOptions: window.hexFormatOptions.depthOneWater },
 		]
 	},									
 };
