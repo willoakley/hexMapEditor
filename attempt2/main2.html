@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--
+	use http://s-yadav.github.io/contextMenu.html for the context menu?
+-->
+</head>
+<body>
+	<script type="text/javascript">
+		/*asPoint: function(stringXY) {
+			var split = stringXY.split(","); 
+			return { x:split[0], y:split[1] };
+		},
+		
+		asIndex: function(x, y) {
+			return x+","+y;
+		},*/
+			
+		window.tiles = {
+			"2,5": { rotation: "n", tileId: "plain", draw: function (context, pixelLocation, scale) {} }, 
+			"1,4": { rotation: "s", tileId: "riverOne", draw: null }, 
+			"3,1": { rotation: "ne", tileId: "riverTwo", draw: null }, 
+		};
+		
+		function listTiles(tiles) {
+			var down = 6;
+			var across = 6;
+			
+			for (var y = 0; y < down; y++) {
+				var concat = "";
+				
+				for (var x = 0; x < down; x++) {
+					var tile = tiles[x+","+y];
+					if (tile === undefined) {
+						concat = concat + "[null]";
+					} else {
+						concat = concat + "["+tile.tileId+"]";
+					}
+				}
+				
+				console.log(concat);
+			}
+		}
+		
+		// add tile
+		window.tiles["2,2"] = { rotation: "ne", tileId: "xxxxx" };
+		
+		listTiles(window.tiles);
+		
+		// remove tile
+		console.log(Object.keys(window.tiles));
+		delete window.tiles["1,4"];
+		console.log(Object.keys(window.tiles));
+	</script>
+	start.
+	<canvas id="canvas" width="300" height="300"></canvas>
+	done.
+</body>
+</html>
