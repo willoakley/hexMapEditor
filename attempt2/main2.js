@@ -69,7 +69,7 @@ window.drawableFactory = {
 		return {
 			id: id,
 			type: "single",
-			drawPath: [ { move: null; draw: drawFunction } ];
+			drawPath: [ { move: null, draw: drawFunction } ],
 		};
 	},
 	
@@ -77,7 +77,7 @@ window.drawableFactory = {
 		return {
 			id: id,
 			type: "multiple",
-			drawPath: pathDrawFunctionArray;
+			drawPath: pathDrawFunctionArray,
 		};
 	},
 };
@@ -93,7 +93,7 @@ window.newGrid = function (scale, offset, size) {
 		_pixelOffset: pixelOffset,
 		_size: size,
 		_indexesContainingSomething: null,
-		_grid; {
+		_grid: {
 			/* order keys are added serves as draw order */
 			/* "x,y": { drawableItem, positioning: { rotation, startIndex, affectedIndexes } } */
 		},
@@ -113,7 +113,7 @@ window.newGrid = function (scale, offset, size) {
 				var item = this._grid[index];
 				operationFunction(item);
 			}
-		}
+		},
 		
 		_recalculateAffectedIndexes: function() {
 			this._clear_indexesContainingSomething();
@@ -207,7 +207,7 @@ window.newGrid = function (scale, offset, size) {
 						current.draw(context, pixelLocation, this._scale);
 					}
 				}
-			}
+			});
 		},
 		
 		// TODO potentially useful for drawing grids on top etc.
