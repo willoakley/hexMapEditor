@@ -3,6 +3,9 @@
 <head>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 	<script type="text/javascript" src="hexMaths.js"></script>
+	<script type="text/javascript" src="gridCompas.js"></script>
+	<script type="text/javascript" src="drawableFactory.js"></script>
+	<script type="text/javascript" src="newGrid.js"></script>
 	<!-- use http://s-yadav.github.io/contextMenu.html for the context menu? -->
 	<script type="text/javascript">
 		var scale = 16;
@@ -43,6 +46,10 @@
 			}
 		}
 
+		function newGridIndex(x, y) {
+			return { gx: x, gy: y };
+		};
+
 		$(document).ready(function () {
 			grid = window.newGrid(scale, size);
 
@@ -70,7 +77,6 @@
 	</script>
 </head>
 <body>
-	<script type="text/javascript" src="main2.js"></script>
 	start.
 	<canvas id="canvas" width="944" height="800"></canvas>
 	done.
