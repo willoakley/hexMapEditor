@@ -6,79 +6,51 @@
 	<script type="text/javascript" src="gridCompas.js"></script>
 	<script type="text/javascript" src="drawableFactory.js"></script>
 	<script type="text/javascript" src="newGrid.js"></script>
+	<script type="text/javascript" src="drawFuncs.js"></script>
 	<!-- use http://s-yadav.github.io/contextMenu.html for the context menu? -->
 	<script type="text/javascript">
-		var scale = 16;
-		var size = { sx: 10, sy: 10 };
-		var grid = null;
+		var hexScale = 16;
+		var tileScale = hexScale * 7;
+		var hexGrid = null;
+		var tileGrid = null;
 		var canvasElement = null;
-
-		function drawHex(context, sideLength, offsetLeft, offsetTop, fillColour, strokeColour, text) {
-			var points = window.hexMaths.hexPointsAtOffset(offsetLeft, offsetTop, sideLength);
-
-			context.beginPath();
-			context.moveTo(points[0].x, points[0].y);
-			for (var ii = 1; ii < points.length; ii++) {
-				context.lineTo(points[ii].x, points[ii].y);
-			}
-
-			context.closePath();
-
-			if (fillColour !== undefined && fillColour !== null) {
-				context.fillStyle = fillColour;
-				context.fill();
-			}
-
-			if (strokeColour !== undefined && strokeColour !== null) {
-				context.lineWidth = 2;
-				context.strokeStyle = strokeColour;
-				context.stroke();
-			}
-
-			if (text !== undefined && text !== null && text.length > 0) {
-				var maxWidth = window.hexMaths.getOffsetWidth(sideLength);
-				var textLeft = offsetLeft + (window.hexMaths.getWidth(sideLength) / 2.0);
-				var textTop = offsetTop + (window.hexMaths.getHeight(sideLength) / 2.0);
-
-				context.fillStyle = strokeColour;
-				context.textAlign = 'center';
-				context.font = "bold " + (sideLength / 2) + "px Arial";
-				context.fillText(text, textLeft, textTop, maxWidth);
-			}
-		}
 
 		function newGridIndex(x, y) {
 			return { gx: x, gy: y };
 		};
 
+		function drawCanvas() {
+			var context = canvasElement[0].getContext("2d");
+
+			tileGrid.draw(context);
+			hexGrid.draw(context);
+		};
+
 		$(document).ready(function () {
-			canvasElement = $("#canvas");
-			grid = window.newGrid(scale, size);
+			tileGrid = window.newGrid(tileScale, { sx: 4, sy: 4 });
+			hexGrid = window.newGrid(hexScale, { sx: 10, sy: 10 });
 
-			var dummyDraw = function (context, pixelLocation, scale, rotation) {
-				drawHex(context, scale, pixelLocation.px, pixelLocation.py, "grey", "black", "F:"+rotation)
-			};
-
-			var singleItem = window.drawableFactory.newDrawableSingle("dummy", dummyDraw);
-			grid.addItem(window.newGridIndex(1, 1), "n", singleItem);
-
-			var multipleItem = window.drawableFactory.newDrawableMultiple(
+			hexGrid.addItem(window.newGridIndex(0, 0), "n", window.drawableFactory.newDrawableSingle("dummy", window.drawFuncs.dummyDraw));
+			// turn this off while playing with inner grids on tiles
+			hexGrid.addItem(window.newGridIndex(3, 3), "ne", window.drawableFactory.newDrawableMultiple(
 				"dummyTwo",
 				[
-					{ draw: dummyDraw },
-					{ move: "s", draw: dummyDraw },
+					{ draw: window.drawFuncs.dummyDraw },
+					{ move: "s", draw: window.drawFuncs.dummyDraw },
 					{ move: "s" },
-					{ move: "s", draw: dummyDraw },
+					{ move: "s", draw: window.drawFuncs.dummyDraw },
 				]
-			);
-			grid.addItem(window.newGridIndex(3, 3), "ne", multipleItem);
+			));
 
-			var context = canvasElement[0].getContext("2d");
-			grid.draw(context);
+			tileGrid.addItem(window.newGridIndex(0, 0), "ne", window.drawableFactory.newDrawableSingle("dummyTile", window.drawFuncs.dummyDrawTile));
+
+			canvasElement = $("#canvas");
+			drawCanvas();
 
 			canvasElement.click(function (e) {
 				var pos = { px: e.pageX - canvasElement.offset().left, py: e.pageY - canvasElement.offset().top };
-				var clickedIndex = grid.getGridIndexFormPixelLocation(pos);
+				var clickedIndex = hexGrid.getGridIndexFormPixelLocation(pos);
+				// TODO: hilight item at position on hex grid or fall back and hilight hex
 				console.log("clicked index " + JSON.stringify(clickedIndex));
 			});
 		});
