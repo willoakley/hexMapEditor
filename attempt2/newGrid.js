@@ -7,20 +7,10 @@ window.newGrid = function (scale, size, offset) {
 		_scale: scale,
 		_pixelOffset: offset,
 		_size: size,
-		_indexesContainingSomething: null,
+		_indexesContainingSomething: {},
 		_grid: {
 			/* order keys are added serves as draw order */
 			/* "x,y": { drawableItem, positioning: { facing, startIndex, affectedIndexes } } */
-		},
-
-		_clear_indexesContainingSomething: function () {
-			this._indexesContainingSomething = [];
-			for (var x = 0; x < this._size.sx; x++) {
-				this._indexesContainingSomething[x] = [];
-				for (var y = 0; y < this._size.sy; y++) {
-					this._indexesContainingSomething[x][y] = null;
-				}
-			}
 		},
 
 		_moveIsValid: function (move) {
@@ -107,14 +97,14 @@ window.newGrid = function (scale, size, offset) {
 		},
 
 		recalculateAffectedIndexes: function() {
-			this._clear_indexesContainingSomething();
+			this._indexesContainingSomething = {};
 
 			var keys = Object.keys(this._grid);
 			for (var k = 0; k < keys.length; k++) {
 				var item = this._grid[keys[k]];
 				for (var i = 0; i < item.positioning.affectedIndexes.length; i++) {
 					var affectedIndex = item.positioning.affectedIndexes[i];
-					this._indexesContainingSomething[affectedIndex.gx][affectedIndex.gy] = item;
+					this._indexesContainingSomething[affectedIndex.gx + "," + affectedIndex.gy] = item;
 				}
 			}
 		},
@@ -175,7 +165,12 @@ window.newGrid = function (scale, size, offset) {
 				return null;
 			}
 
-			return this._indexesContainingSomething[gridIndex.gx][gridIndex.gy]; 
+			var item = this._indexesContainingSomething[gridIndex.gx + "," + gridIndex.gy];
+			if (item === undefined) {
+				return null;
+			}
+
+			return item;
 		},
 
 		draw: function (context) {
