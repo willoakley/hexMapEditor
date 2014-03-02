@@ -11,6 +11,7 @@
 		var scale = 16;
 		var size = { sx: 10, sy: 10 };
 		var grid = null;
+		var canvasElement = null;
 
 		function drawHex(context, sideLength, offsetLeft, offsetTop, fillColour, strokeColour, text) {
 			var points = window.hexMaths.hexPointsAtOffset(offsetLeft, offsetTop, sideLength);
@@ -51,6 +52,7 @@
 		};
 
 		$(document).ready(function () {
+			canvasElement = $("#canvas");
 			grid = window.newGrid(scale, size);
 
 			var dummyDraw = function (context, pixelLocation, scale, rotation) {
@@ -71,8 +73,14 @@
 			);
 			grid.addItem(window.newGridIndex(3, 3), "ne", multipleItem);
 
-			var context = $("#canvas")[0].getContext("2d");
+			var context = canvasElement[0].getContext("2d");
 			grid.draw(context);
+
+			canvasElement.click(function (e) {
+				var pos = { px: e.pageX - canvasElement.offset().left, py: e.pageY - canvasElement.offset().top };
+				var clickedIndex = grid.getGridIndexFormPixelLocation(pos);
+				console.log("clicked index " + JSON.stringify(clickedIndex));
+			});
 		});
 	</script>
 </head>

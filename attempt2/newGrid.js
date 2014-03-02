@@ -40,6 +40,72 @@ window.newGrid = function (scale, size, offset) {
 			return { px: this._pixelOffset.px + leftOffset, py: this._pixelOffset.py + topOffset };
 		},
 
+		getGridIndexFormPixelLocation: function (pixelCoordinates) {
+			var x = pixelCoordinates.px - this._pixelOffset.px;
+			var y = pixelCoordinates.py - this._pixelOffset.py;
+
+			/* Logic:
+			 * Each hex is split vertically and horisontally. The left horisontal section contains the lefthand sloped section and a side length's worth or rectangle.
+			 * The upper and lower sections are split evenly across the middle of the hex.
+			 * There are two types of section (A and B). When the segment row and column are both even or both are odd, you see a section A, otherwise a section B
+			 * E represents the start of an even section row or column, O an odd one.
+			 *
+				   E \      O/       E \
+				 .E:........:........:........
+				   : /      :\       : /
+				   :/   A   : \  B   :/
+				 .O:........:........:........
+				   :\   B   : /  A   :\
+				 .E:.\......:/.......:.\.......
+				   : /      :\       : /
+			 */
+
+			var sectionWidth = window.hexMaths.getSectionWidth(this._scale);
+			var sectionHeight = window.hexMaths.getSectionHeight(this._scale);
+			var sectionX = Math.floor(x / sectionWidth);
+			var sectionY = Math.floor(y / sectionHeight);
+			var columnIsEven = sectionX % 2 == 0;
+			var columnIsOdd = !columnIsEven;
+			var rowIsEven = sectionY % 2 == 0;
+
+			// The odd columns are shifted down by one row so take that off to get the index right on odd columns
+			var yGridPosition = (sectionY / 2);
+			if (columnIsOdd && rowIsEven) {
+				yGridPosition = yGridPosition - 1;
+			}
+
+			var differenceBetweenStartOfXSectionAndXPosition = x - (sectionX * sectionWidth);
+			if (differenceBetweenStartOfXSectionAndXPosition >= window.hexMaths.getH(this._scale)) {
+				//...then we're in the unsloped/rectangular section of the hex section (unique across both halves and section types A and B.
+				return { gx: sectionX, gy: Math.floor(yGridPosition) };
+			}
+
+			var isSegmentTypeA = sectionX % 2 == sectionY % 2;
+			var differenceBetweenStartOfYSectionAndYPosition = null;
+			if (isSegmentTypeA) {
+				differenceBetweenStartOfYSectionAndYPosition = ((sectionY + 1) * sectionHeight) - y;
+			} else {
+				differenceBetweenStartOfYSectionAndYPosition = y - (sectionY * sectionHeight);
+			}
+
+			// The angle between the hex edge and straight up vertical is 30 degrees. More 30 degrees and we're to the right of the line. 0.5235 is 30 degrees in radians
+			var angleInRadians = Math.atan(differenceBetweenStartOfXSectionAndXPosition / differenceBetweenStartOfYSectionAndYPosition);
+			var rightOfLine = Math.abs(angleInRadians) >= 0.5235;
+
+			if (rightOfLine) {
+				return { gx: sectionX, gy: Math.floor(yGridPosition) };
+			}
+
+			// Left of line so xGridPosition will be in a hex to the left
+			if (columnIsEven && isSegmentTypeA) {
+				return { gx: sectionX - 1, gy: Math.floor(yGridPosition - 1) };
+			} else if ((!columnIsEven) && (!isSegmentTypeA)) {
+				return { gx: sectionX - 1, gy: Math.floor(yGridPosition + 1) };
+			} else {
+				return { gx: sectionX - 1, gy: Math.floor(yGridPosition) }; // ((!columnIsEven) && isSegmentTypeA) OR (columnIsEven && (!isSegmentTypeA))
+			}
+		},
+
 		recalculateAffectedIndexes: function() {
 			this._clear_indexesContainingSomething();
 
@@ -139,9 +205,5 @@ window.newGrid = function (scale, size, offset) {
 				}
 			}
 		},
-
-		// TODO potentially useful for drawing grids on top etc.
-		drawUnderlay: function (context) {},
-		drawOverlay: function (context) {},
 	};
 };
