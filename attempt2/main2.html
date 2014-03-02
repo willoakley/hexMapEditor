@@ -9,10 +9,46 @@
 		var size = { sx: 10, sy: 10 };
 		var grid = null;
 
+		function drawHex(context, sideLength, offsetLeft, offsetTop, fillColour, strokeColour, text) {
+			var points = window.hexMaths.hexPointsAtOffset(offsetLeft, offsetTop, sideLength);
+
+			context.beginPath();
+			context.moveTo(points[0].x, points[0].y);
+			for (var ii = 1; ii < points.length; ii++) {
+				context.lineTo(points[ii].x, points[ii].y);
+			}
+
+			context.closePath();
+
+			if (fillColour !== undefined && fillColour !== null) {
+				context.fillStyle = fillColour;
+				context.fill();
+			}
+
+			if (strokeColour !== undefined && strokeColour !== null) {
+				context.lineWidth = 2;
+				context.strokeStyle = strokeColour;
+				context.stroke();
+			}
+
+			if (text !== undefined && text !== null && text.length > 0) {
+				var maxWidth = window.hexMaths.getOffsetWidth(sideLength);
+				var textLeft = offsetLeft + (window.hexMaths.getWidth(sideLength) / 2.0);
+				var textTop = offsetTop + (window.hexMaths.getHeight(sideLength) / 2.0);
+
+				context.fillStyle = strokeColour;
+				context.textAlign = 'center';
+				context.font = "bold " + (sideLength / 2) + "px Arial";
+				context.fillText(text, textLeft, textTop, maxWidth);
+			}
+		}
+
 		$(document).ready(function () {
 			grid = window.newGrid(scale, size);
 
-			var dummyDraw = function (context, pixelLocation, scale, rotation) {} ;
+			var dummyDraw = function (context, pixelLocation, scale, rotation) {
+				drawHex(context, scale, pixelLocation.px, pixelLocation.py, "grey", "black", "F:"+rotation)
+			};
 
 			var singleItem = window.drawableFactory.newDrawableSingle("dummy", dummyDraw);
 			grid.addItem(window.newGridIndex(1, 1), "n", singleItem);
@@ -26,7 +62,10 @@
 					{ move: "s", draw: dummyDraw },
 				]
 			);
-			grid.addItem(window.newGridIndex(3, 3), "n", multipleItem);
+			grid.addItem(window.newGridIndex(3, 3), "ne", multipleItem);
+
+			var context = $("#canvas")[0].getContext("2d");
+			grid.draw(context);
 		});
 	</script>
 </head>
