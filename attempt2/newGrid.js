@@ -109,11 +109,12 @@ window.newGrid = function (scale, size, offset) {
 			}
 		},
 
-		addItem: function (gridIndex, facing, drawableItem) {
+		addItem: function (gridIndex, facing, drawableItem, itemArgs) {
 			var index = gridIndex.gx + "," + gridIndex.gy;
 
 			this._grid[index] = {
 				drawableItem: drawableItem,
+				itemArgs: itemArgs,
 				positioning: {
 					facing: facing,
 					startIndex: gridIndex,
@@ -161,10 +162,6 @@ window.newGrid = function (scale, size, offset) {
 		}, 
 
 		getItemAt: function (gridIndex) {
-			if (gridIndex.gx >= this._size.sx || gridIndex.gy >= this._size.sy) {
-				return null;
-			}
-
 			var item = this._indexesContainingSomething[gridIndex.gx + "," + gridIndex.gy];
 			if (item === undefined) {
 				return null;
@@ -196,7 +193,7 @@ window.newGrid = function (scale, size, offset) {
 					}
 
 					var pixelLocation = this._getPixelLocationFormGridIndex(currentIndex);
-					current.draw(context, pixelLocation, this._scale, item.positioning.facing);
+					current.draw(context, pixelLocation, this._scale, item.positioning.facing, item.itemArgs);
 				}
 			}
 		},

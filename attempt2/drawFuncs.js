@@ -32,18 +32,18 @@ window.drawFuncs = {
 			context.fillText(text, textLeft, textTop, maxWidth);
 		}
 	},
-	
-	dummyDraw: function(context, pixelLocation, scale, rotation) {
+
+	dummyDraw: function(context, pixelLocation, scale, rotation, itemArgs) {
 		window.drawFuncs._drawHex(context, scale, pixelLocation.px, pixelLocation.py, "green", "black", "F:"+rotation);
 	},
-	
-	dummyDrawTileRiverHex: function(context, pixelLocation, scale, rotation) {
+
+	dummyDrawTileRiverHex: function(context, pixelLocation, scale, rotation, itemArgs) {
 		window.drawFuncs._drawHex(context, scale, pixelLocation.px, pixelLocation.py, "blue", undefined, "D1");
 	},
-	
-	dummyDrawTile: function(context, pixelLocation, scale, rotation) {
+
+	dummyDrawTile: function(context, pixelLocation, scale, rotation, itemArgs) {
 		window.drawFuncs._drawHex(context, scale, pixelLocation.px, pixelLocation.py, "grey", "white", "tile!");
-		
+
 		var tempGrid = window.newGrid(window.hexScale, { sx: 9, sy: 7 }, pixelLocation);
 		var tileCentreIndex = { gx: 4, gy: 3 };
 		tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple(
@@ -56,9 +56,11 @@ window.drawFuncs = {
 				{ move: "s", draw: window.drawFuncs.dummyDrawTileRiverHex },
 			]
 		));
-		
+
 		window.drawFuncs._drawHex(context, scale, pixelLocation.px, pixelLocation.py, undefined, "black");
-		
+
 		tempGrid.draw(context);
+
+		console.log(itemArgs);
 	},
 };

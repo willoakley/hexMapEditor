@@ -46,10 +46,15 @@
 					{ move: "s", draw: window.drawFuncs.dummyDraw },
 					{ move: "s" },
 					{ move: "s", draw: window.drawFuncs.dummyDraw },
-				]
-			));
+				])
+			);
 
-			tileGrid.addItem(window.newGridIndex(0, 0), "ne", window.drawableFactory.newDrawableSingle("dummyTile", window.drawFuncs.dummyDrawTile));
+			tileGrid.addItem(
+				window.newGridIndex(1, 0),
+				"ne",
+				window.drawableFactory.newDrawableSingle("dummyTile", window.drawFuncs.dummyDrawTile),
+				{ someData: "rabbit", otherData: "Maybe the tile movements would be good in here for drawing purpose so the tiles can be generated progamatically :O " }
+			);
 
 			canvasElement = $("#canvas");
 			drawCanvas();
