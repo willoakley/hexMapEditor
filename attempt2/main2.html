@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
-	<script type="text/javascript" src="hexMaths.js"></script>
-	<script type="text/javascript" src="gridCompas.js"></script>
-	<script type="text/javascript" src="drawableFactory.js"></script>
-	<script type="text/javascript" src="newGrid.js"></script>
-	<script type="text/javascript" src="drawFuncs.js"></script>
+	<script src="js/jquery-2.1.0.min.js" type="text/javascript"></script>
+	<script src="js/jquery-ui-1.10.4.custom.min.js"></script>
+	<!-- jquery smoothness theme -->
+	<link rel="stylesheet" href="css/jquery-ui-1.10.4.custom.min.css">
+
+	<style type="text/css">
+		#canvas { border: 1px solid grey }
+		.menuSection { width:400px; height:800px }
+		section { float:left; padding:0 10px }
+	</style>
+
 	<!-- use http://s-yadav.github.io/contextMenu.html for the context menu? -->
 	<script type="text/javascript">
 		var hexScale = 16;
@@ -26,7 +31,9 @@
 			hexGrid.draw(context);
 		};
 
-		$(document).ready(function () {
+		$(function () {
+			$("#menu").accordion({ heightStyle: "fill", collapsible: true, icons: false });
+
 			tileGrid = window.newGrid(tileScale, { sx: 4, sy: 4 });
 			hexGrid = window.newGrid(hexScale, { sx: 10, sy: 10 });
 
@@ -57,8 +64,42 @@
 	</script>
 </head>
 <body>
-	start.
-	<canvas id="canvas" width="944" height="800"></canvas>
-	done.
+	<section class="menuSection">
+		<div id="menu">
+			<h3>Tiles</h3>
+			<div>
+				<p>Game board tiles.</p>
+				<ul>
+					<li>Plain tile</li>
+					<li>River tile</li>
+				</ul>
+			</div>
+			<h3>Features</h3>
+			<div>
+				<p>Natrual and man-made terrain features.</p>
+				<ul>
+					<li>Hill one</li>
+					<li>Building one</li>
+				</ul>
+			</div>
+			<h3>Markers</h3>
+			<div>
+				<p>Objectives and other non-terrain markers.</p>
+				<ul>
+					<li>Team A</li>
+					<li>Team B</li>
+					<li>Target</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<section>
+		<canvas id="canvas" width="944" height="800"></canvas>
+	</section>
+	<script type="text/javascript" src="hexMaths.js"></script>
+	<script type="text/javascript" src="gridCompas.js"></script>
+	<script type="text/javascript" src="drawableFactory.js"></script>
+	<script type="text/javascript" src="newGrid.js"></script>
+	<script type="text/javascript" src="drawFuncs.js"></script>
 </body>
 </html>
