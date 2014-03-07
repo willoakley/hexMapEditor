@@ -34,18 +34,21 @@
 			/* TODO: draw grid overlay */
 		};
 
-		function addTileToMenu(id, drawFunction) {
-			id = "menuTile_" + id;
-			var tileMenuItem = window.newGrid(tileScale / 2, { sx: 1, sy: 1 });
-			var drawableItem = window.drawableFactory.newDrawableSingle(id, drawFunction);
+		function addMenuItem(drawableItem, menuType) {
+			var id = "menu" + menuType + "_" + drawableItem.id;
+			var menuElementId = "#" + menuType + "Menu";
+			var itemGrid = null;
+
 			menuItems[id] = drawableItem;
 
-			tileMenuItem.addItem(
-				window.newGridIndex(0, 0),
-				"n",
-				drawableItem,
-				{ id: id }
-			);
+			if (menuType == "tile") {
+				itemGrid = window.newGrid(tileScale / 2, { sx: 1, sy: 1 });
+			}
+			else {
+				itemGrid = window.newGrid(hexScale / 2, { sx: 9, sy: 7 });
+			}
+
+			itemGrid.addItem(window.newGridIndex(0, 0), "n", drawableItem, { id: id });
 
 			$("<canvas id=\"" + id + "\"/>")
 				.attr("class", "draggable")
@@ -53,39 +56,12 @@
 				.attr("ondragstart", "drag(event)")
 				.attr("width", "120")
 				.attr("height", "120")
-				.data("drag-data", JSON.stringify({ id: id, type: "tile" }))
+				.data("drag-data", JSON.stringify({ menuId: id, type: menuType }))
 			.appendTo("<li/>")
-			.appendTo($("#tiles"));
+			.appendTo($(menuElementId));
 
-			var tileMenuItemContext = $("#" + id)[0].getContext("2d");
-			tileMenuItem.draw(tileMenuItemContext);
-		};
-
-		function addFeatureToMenu(id, drawablePath) {
-			id = "menuFeature_" + id;
-			var featureMenuItem = window.newGrid(hexScale / 2, { sx: 9, sy: 7 });
-			var drawableItem = window.drawableFactory.newDrawableMultiple(id, drawablePath);
-			menuItems[id] = drawableItem;
-
-			featureMenuItem.addItem(
-				window.newGridIndex(0, 0),
-				"n",
-				drawableItem,
-				{ id: id }
-			);
-
-			$("<canvas id=\"" + id + "\"/>")
-				.attr("class", "draggable")
-				.attr("draggable", "true")
-				.attr("ondragstart", "drag(event)")
-				.attr("width", "120")
-				.attr("height", "120")
-				.data("drag-data", JSON.stringify({ id: id, type: "hex" }))
-			.appendTo("<li/>")
-			.appendTo($("#features"));
-
-			var featureMenuItemContext = $("#" + id)[0].getContext("2d");
-			featureMenuItem.draw(featureMenuItemContext);
+			var menuItemContext = $("#" + id)[0].getContext("2d");
+			itemGrid.draw(menuItemContext);
 		}
 
 		function allowDrop(ev) {
@@ -104,29 +80,32 @@
 			var clickY = ev.pageY - canvasElement.offset().top;
 			var data = JSON.parse(ev.dataTransfer.getData("Text"));
 
-			console.log("drop-at:[" + clickX + "," + clickY + "] data:" + data.id);
-
 			if (data === undefined || data.type === undefined) {
 				return;
 			}
 
+			console.log("drop-at:[" + clickX + "," + clickY + "] data:" + data.menuId);
+
+			var grid = null;
 			switch (data.type) {
 				case "tile": {
-					var coordinates = tileGrid.getGridIndexFormPixelLocation({ px: clickX, py: clickY });
-					tileGrid.addItem(coordinates, "n", menuItems[data.id], { id: data.id });
+					grid = tileGrid;
 					break;
 				}
+
 				case "hex": {
-					var coordinates = hexGrid.getGridIndexFormPixelLocation({ px: clickX, py: clickY });
-					hexGrid.addItem(coordinates, "n", menuItems[data.id], { id: data.id });
+					grid = hexGrid;
 					break;
 				}
+
 				default: {
 					console.log("undefined type dropped on canvas: " + data.type);
 					return;
 				}
 			}
 
+			var coordinates = grid.getGridIndexFormPixelLocation({ px: clickX, py: clickY });
+			grid.addItem(coordinates, "n", menuItems[data.menuId], { id: data.menuId });
 			drawCanvas();
 		}
 
@@ -136,26 +115,18 @@
 			tileGrid = window.newGrid(tileScale, { sx: 4, sy: 4 });
 			hexGrid = window.newGrid(hexScale, { sx: 10, sy: 10 });
 
-			/*
-			tileGrid.addItem(
-				window.newGridIndex(1, 0),
-				"ne",
-				window.drawableFactory.newDrawableSingle("dummyTile", window.drawFuncs.dummyDrawTile),
-				{ someData: "rabbit", otherData: "Maybe the tile movements would be good in here for drawing purpose so the tiles can be generated progamatically :O " }
-			);
-			*/
+			addMenuItem(
+				window.drawableFactory.newDrawableSingle("one", window.drawFuncs.dummyDrawTile),
+				"tile");
 
-			addTileToMenu("one", window.drawFuncs.dummyDrawTile);
-
-			addFeatureToMenu(
-				"two",
-				[
+			addMenuItem(
+				window.drawableFactory.newDrawableMultiple("two", [
 					{ draw: window.drawFuncs.dummyDraw },
 					{ move: "s", draw: window.drawFuncs.dummyDraw },
 					{ move: "s" },
 					{ move: "s", draw: window.drawFuncs.dummyDraw },
-				]
-			);
+				]),
+				"hex");
 
 			canvasElement = $("#canvas");
 			drawCanvas();
@@ -174,11 +145,11 @@
 		<div id="menu">
 			<h3>Board tiles</h3>
 			<div>
-				<ul id="tiles"></ul>
+				<ul id="tileMenu"></ul>
 			</div>
 			<h3>Natrual and man-made features</h3>
 			<div>
-				<ul id="features"></ul>
+				<ul id="hexMenu"></ul>
 			</div>
 			<h3>Objectives and  markers</h3>
 			<div>
