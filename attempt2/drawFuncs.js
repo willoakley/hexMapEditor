@@ -44,7 +44,7 @@ window.drawFuncs = {
 	dummyDrawTile: function(context, pixelLocation, scale, rotation, itemArgs) {
 		window.drawFuncs._drawHex(context, scale, pixelLocation.px, pixelLocation.py, "grey", "white", "tile!");
 
-		var tempGrid = window.newGrid(window.hexScale, { sx: 9, sy: 7 }, pixelLocation);
+		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
 		var tileCentreIndex = { gx: 4, gy: 3 };
 		tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple(
 			"tempRiver",
@@ -61,6 +61,6 @@ window.drawFuncs = {
 
 		tempGrid.draw(context);
 
-		console.log(itemArgs);
+		/*console.log(itemArgs);*/
 	},
 };
