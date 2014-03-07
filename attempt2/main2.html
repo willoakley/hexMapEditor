@@ -61,9 +61,32 @@
 			tileMenuItem.draw(tileMenuItemContext);
 		};
 
-		//function addFeatureToMenu(id) {
-		//
-		//}
+		function addFeatureToMenu(id, drawablePath) {
+			id = "menuFeature_" + id;
+			var featureMenuItem = window.newGrid(hexScale / 2, { sx: 9, sy: 7 });
+			var drawableItem = window.drawableFactory.newDrawableMultiple(id, drawablePath);
+			menuItems[id] = drawableItem;
+
+			featureMenuItem.addItem(
+				window.newGridIndex(0, 0),
+				"n",
+				drawableItem,
+				{ id: id }
+			);
+
+			$("<canvas id=\"" + id + "\"/>")
+				.attr("class", "draggable")
+				.attr("draggable", "true")
+				.attr("ondragstart", "drag(event)")
+				.attr("width", "120")
+				.attr("height", "120")
+				.data("drag-data", JSON.stringify({ id: id, type: "hex" }))
+			.appendTo("<li/>")
+			.appendTo($("#features"));
+
+			var featureMenuItemContext = $("#" + id)[0].getContext("2d");
+			featureMenuItem.draw(featureMenuItemContext);
+		}
 
 		function allowDrop(ev) {
 			ev.preventDefault();
@@ -94,7 +117,8 @@
 					break;
 				}
 				case "hex": {
-					console.log("hex");
+					var coordinates = hexGrid.getGridIndexFormPixelLocation({ px: clickX, py: clickY });
+					hexGrid.addItem(coordinates, "n", menuItems[data.id], { id: data.id });
 					break;
 				}
 				default: {
@@ -112,26 +136,26 @@
 			tileGrid = window.newGrid(tileScale, { sx: 4, sy: 4 });
 			hexGrid = window.newGrid(hexScale, { sx: 10, sy: 10 });
 
-			/*hexGrid.addItem(window.newGridIndex(0, 0), "n", window.drawableFactory.newDrawableSingle("dummy", window.drawFuncs.dummyDraw));
-			// turn this off while playing with inner grids on tiles
-			hexGrid.addItem(window.newGridIndex(3, 3), "ne", window.drawableFactory.newDrawableMultiple(
-				"dummyTwo",
-				[
-					{ draw: window.drawFuncs.dummyDraw },
-					{ move: "s", draw: window.drawFuncs.dummyDraw },
-					{ move: "s" },
-					{ move: "s", draw: window.drawFuncs.dummyDraw },
-				])
-			);
-
+			/*
 			tileGrid.addItem(
 				window.newGridIndex(1, 0),
 				"ne",
 				window.drawableFactory.newDrawableSingle("dummyTile", window.drawFuncs.dummyDrawTile),
 				{ someData: "rabbit", otherData: "Maybe the tile movements would be good in here for drawing purpose so the tiles can be generated progamatically :O " }
-			);*/
+			);
+			*/
 
 			addTileToMenu("one", window.drawFuncs.dummyDrawTile);
+
+			addFeatureToMenu(
+				"two",
+				[
+					{ draw: window.drawFuncs.dummyDraw },
+					{ move: "s", draw: window.drawFuncs.dummyDraw },
+					{ move: "s" },
+					{ move: "s", draw: window.drawFuncs.dummyDraw },
+				]
+			);
 
 			canvasElement = $("#canvas");
 			drawCanvas();
@@ -154,10 +178,7 @@
 			</div>
 			<h3>Natrual and man-made features</h3>
 			<div>
-				<ul id="features">
-					<li>Hill one</li>
-					<li>Building one</li>
-				</ul>
+				<ul id="features"></ul>
 			</div>
 			<h3>Objectives and  markers</h3>
 			<div>
