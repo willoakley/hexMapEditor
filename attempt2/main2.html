@@ -19,6 +19,7 @@
 		var hexGrid = null;
 		var tileGrid = null;
 		var canvasElement = null;
+		var menuItems = {};
 
 		function newGridIndex(x, y) {
 			return { gx: x, gy: y };
@@ -29,7 +30,81 @@
 
 			tileGrid.draw(context);
 			hexGrid.draw(context);
+
+			/* TODO: draw grid overlay */
 		};
+
+		function addTileToMenu(id, drawFunction) {
+			id = "menuTile_" + id;
+			var tileMenuItem = window.newGrid(tileScale / 2, { sx: 1, sy: 1 });
+			var drawableItem = window.drawableFactory.newDrawableSingle(id, drawFunction);
+			menuItems[id] = drawableItem;
+
+			tileMenuItem.addItem(
+				window.newGridIndex(0, 0),
+				"n",
+				drawableItem,
+				{ id: id }
+			);
+
+			$("<canvas id=\"" + id + "\"/>")
+				.attr("class", "draggable")
+				.attr("draggable", "true")
+				.attr("ondragstart", "drag(event)")
+				.attr("width", "120")
+				.attr("height", "120")
+				.data("drag-data", JSON.stringify({ id: id, type: "tile" }))
+			.appendTo("<li/>")
+			.appendTo($("#tiles"));
+
+			var tileMenuItemContext = $("#" + id)[0].getContext("2d");
+			tileMenuItem.draw(tileMenuItemContext);
+		};
+
+		//function addFeatureToMenu(id) {
+		//
+		//}
+
+		function allowDrop(ev) {
+			ev.preventDefault();
+		}
+
+		function drag(ev) {
+			var data = $(ev.currentTarget).data("drag-data");
+			ev.dataTransfer.setData("Text", data);
+		}
+
+		function drop(ev) {
+			ev.preventDefault();
+
+			var clickX = ev.pageX - canvasElement.offset().left;
+			var clickY = ev.pageY - canvasElement.offset().top;
+			var data = JSON.parse(ev.dataTransfer.getData("Text"));
+
+			console.log("drop-at:[" + clickX + "," + clickY + "] data:" + data.id);
+
+			if (data === undefined || data.type === undefined) {
+				return;
+			}
+
+			switch (data.type) {
+				case "tile": {
+					var coordinates = tileGrid.getGridIndexFormPixelLocation({ px: clickX, py: clickY });
+					tileGrid.addItem(coordinates, "n", menuItems[data.id], { id: data.id });
+					break;
+				}
+				case "hex": {
+					console.log("hex");
+					break;
+				}
+				default: {
+					console.log("undefined type dropped on canvas: " + data.type);
+					return;
+				}
+			}
+
+			drawCanvas();
+		}
 
 		$(function () {
 			$("#menu").accordion({ heightStyle: "fill", collapsible: true, icons: false });
@@ -37,7 +112,7 @@
 			tileGrid = window.newGrid(tileScale, { sx: 4, sy: 4 });
 			hexGrid = window.newGrid(hexScale, { sx: 10, sy: 10 });
 
-			hexGrid.addItem(window.newGridIndex(0, 0), "n", window.drawableFactory.newDrawableSingle("dummy", window.drawFuncs.dummyDraw));
+			/*hexGrid.addItem(window.newGridIndex(0, 0), "n", window.drawableFactory.newDrawableSingle("dummy", window.drawFuncs.dummyDraw));
 			// turn this off while playing with inner grids on tiles
 			hexGrid.addItem(window.newGridIndex(3, 3), "ne", window.drawableFactory.newDrawableMultiple(
 				"dummyTwo",
@@ -54,7 +129,9 @@
 				"ne",
 				window.drawableFactory.newDrawableSingle("dummyTile", window.drawFuncs.dummyDrawTile),
 				{ someData: "rabbit", otherData: "Maybe the tile movements would be good in here for drawing purpose so the tiles can be generated progamatically :O " }
-			);
+			);*/
+
+			addTileToMenu("one", window.drawFuncs.dummyDrawTile);
 
 			canvasElement = $("#canvas");
 			drawCanvas();
@@ -71,26 +148,20 @@
 <body>
 	<section class="menuSection">
 		<div id="menu">
-			<h3>Tiles</h3>
+			<h3>Board tiles</h3>
 			<div>
-				<p>Game board tiles.</p>
-				<ul>
-					<li>Plain tile</li>
-					<li>River tile</li>
-				</ul>
+				<ul id="tiles"></ul>
 			</div>
-			<h3>Features</h3>
+			<h3>Natrual and man-made features</h3>
 			<div>
-				<p>Natrual and man-made terrain features.</p>
-				<ul>
+				<ul id="features">
 					<li>Hill one</li>
 					<li>Building one</li>
 				</ul>
 			</div>
-			<h3>Markers</h3>
+			<h3>Objectives and  markers</h3>
 			<div>
-				<p>Objectives and other non-terrain markers.</p>
-				<ul>
+				<ul id="objectives">
 					<li>Team A</li>
 					<li>Team B</li>
 					<li>Target</li>
@@ -99,7 +170,7 @@
 		</div>
 	</section>
 	<section>
-		<canvas id="canvas" width="944" height="800" class="ui-widget-content ui-corner-all"></canvas>
+		<canvas id="canvas" width="944" height="800" class="ui-widget-content ui-corner-all" ondrop="drop(event)" ondragover="allowDrop(event)"></canvas>
 	</section>
 	<script type="text/javascript" src="hexMaths.js"></script>
 	<script type="text/javascript" src="gridCompas.js"></script>
