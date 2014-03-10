@@ -30,6 +30,10 @@ window.newGrid = function (scale, size, offset) {
 			return { px: this._pixelOffset.px + leftOffset, py: this._pixelOffset.py + topOffset };
 		},
 
+		getSize: function () {
+			return Object.freeze(this._size);
+		},
+
 		getGridIndexFormPixelLocation: function (pixelCoordinates) {
 			var x = pixelCoordinates.px - this._pixelOffset.px;
 			var y = pixelCoordinates.py - this._pixelOffset.py;
@@ -110,7 +114,7 @@ window.newGrid = function (scale, size, offset) {
 		},
 
 		addItem: function (gridIndex, facing, drawableItem, itemArgs) {
-			var index = gridIndex.gx + "," + gridIndex.gy;
+			var index = gridIndex.gx + "," + gridIndex.gy + "," + drawableItem.id;
 
 			this._grid[index] = {
 				drawableItem: drawableItem,
@@ -147,15 +151,17 @@ window.newGrid = function (scale, size, offset) {
 			}
 
 			this.recalculateAffectedIndexes();
+			return this._grid[index];
 		},
 
-		reomveItem: function (drawableItem) {
+		removeItem: function (item) {
 			var keys = Object.keys(this._grid);
 			for (var k = 0; k < keys.length; k++) {
-				var item = this._grid[keys[k]];
+				var currentitem = this._grid[keys[k]];
 
-				if (item.drawableItem == drawableItem) {
+				if (item == currentitem) {
 					delete this._grid[keys[k]];
+					this.recalculateAffectedIndexes();
 					break;
 				}
 			}

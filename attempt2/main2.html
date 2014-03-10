@@ -21,17 +21,14 @@
 		var canvasElement = null;
 		var menuItems = {};
 
-		function newGridIndex(x, y) {
-			return { gx: x, gy: y };
-		};
+		var trackingData = { grid: null, hilightItem: null };
 
 		function drawCanvas() {
 			var context = canvasElement[0].getContext("2d");
 
+			context.clearRect(0, 0, canvasElement.width(), canvasElement.height());
 			tileGrid.draw(context);
 			hexGrid.draw(context);
-
-			/* TODO: draw grid overlay */
 		};
 
 		function addMenuItem(drawableItem, menuType) {
@@ -53,7 +50,8 @@
 			$("<canvas id=\"" + id + "\"/>")
 				.attr("class", "draggable")
 				.attr("draggable", "true")
-				.attr("ondragstart", "drag(event)")
+				.attr("ondragstart", "menuItemBeginDrag(event)")
+				.attr("ondragend", "menuItemEndDrag(event)")
 				.attr("width", "120")
 				.attr("height", "120")
 				.data("drag-data", JSON.stringify({ menuId: id, type: menuType }))
@@ -64,16 +62,27 @@
 			itemGrid.draw(menuItemContext);
 		}
 
-		function allowDrop(ev) {
-			ev.preventDefault();
-		}
-
-		function drag(ev) {
+		function menuItemBeginDrag(ev) {
 			var data = $(ev.currentTarget).data("drag-data");
 			ev.dataTransfer.setData("Text", data);
+
+			switch (JSON.parse(data).type) {
+				case "tile": {
+					trackingData.grid = tileGrid;
+					break;
+				} case "hex": {
+					trackingData.grid = hexGrid;
+					break;
+				}
+			}
 		}
 
-		function drop(ev) {
+		function menuItemEndDrag(event) {
+			trackingData.grid.removeItem(trackingData.hilightItem);
+			drawCanvas();
+		}
+
+		function canvasDrop(ev) {
 			ev.preventDefault();
 
 			var clickX = ev.pageX - canvasElement.offset().left;
@@ -84,22 +93,15 @@
 				return;
 			}
 
-			console.log("drop-at:[" + clickX + "," + clickY + "] data:" + data.menuId);
-
 			var grid = null;
 			switch (data.type) {
 				case "tile": {
 					grid = tileGrid;
 					break;
-				}
-
-				case "hex": {
+				} case "hex": {
 					grid = hexGrid;
 					break;
-				}
-
-				default: {
-					console.log("undefined type dropped on canvas: " + data.type);
+				} default: {
 					return;
 				}
 			}
@@ -109,34 +111,59 @@
 			drawCanvas();
 		}
 
+		function getMousePosition(evt) {
+			evt = evt || window.event;
+			var x = evt.pageX - canvasElement.offset().left;
+			var	y = evt.pageY - canvasElement.offset().top;
+
+			if (x > 0 && y > 0 && x <= canvasElement.width() && y <= canvasElement.height()) {
+				hilightSelectedGridPosition({ px: x, py: y });
+			}
+		}
+
+		function hilightSelectedGridPosition(position) {		
+			var coordinates = trackingData.grid.getGridIndexFormPixelLocation({ px: position.px, py: position.py });
+
+			if (trackingData.hilightItem != null && gridEquals(trackingData.hilightItem.positioning.startIndex, coordinates)) {
+				if (coordinates.gx > trackingData.grid.getSize().sx || coordinates.gx < 0 || coordinates.gy > trackingData.grid.getSize().sy || coordinates.gy < 0) {
+					trackingData.grid.removeItem(trackingData.hilightItem);
+					drawCanvas();
+				}
+
+				return;
+			}
+
+			trackingData.grid.removeItem(trackingData.hilightItem);
+			trackingData.hilightItem = trackingData.grid.addItem(coordinates, "n", window.drawableFactory.newDrawableSingle("hilight", window.drawFuncs.hilightHex), { id: "hilight" });
+			drawCanvas();
+		}
+
+		function canvasClick(e) {
+			var pos = { px: e.pageX - canvasElement.offset().left, py: e.pageY - canvasElement.offset().top };
+			var clickedIndex = hexGrid.getGridIndexFormPixelLocation(pos);
+			console.log("clicked index " + JSON.stringify(clickedIndex));
+		}
+
 		$(function () {
+			// Menus:
 			$("#menu").accordion({ heightStyle: "fill", collapsible: true, icons: false });
+			addMenuItem(window.drawableFactory.newDrawableSingle("one", window.drawFuncs.dummyDrawTile), "tile");
+
+			addMenuItem(window.drawableFactory.newDrawableMultiple("two", [
+				{ draw: window.drawFuncs.dummyDraw },
+				{ move: "s", draw: window.drawFuncs.dummyDraw },
+				{ move: "s" },
+				{ move: "s", draw: window.drawFuncs.dummyDraw },
+			]),"hex");
+
+			// Map:
+			document.ondragover = getMousePosition;
+			canvasElement = $("#canvas");
+			canvasElement.click(canvasClick);
 
 			tileGrid = window.newGrid(tileScale, { sx: 4, sy: 4 });
-			hexGrid = window.newGrid(hexScale, { sx: 10, sy: 10 });
-
-			addMenuItem(
-				window.drawableFactory.newDrawableSingle("one", window.drawFuncs.dummyDrawTile),
-				"tile");
-
-			addMenuItem(
-				window.drawableFactory.newDrawableMultiple("two", [
-					{ draw: window.drawFuncs.dummyDraw },
-					{ move: "s", draw: window.drawFuncs.dummyDraw },
-					{ move: "s" },
-					{ move: "s", draw: window.drawFuncs.dummyDraw },
-				]),
-				"hex");
-
-			canvasElement = $("#canvas");
+			hexGrid = window.newGrid(hexScale, { sx: 38, sy: 27 });	
 			drawCanvas();
-
-			canvasElement.click(function (e) {
-				var pos = { px: e.pageX - canvasElement.offset().left, py: e.pageY - canvasElement.offset().top };
-				var clickedIndex = hexGrid.getGridIndexFormPixelLocation(pos);
-				// TODO: hilight item at position on hex grid or fall back and hilight hex
-				console.log("clicked index " + JSON.stringify(clickedIndex));
-			});
 		});
 	</script>
 </head>
@@ -153,21 +180,18 @@
 			</div>
 			<h3>Objectives and  markers</h3>
 			<div>
-				<ul id="objectives">
-					<li>Team A</li>
-					<li>Team B</li>
-					<li>Target</li>
-				</ul>
+				<ul id="objectives"></ul>
 			</div>
 		</div>
 	</section>
 	<section>
-		<canvas id="canvas" width="944" height="800" class="ui-widget-content ui-corner-all" ondrop="drop(event)" ondragover="allowDrop(event)"></canvas>
+		<canvas id="canvas" width="944" height="800" class="ui-widget-content ui-corner-all" ondrop="canvasDrop(event)" ondragover="permitDropping(event)"></canvas>
 	</section>
 	<script type="text/javascript" src="hexMaths.js"></script>
 	<script type="text/javascript" src="gridCompas.js"></script>
 	<script type="text/javascript" src="drawableFactory.js"></script>
 	<script type="text/javascript" src="newGrid.js"></script>
 	<script type="text/javascript" src="drawFuncs.js"></script>
+	<script type="text/javascript" src="utility.js"></script>
 </body>
 </html>

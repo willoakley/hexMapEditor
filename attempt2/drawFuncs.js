@@ -33,6 +33,10 @@ window.drawFuncs = {
 		}
 	},
 
+	hilightHex: function(context, pixelLocation, scale, rotation, itemArgs) {
+		window.drawFuncs._drawHex(context, scale, pixelLocation.px, pixelLocation.py, undefined, "orange");
+	},
+
 	dummyDraw: function(context, pixelLocation, scale, rotation, itemArgs) {
 		window.drawFuncs._drawHex(context, scale, pixelLocation.px, pixelLocation.py, "green", "black", "F:"+rotation);
 	},
