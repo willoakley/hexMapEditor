@@ -1,11 +1,6 @@
 window.drawableFactory = {
 	/*  
-		drawFunction should be a function like:
-		function (context, pixelLocation, scale, facing) {
-			console.log("drawableFactory._defaultDraw called for '" + this.id + "' at [" + pixelLocation.px + "," + pixelLocation.py + "].";
-		}
-		The scale is typically the side of the hex you give to the grid. your items should draw based on this scale.
-		The facing is the current facing of the item in case it makes a difference to what you want to draw.
+		See drawableFactory.js for example definitions of drawFunction function.
 		
 		pathDrawFunctionArray should be an array of objects like:
 		{ move: "s"; draw: drawFunction }

@@ -1,3 +1,8 @@
+window.gridItemState = Object.freeze({
+	normal: "normal", /* default is a keyword */
+	selected: "selected",
+});
+
 window.newGrid = function (scale, size, offset) {
 	scale = scale || 16.0;
 	offset = offset || { px: 0.0, py: 0.0 };
@@ -119,6 +124,7 @@ window.newGrid = function (scale, size, offset) {
 			this._grid[index] = {
 				drawableItem: drawableItem,
 				itemArgs: itemArgs,
+				state: window.gridItemState.normal,
 				positioning: {
 					facing: facing,
 					startIndex: gridIndex,
@@ -199,7 +205,7 @@ window.newGrid = function (scale, size, offset) {
 					}
 
 					var pixelLocation = this._getPixelLocationFormGridIndex(currentIndex);
-					current.draw(context, pixelLocation, this._scale, item.positioning.facing, item.itemArgs);
+					current.draw(context, pixelLocation, this._scale, item.positioning.facing, item.state, item.itemArgs);
 				}
 			}
 		},
