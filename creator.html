@@ -19,6 +19,7 @@
 		var tileGrid = null;
 		var canvasElement = null;
 		var menuItems = {};
+		var selectedItem = null;
 
 		function drawCanvas() {
 			var context = getContextFromJquery(canvasElement);
@@ -78,17 +79,54 @@
 
 		function canvasClick(e) {
 			var pos = { px: e.pageX - canvasElement.offset().left, py: e.pageY - canvasElement.offset().top };
-			var clickedIndex = hexGrid.getGridIndexFormPixelLocation(pos);
-			console.log("clicked index " + JSON.stringify(clickedIndex));
+
+			var hex = hexGrid.getItemAt(hexGrid.getGridIndexFormPixelLocation(pos));
+			var tile = tileGrid.getItemAt(tileGrid.getGridIndexFormPixelLocation(pos));
+
+			var item = null;
+			if (hex == null && tile == null && selectedItem != null) {
+				selectedItem.state = window.gridItemState.normal;
+				selectedItem = null;
+				drawCanvas();
+			} else if (hex != null) {
+				item = hex;
+			} else if (tile != null) {
+				item = tile;
+			}
+
+			if (item != selectedItem && selectedItem != null) {
+				selectedItem.state = window.gridItemState.normal;
+			}
+
+			if (item != null) {
+				if (item.state == window.gridItemState.normal) {
+					item.state = window.gridItemState.selected
+				} else {
+					item.state = window.gridItemState.normal;
+				}
+			}
+
+			selectedItem = item;
+			drawCanvas();
+		}
+
+		function downloadMapLinkClick(ev) {
+			this.href = canvasElement[0].toDataURL('image/png');
+		}
+
+		function rotateItemLink(ev) {
+		}
+
+		function removeItemLink(ev) {
 		}
 
 		$(function () {
 			hexGrid = window.newGrid(16, { sx: 38, sy: 27 });
 			tileGrid = window.newGrid(hexGrid.getScale() * 7, { sx: 4, sy: 4 });
 
-			$("#downloadMapLink").click(function () {
-				this.href = canvasElement[0].toDataURL('image/png');
-			});
+			$("#downloadMapLink").click(downloadMapLinkClick);
+			$("#rotateItemLink").click(rotateItemLink);
+			$("#removeItemLink").click(removeItemLink);
 
 			// Menus:
 			$("#menu").accordion({ heightStyle: "fill", collapsible: true, icons: false });

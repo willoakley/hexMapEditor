@@ -38,7 +38,12 @@ window.drawFuncs = {
 	},
 
 	dummyDraw: function(context, pixelLocation, scale, rotation, state, itemArgs) {
-		window.drawFuncs._drawHex(context, scale, pixelLocation.px, pixelLocation.py, "green", "black", "F:"+rotation);
+		var colour = "green";
+		if (state == window.gridItemState.selected) {
+			colour = "orange";
+		}
+
+		window.drawFuncs._drawHex(context, scale, pixelLocation.px, pixelLocation.py, colour, "black", "F:"+rotation);
 	},
 
 	dummyDrawTileRiverHex: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -46,11 +51,12 @@ window.drawFuncs = {
 	},
 
 	dummyDrawTile: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var colour = "grey";
 		if (state == window.gridItemState.selected) {
-			window.drawFuncs._drawHex(context, scale, pixelLocation.px, pixelLocation.py, "orange", "white", "tile!");
-		} else {
-			window.drawFuncs._drawHex(context, scale, pixelLocation.px, pixelLocation.py, "grey", "white", "tile!");
+			colour = "orange";
 		}
+
+		window.drawFuncs._drawHex(context, scale, pixelLocation.px, pixelLocation.py, colour, "white", "tile!");
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
 		var tileCentreIndex = { gx: 4, gy: 3 };

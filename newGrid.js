@@ -1,5 +1,5 @@
 window.gridItemState = Object.freeze({
-	normal: "normal", /* default is a keyword */
+	normal: "normal",
 	selected: "selected",
 });
 
