@@ -80,34 +80,31 @@
 		// BUG: clicking same hex again doesn't deselect it so it will be removed when pressing delete link
 		function canvasClick(e) {
 			var pos = { px: e.pageX - canvasElement.offset().left, py: e.pageY - canvasElement.offset().top };
-
 			var hex = hexGrid.getItemAt(hexGrid.getGridIndexFormPixelLocation(pos));
 			var tile = tileGrid.getItemAt(tileGrid.getGridIndexFormPixelLocation(pos));
 
 			var item = null;
-			if (hex == null && tile == null && selectedItem != null) {
-				selectedItem.state = window.gridItemState.normal;
-				selectedItem = null;
-				drawCanvas();
-			} else if (hex != null) {
+			if (hex != null) {
 				item = hex;
 			} else if (tile != null) {
 				item = tile;
 			}
 
-			if (item != selectedItem && selectedItem != null) {
+			if (selectedItem != null) {
 				selectedItem.state = window.gridItemState.normal;
 				selectedItem = null;
-			}
 
-			if (item != null) {
-				if (item.state == window.gridItemState.normal) {
-					item.state = window.gridItemState.selected
-				} else {
-					item.state = window.gridItemState.normal;
+				if (item == null) {
+					drawCanvas();
+					return;
 				}
 			}
 
+			if (item == null) {
+				return;
+			}
+
+			item.state = window.gridItemState.selected;
 			selectedItem = item;
 			drawCanvas();
 		}
