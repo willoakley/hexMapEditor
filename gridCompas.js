@@ -12,7 +12,7 @@ window.gridCompas = {
 		}
 
 		var directionValue = this.directionValues[currentFacing];
-		return this._directionValuesReverse[directionValue + byFaces % 6];
+		return this._directionValuesReverse[(directionValue + byFaces) % 6];
 	},
 
 	getNeghbouringGridIndex: function (index, direction) {
