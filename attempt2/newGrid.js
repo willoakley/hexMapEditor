@@ -35,6 +35,10 @@ window.newGrid = function (scale, size, offset) {
 			return { px: this._pixelOffset.px + leftOffset, py: this._pixelOffset.py + topOffset };
 		},
 
+		getScale: function() {
+			return this._scale;
+		},
+
 		getSize: function () {
 			return Object.freeze(this._size);
 		},

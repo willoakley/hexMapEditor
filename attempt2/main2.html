@@ -14,17 +14,13 @@
 
 	<!-- use http://s-yadav.github.io/contextMenu.html for the context menu? -->
 	<script type="text/javascript">
-		var hexScale = 16;
-		var tileScale = hexScale * 7;
 		var hexGrid = null;
 		var tileGrid = null;
 		var canvasElement = null;
 		var menuItems = {};
 
-		var trackingData = { grid: null, hilightItem: null };
-
 		function drawCanvas() {
-			var context = canvasElement[0].getContext("2d");
+			var context = getContextFromJquery(canvasElement);
 
 			context.clearRect(0, 0, canvasElement.width(), canvasElement.height());
 			tileGrid.draw(context);
@@ -39,10 +35,10 @@
 			menuItems[id] = drawableItem;
 
 			if (menuType == "tile") {
-				itemGrid = window.newGrid(tileScale / 2, { sx: 1, sy: 1 });
+				itemGrid = window.newGrid(tileGrid.getScale() / 2, { sx: 1, sy: 1 });
 			}
 			else {
-				itemGrid = window.newGrid(hexScale / 2, { sx: 9, sy: 7 });
+				itemGrid = window.newGrid(hexGrid.getScale() / 2, { sx: 9, sy: 7 });
 			}
 
 			itemGrid.addItem(window.newGridIndex(0, 0), "n", drawableItem, { id: id });
@@ -58,67 +54,8 @@
 			.appendTo("<li/>")
 			.appendTo($(menuElementId));
 
-			var menuItemContext = $("#" + id)[0].getContext("2d");
+			var menuItemContext = getContextFromJquery($("#" + id));
 			itemGrid.draw(menuItemContext);
-		}
-
-		function menuItemBeginDrag(ev) {
-			var data = $(ev.currentTarget).data("drag-data");
-			ev.dataTransfer.setData("Text", data);
-
-			switch (JSON.parse(data).type) {
-				case "tile": {
-					trackingData.grid = tileGrid;
-					break;
-				} case "hex": {
-					trackingData.grid = hexGrid;
-					break;
-				}
-			}
-		}
-
-		function menuItemEndDrag(event) {
-			trackingData.grid.removeItem(trackingData.hilightItem);
-			drawCanvas();
-		}
-
-		function canvasDrop(ev) {
-			ev.preventDefault();
-
-			var clickX = ev.pageX - canvasElement.offset().left;
-			var clickY = ev.pageY - canvasElement.offset().top;
-			var data = JSON.parse(ev.dataTransfer.getData("Text"));
-
-			if (data === undefined || data.type === undefined) {
-				return;
-			}
-
-			var grid = null;
-			switch (data.type) {
-				case "tile": {
-					grid = tileGrid;
-					break;
-				} case "hex": {
-					grid = hexGrid;
-					break;
-				} default: {
-					return;
-				}
-			}
-
-			var coordinates = grid.getGridIndexFormPixelLocation({ px: clickX, py: clickY });
-			grid.addItem(coordinates, "n", menuItems[data.menuId], { id: data.menuId });
-			drawCanvas();
-		}
-
-		function getMousePosition(evt) {
-			evt = evt || window.event;
-			var x = evt.pageX - canvasElement.offset().left;
-			var	y = evt.pageY - canvasElement.offset().top;
-
-			if (x > 0 && y > 0 && x <= canvasElement.width() && y <= canvasElement.height()) {
-				hilightSelectedGridPosition({ px: x, py: y });
-			}
 		}
 
 		function hilightSelectedGridPosition(position) {		
@@ -145,6 +82,9 @@
 		}
 
 		$(function () {
+			hexGrid = window.newGrid(16, { sx: 38, sy: 27 });
+			tileGrid = window.newGrid(hexGrid.getScale() * 7, { sx: 4, sy: 4 });
+
 			// Menus:
 			$("#menu").accordion({ heightStyle: "fill", collapsible: true, icons: false });
 			addMenuItem(window.drawableFactory.newDrawableSingle("one", window.drawFuncs.dummyDrawTile), "tile");
@@ -157,12 +97,9 @@
 			]),"hex");
 
 			// Map:
-			document.ondragover = getMousePosition;
 			canvasElement = $("#canvas");
 			canvasElement.click(canvasClick);
 
-			tileGrid = window.newGrid(tileScale, { sx: 4, sy: 4 });
-			hexGrid = window.newGrid(hexScale, { sx: 38, sy: 27 });	
 			drawCanvas();
 		});
 	</script>
@@ -193,5 +130,6 @@
 	<script type="text/javascript" src="newGrid.js"></script>
 	<script type="text/javascript" src="drawFuncs.js"></script>
 	<script type="text/javascript" src="utility.js"></script>
+	<script type="text/javascript" src="dragDrop.js"></script>
 </body>
 </html>

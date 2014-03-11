@@ -12,4 +12,8 @@ function permitDropping(ev) {
 
 function newGridIndex(x, y) {
 	return { gx: x, gy: y };
-};
+}
+
+function getContextFromJquery(element) {
+	return element[0].getContext("2d");
+}
