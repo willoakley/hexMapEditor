@@ -35,6 +35,32 @@ window.newGrid = function (scale, size, offset) {
 			return { px: this._pixelOffset.px + leftOffset, py: this._pixelOffset.py + topOffset };
 		},
 
+		_calculateAffectedIndexesFromMovement: function (drawableItem, startPosition, facing) {
+			var affectedPositions = [];
+			var count = 0;
+			var currentIndex = startPosition;
+			for (var i = 0; i < drawableItem.drawPath.length; i++) {
+				var current = drawableItem.drawPath[i];
+
+				if (this._moveIsValid(current.move)) {
+					var moveDirection = current.move;
+					if (facing != window.gridCompas.directionOptions.north) {
+						moveDirection = window.gridCompas.rotateFacingBy(moveDirection, window.gridCompas.directionValues[facing]);
+					}
+
+					currentIndex = window.gridCompas.getNeghbouringGridIndex(currentIndex, moveDirection);
+				}
+
+				if (current.draw !== undefined) {
+					// index is affected only if we would draw something there
+					affectedPositions[count] = currentIndex;
+					count++;
+				}
+			}
+
+			return affectedPositions;
+		},
+
 		_contains: function (item) {
 			var keys = Object.keys(this._grid);
 			for (var k = 0; k < keys.length; k++) {
@@ -149,32 +175,15 @@ window.newGrid = function (scale, size, offset) {
 				},
 			};
 
+			var item = this._grid[index];
+
 			if (drawableItem.type == "multiple") {
 				// need to update affected hexes based on the paths
-				var count = 0;
-				var currentIndex = gridIndex;
-				for (var i = 0; i < drawableItem.drawPath.length; i++) {
-					var current = drawableItem.drawPath[i];
-
-					if (this._moveIsValid(current.move)) {
-						var moveDirection = current.move;
-						if (facing != window.gridCompas.directionOptions.north) {
-							moveDirection = window.gridCompas.rotateFacingBy(moveDirection, window.gridCompas.directionValues[facing]);
-						}
-
-						currentIndex = window.gridCompas.getNeghbouringGridIndex(currentIndex, moveDirection);
-					}
-
-					if (current.draw !== undefined) {
-						// index is affected only if we would draw something there
-						this._grid[index].positioning.affectedIndexes[count] = currentIndex;
-						count++;
-					}
-				}
+				item.positioning.affectedIndexes = this._calculateAffectedIndexesFromMovement(item.drawableItem, item.positioning.startIndex, item.positioning.facing);
 			}
 
 			this.recalculateAffectedIndexes();
-			return this._grid[index];
+			return item;
 		},
 
 		removeItem: function (item) {
@@ -205,8 +214,10 @@ window.newGrid = function (scale, size, offset) {
 			}
 
 			item.positioning.facing = window.gridCompas.rotateFacingBy(item.positioning.facing, 1);
+			var drawableItem = item.drawableItem;
 
-			if (item.positioning.affectedIndexes.length > 1) {
+			if (item.drawableItem.type == "multiple") {
+				item.positioning.affectedIndexes = this._calculateAffectedIndexesFromMovement(item.drawableItem, item.positioning.startIndex, item.positioning.facing);
 				this.recalculateAffectedIndexes();
 			}
 		},
