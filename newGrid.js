@@ -35,6 +35,19 @@ window.newGrid = function (scale, size, offset) {
 			return { px: this._pixelOffset.px + leftOffset, py: this._pixelOffset.py + topOffset };
 		},
 
+		_contains: function (item) {
+			var keys = Object.keys(this._grid);
+			for (var k = 0; k < keys.length; k++) {
+				var currentitem = this._grid[keys[k]];
+
+				if (item == currentitem) {
+					return true;
+				}
+			}
+
+			return false;
+		},
+
 		getScale: function() {
 			return this._scale;
 		},
@@ -184,6 +197,18 @@ window.newGrid = function (scale, size, offset) {
 			}
 
 			return item;
+		},
+
+		rotateItem: function (item) {
+			if (!this._contains(item)) {
+				return;
+			}
+
+			item.positioning.facing = window.gridCompas.rotateFacingBy(item.positioning.facing, 1);
+
+			if (item.positioning.affectedIndexes.length > 1) {
+				this.recalculateAffectedIndexes();
+			}
 		},
 
 		draw: function (context) {

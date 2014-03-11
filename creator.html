@@ -117,6 +117,13 @@
 		}
 
 		function rotateItemLink(ev) {
+			if (selectedItem == null) {
+				return;
+			}
+
+			hexGrid.rotateItem(selectedItem);
+			tileGrid.rotateItem(selectedItem);
+			drawCanvas();
 		}
 
 		function removeItemLink(ev) {
