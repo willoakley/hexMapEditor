@@ -10,6 +10,7 @@
 		#canvas { margin-top:2px }
 		.menuSection { width:400px; height:800px }
 		section { float:left; padding:0 10px }
+		.fake-link { text-decoration:underline; color:blue; cursor:pointer; }
 	</style>
 
 	<!-- use http://s-yadav.github.io/contextMenu.html for the context menu? -->
@@ -85,6 +86,10 @@
 			hexGrid = window.newGrid(16, { sx: 38, sy: 27 });
 			tileGrid = window.newGrid(hexGrid.getScale() * 7, { sx: 4, sy: 4 });
 
+			$("#downloadMapLink").click(function () {
+				this.href = canvasElement[0].toDataURL('image/png');
+			});
+
 			// Menus:
 			$("#menu").accordion({ heightStyle: "fill", collapsible: true, icons: false });
 			addMenuItem(window.drawableFactory.newDrawableSingle("one", window.drawFuncs.dummyDrawTile), "tile");
@@ -124,6 +129,12 @@
 	<section>
 		<canvas id="canvas" width="944" height="800" class="ui-widget-content ui-corner-all" ondrop="canvasDrop(event)" ondragover="permitDropping(event)"></canvas>
 	</section>
+	<aside>
+		<h3>Other bits and bobs</h3>
+		<ul>
+			<li><a id="downloadMapLink"class="fake-link" target="_blank">Download map as an image</a></li>
+		</ul>
+	</aside>
 	<script type="text/javascript" src="hexMaths.js"></script>
 	<script type="text/javascript" src="gridCompas.js"></script>
 	<script type="text/javascript" src="drawableFactory.js"></script>
