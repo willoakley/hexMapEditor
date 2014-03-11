@@ -6,12 +6,7 @@
 	<!-- jquery smoothness theme -->
 	<link rel="stylesheet" href="css/jquery-ui-1.10.4.custom.min.css">
 	<link rel="stylesheet" href="css/font-awesome.min.css">
-	<style type="text/css">
-		#canvas { margin-top:2px }
-		.menuSection { width:400px; height:800px }
-		section { float:left; padding:0 10px }
-		.fake-link { text-decoration:underline; color:blue; cursor:pointer; }
-	</style>
+	<link rel="stylesheet" href="css/creator.css">
 
 	<!-- use http://s-yadav.github.io/contextMenu.html for the context menu? -->
 	<script type="text/javascript">
@@ -164,15 +159,15 @@
 <body>
 	<section class="menuSection">
 		<div id="menu">
-			<h3>Board tiles</h3>
+			<h3><i class="fa fa-globe"></i>Board Tiles</h3>
 			<div>
 				<ul id="tileMenu"></ul>
 			</div>
-			<h3>Natrual and man-made features</h3>
+			<h3><i class="fa fa-building-o"></i>Terrain Features</h3>
 			<div>
 				<ul id="hexMenu"></ul>
 			</div>
-			<h3>Objectives and  markers</h3>
+			<h3><i class="fa fa-map-marker"></i>Objectives and Markers</h3>
 			<div>
 				<ul id="objectives"></ul>
 			</div>
@@ -181,12 +176,12 @@
 	<section>
 		<canvas id="canvas" width="944" height="800" class="ui-widget-content ui-corner-all" ondrop="canvasDrop(event)" ondragover="permitDropping(event)"></canvas>
 	</section>
-	<aside>
-		<h3>Other bits and bobs</h3>
-		<ul>
-			<li><a id="downloadMapLink"class="fake-link" target="_blank"><i class="fa fa-download"></i> Download map as an image</a></li>
-			<li><a id="rotateItemLink"class="fake-link"><i class="fa fa-repeat"></i> Rotate selected</a></li>
-			<li><a id="removeItemLink"class="fake-link"><i class="fa fa-times"></i> Remove selected</a></li>
+	<aside class="ui-widget-content ui-corner-all">
+		<h3>Options</h3>
+		<ul id="otherMenuOptions">
+			<li><a id="downloadMapLink"class="fake-link" target="_blank"><i class="fa fa-download"></i>Download map as an image</a></li>
+			<li><a id="rotateItemLink"class="fake-link"><i class="fa fa-repeat"></i>Rotate selected</a></li>
+			<li><a id="removeItemLink"class="fake-link"><i class="fa fa-trash-o"></i>Remove selected</a></li>
 		</ul>
 	</aside>
 	<script type="text/javascript" src="hexMaths.js"></script>

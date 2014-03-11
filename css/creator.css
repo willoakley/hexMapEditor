@@ -1,0 +1,39 @@
+section, aside
+{
+	float:left;
+	padding:0 10px
+}
+
+#otherMenuOptions
+{
+	list-style-type: none;
+	padding:0.5em;
+}
+
+#otherMenuOptions li
+{
+	padding:0 0 0.5em 0;
+}
+
+#canvas
+{
+	margin-top:2px
+}
+
+.menuSection
+{
+	width:300px;
+	height:800px
+}
+
+a.fake-link
+{
+	text-decoration:underline;
+	color:blue;
+	cursor:pointer;
+}
+
+.fa
+{
+	padding-right: 0.4em;
+}
