@@ -109,7 +109,7 @@ window.drawFuncs = {
 		options.outline = { show: true, thickness: 2, colour: "black" };
 		window.drawFuncs._hexagon(context, options);
 
-		window.drawFuncs._hilightHexagon(context, options);
+		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 
 	// - - - - - - - - - - - - - - - - - - - - - - Terrain types - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -120,7 +120,7 @@ window.drawFuncs = {
 			text: { value: "\uf18c", isIcon: true, colour: "white" },
 		};
 		window.drawFuncs._hexagon(context, options);
-		window.drawFuncs._hilightHexagon(context, options);
+		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 
 	depthOneRiver: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -130,6 +130,6 @@ window.drawFuncs = {
 			text: { value: "D1", colour: "black" },
 		};
 		window.drawFuncs._hexagon(context, options);
-		window.drawFuncs._hilightHexagon(context, options);
+		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 };
