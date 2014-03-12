@@ -1,6 +1,6 @@
 window.drawFuncs = {
 	_mergeOptions: function (additionalOptions) {
-		var defaults = {
+		var options = {
 			scale: 10.0,
 			rotation: "n",
 			offset: {
@@ -23,7 +23,6 @@ window.drawFuncs = {
 			},
 		};
 
-		var options = window.drawFuncs._defaultOptions();
 		$.extend(true, options, additionalOptions);
 		return options;
 	},
