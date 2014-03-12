@@ -197,7 +197,19 @@ window.newGrid = function (scale, size, offset) {
 					break;
 				}
 			}
-		}, 
+		},
+
+		serialise: function () {
+			var output = [];
+			var keys = Object.keys(this._grid);
+			for (var k = 0; k < keys.length; k++) {
+				var item = this._grid[keys[k]];
+
+				output[k] = { id: item.drawableItem.id, position: item.positioning.startIndex, facing: item.positioning.facing };
+			}
+
+			return output;
+		},
 
 		getItemAt: function (gridIndex) {
 			var item = this._indexesContainingSomething[gridIndex.gx + "," + gridIndex.gy];

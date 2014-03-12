@@ -3,173 +3,12 @@
 <head>
 	<script src="js/jquery-2.1.0.min.js" type="text/javascript"></script>
 	<script src="js/jquery-ui-1.10.4.custom.min.js"></script>
-	<!-- jquery smoothness theme -->
+
 	<link rel="stylesheet" href="css/jquery-ui-1.10.4.custom.min.css">
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/creator.css">
 
-	<!-- use http://s-yadav.github.io/contextMenu.html for the context menu? -->
-	<script type="text/javascript">
-		var hexGrid = null;
-		var tileGrid = null;
-		var canvasElement = null;
-		var menuItems = {};
-		var selectedItem = null;
-
-		function drawCanvas() {
-			var context = getContextFromJquery(canvasElement);
-
-			context.clearRect(0, 0, canvasElement.width(), canvasElement.height());
-			tileGrid.draw(context);
-			hexGrid.draw(context);
-		};
-
-		function addMenuItem(drawableItem, menuType) {
-			var id = "menu" + menuType + "_" + drawableItem.id;
-			var menuElementId = "#" + menuType + "Menu";
-			var itemGrid = null;
-
-			menuItems[id] = drawableItem;
-
-			if (menuType == "tile") {
-				itemGrid = window.newGrid(tileGrid.getScale() / 2, { sx: 1, sy: 1 });
-			}
-			else {
-				itemGrid = window.newGrid(hexGrid.getScale() / 2, { sx: 9, sy: 7 });
-			}
-
-			itemGrid.addItem(window.newGridIndex(0, 0), "n", drawableItem, { id: id });
-
-			$("<canvas id=\"" + id + "\"/>")
-				.attr("class", "draggable ui-widget-content ui-corner-all menuItem")
-				.attr("draggable", "true")
-				.attr("ondragstart", "menuItemBeginDrag(event)")
-				.attr("ondragend", "menuItemEndDrag(event)")
-				.attr("width", "115")
-				.attr("height", "100")
-				.data("drag-data", JSON.stringify({ menuId: id, type: menuType }))
-			.appendTo("<li/>")
-			.appendTo($(menuElementId));
-
-			var menuItemContext = getContextFromJquery($("#" + id));
-			itemGrid.draw(menuItemContext);
-		}
-
-		function hilightSelectedGridPosition(position) {		
-			var coordinates = trackingData.grid.getGridIndexFormPixelLocation({ px: position.px, py: position.py });
-
-			if (trackingData.hilightItem != null && gridEquals(trackingData.hilightItem.positioning.startIndex, coordinates)) {
-				if (coordinates.gx > trackingData.grid.getSize().sx || coordinates.gx < 0 || coordinates.gy > trackingData.grid.getSize().sy || coordinates.gy < 0) {
-					trackingData.grid.removeItem(trackingData.hilightItem);
-					drawCanvas();
-				}
-
-				return;
-			}
-
-			trackingData.grid.removeItem(trackingData.hilightItem);
-			trackingData.hilightItem = trackingData.grid.addItem(coordinates, "n", window.drawableFactory.newDrawableSingle("hilight", window.drawFuncs.hilightHex), { id: "hilight" });
-			drawCanvas();
-		}
-
-		// BUG: clicking same hex again doesn't deselect it so it will be removed when pressing delete link
-		function canvasClick(e) {
-			var pos = { px: e.pageX - canvasElement.offset().left, py: e.pageY - canvasElement.offset().top };
-			var hex = hexGrid.getItemAt(hexGrid.getGridIndexFormPixelLocation(pos));
-			var tile = tileGrid.getItemAt(tileGrid.getGridIndexFormPixelLocation(pos));
-
-			var item = null;
-			if (hex != null) {
-				item = hex;
-			} else if (tile != null) {
-				item = tile;
-			}
-
-			if (selectedItem != null) {
-				selectedItem.state = window.gridItemState.normal;
-				selectedItem = null;
-
-				if (item == null) {
-					drawCanvas();
-					return;
-				}
-			}
-
-			if (item == null) {
-				return;
-			}
-
-			item.state = window.gridItemState.selected;
-			selectedItem = item;
-			drawCanvas();
-		}
-
-		function downloadMapLinkClick(ev) {
-			this.href = canvasElement[0].toDataURL('image/png');
-		}
-
-		function rotateItemLink(ev) {
-			if (selectedItem == null) {
-				return;
-			}
-
-			hexGrid.rotateItem(selectedItem);
-			tileGrid.rotateItem(selectedItem);
-			drawCanvas();
-		}
-
-		function removeItemLink(ev) {
-			if (selectedItem == null) {
-				return;
-			}
-
-			hexGrid.removeItem(selectedItem);
-			tileGrid.removeItem(selectedItem);
-			selectedItem = null;
-			drawCanvas();
-		}
-
-		function moveItem(gridOffset) {
-			if (selectedItem == null) {
-				return;
-			}
-
-			hexGrid.shiftItem(selectedItem, gridOffset);
-			tileGrid.shiftItem(selectedItem, gridOffset);
-			drawCanvas();
-		}
-
-		$(function () {
-			hexGrid = window.newGrid(16, { sx: 38, sy: 27 });
-			tileGrid = window.newGrid(hexGrid.getScale() * 7, { sx: 4, sy: 4 });
-
-			$("#downloadMapLink").click(downloadMapLinkClick);
-			$("#removeItemLink").click(removeItemLink);
-
-			$("#moveItemUpLink").click(function () { moveItem({ gx: 0, gy: -1 }); });
-			$("#moveItemDownLink").click(function () { moveItem({ gx: 0, gy: 1 }); });
-			$("#moveItemLeftLink").click(function () { moveItem({ gx: -1, gy: 0 }); });
-			$("#moveItemRightLink").click(function () { moveItem({ gx: 1, gy: 0 }); });
-			$("#rotateItemLink").click(rotateItemLink);
-
-			// Menus:
-			$("#menu").accordion({ heightStyle: "fill", collapsible: true, icons: false });
-			addMenuItem(window.drawableFactory.newDrawableSingle("one", window.drawFuncs.tile), "tile");
-
-			addMenuItem(window.drawableFactory.newDrawableMultiple("two", [
-				{ draw: window.drawFuncs.lightWoods },
-				{ move: "s", draw: window.drawFuncs.lightWoods },
-				{ move: "s" },
-				{ move: "s", draw: window.drawFuncs.lightWoods },
-			]),"hex");
-
-			// Map:
-			canvasElement = $("#canvas");
-			canvasElement.click(canvasClick);
-
-			drawCanvas();
-		});
-	</script>
+	<script type="text/javascript" src="creator.js"></script>
 </head>
 <body>
 	<section class="menuSection">
@@ -193,7 +32,7 @@
 	</section>
 	<aside class="menu">
 		<div class="ui-widget-content ui-corner-all menuArea">
-			<h3>Options</h3>
+			<h3><i class="fa fa-arrows"></i>Options</h3>
 			<table>
 				<tr>
 					<td></td>
@@ -214,7 +53,7 @@
 			<a id="removeItemLink" class="fake-link"><i class="fa fa-trash-o"></i>Remove</a>
 		</div>
 		<div class="ui-widget-content ui-corner-all menuArea">
-			<h3>Load / Save</h3>
+			<h3><i class="fa fa-bookmark-o"></i>Load / Save</h3>
 			<ul class="otherMenuOptions">
 				<li><a id="downloadMapLink" class="fake-link" target="_blank"><i class="fa fa-floppy-o"></i>To image</a></li>
 				<li><a id="saveMapLink" class="fake-link" target="_blank"><i class="fa fa-download"></i>Save as JSON:</li>
