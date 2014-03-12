@@ -13,7 +13,7 @@ window.drawFuncs = {
 				isIcon: false,
 			},
 			outline: {
-				show: false,
+				show: true,
 				colour: "black",
 				thickness: 1,
 			},
@@ -62,9 +62,11 @@ window.drawFuncs = {
 
 			context.fillStyle = options.text.colour;
 			context.textAlign = 'center';
-			context.font = "bold " + Math.floor(options.scale) + "px " + font;
+			context.font = "bold " + Math.floor(options.scale * 0.9) + "px " + font;
 			context.fillText(options.text.value, textLeft, textTop, maxWidth);
 		}
+
+		return points;
 	},
 
 	_hilightHexagon: function (context, options, state) {
@@ -116,10 +118,14 @@ window.drawFuncs = {
 	lightWoods: function(context, pixelLocation, scale, rotation, state, itemArgs) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
-			fill: { show: true, colour: "green" },
-			text: { value: "\uf18c", isIcon: true, colour: "white" },
 		};
-		window.drawFuncs._hexagon(context, options);
+
+		var points = window.drawFuncs._hexagon(context, options);
+		context.fillStyle = "green";
+		context.textAlign = 'left';
+		context.font = "bold " + Math.floor(options.scale) + "px FontAwesome";
+		context.fillText("\uf18c", points[0].x - (scale * 0.33), points[0].y + (scale * 0.75));
+
 		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 
