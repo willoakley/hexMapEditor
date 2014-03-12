@@ -1,23 +1,29 @@
 section, aside
 {
 	float:left;
-	padding:0 10px
+	padding:0 10px;
 }
 
-#otherMenuOptions
+aside.menu div, table
 {
-	list-style-type: none;
-	padding:0.5em;
-}
-
-#otherMenuOptions li
-{
-	padding:0 0 0.5em 0;
+	margin:0 0 10px 0;
+	padding:0 0.5em;
 }
 
 #canvas
 {
 	margin-top:2px
+}
+
+.otherMenuOptions
+{
+	list-style-type: none;
+	padding:0.5em;
+}
+
+.otherMenuOptions li
+{
+	padding:0 0 0.5em 0;
 }
 
 .menuSection

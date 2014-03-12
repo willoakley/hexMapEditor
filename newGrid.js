@@ -214,12 +214,21 @@ window.newGrid = function (scale, size, offset) {
 			}
 
 			item.positioning.facing = window.gridCompas.rotateFacingBy(item.positioning.facing, 1);
-			var drawableItem = item.drawableItem;
 
 			if (item.drawableItem.type == "multiple") {
 				item.positioning.affectedIndexes = this._calculateAffectedIndexesFromMovement(item.drawableItem, item.positioning.startIndex, item.positioning.facing);
 				this.recalculateAffectedIndexes();
 			}
+		},
+
+		shiftItem: function (item, gridOffset) {
+			if (!this._contains(item)) {
+				return;
+			}
+
+			item.positioning.startIndex = { gx: item.positioning.startIndex.gx + gridOffset.gx, gy: item.positioning.startIndex.gy + gridOffset.gy };
+			item.positioning.affectedIndexes = this._calculateAffectedIndexesFromMovement(item.drawableItem, item.positioning.startIndex, item.positioning.facing);
+			this.recalculateAffectedIndexes();
 		},
 
 		draw: function (context) {

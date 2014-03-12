@@ -129,13 +129,28 @@
 			drawCanvas();
 		}
 
+		function moveItem(gridOffset) {
+			if (selectedItem == null) {
+				return;
+			}
+
+			hexGrid.shiftItem(selectedItem, gridOffset);
+			tileGrid.shiftItem(selectedItem, gridOffset);
+			drawCanvas();
+		}
+
 		$(function () {
 			hexGrid = window.newGrid(16, { sx: 38, sy: 27 });
 			tileGrid = window.newGrid(hexGrid.getScale() * 7, { sx: 4, sy: 4 });
 
 			$("#downloadMapLink").click(downloadMapLinkClick);
-			$("#rotateItemLink").click(rotateItemLink);
 			$("#removeItemLink").click(removeItemLink);
+
+			$("#moveItemUpLink").click(function () { moveItem({ gx: 0, gy: -1 }); });
+			$("#moveItemDownLink").click(function () { moveItem({ gx: 0, gy: 1 }); });
+			$("#moveItemLeftLink").click(function () { moveItem({ gx: -1, gy: 0 }); });
+			$("#moveItemRightLink").click(function () { moveItem({ gx: 1, gy: 0 }); });
+			$("#rotateItemLink").click(rotateItemLink);
 
 			// Menus:
 			$("#menu").accordion({ heightStyle: "fill", collapsible: true, icons: false });
@@ -176,13 +191,34 @@
 	<section>
 		<canvas id="canvas" width="944" height="800" class="ui-widget-content ui-corner-all" ondrop="canvasDrop(event)" ondragover="permitDropping(event)"></canvas>
 	</section>
-	<aside class="ui-widget-content ui-corner-all">
-		<h3>Options</h3>
-		<ul id="otherMenuOptions">
-			<li><a id="downloadMapLink"class="fake-link" target="_blank"><i class="fa fa-download"></i>Download map as an image</a></li>
-			<li><a id="rotateItemLink"class="fake-link"><i class="fa fa-repeat"></i>Rotate selected</a></li>
-			<li><a id="removeItemLink"class="fake-link"><i class="fa fa-trash-o"></i>Remove selected</a></li>
-		</ul>
+	<aside class="menu">
+		<div class="ui-widget-content ui-corner-all">
+			<h3>Menu</h3>
+			<ul class="otherMenuOptions">
+				<li><a id="downloadMapLink" class="fake-link" target="_blank"><i class="fa fa-download"></i>Download map as an image</a></li>
+				<li><a id="removeItemLink" class="fake-link"><i class="fa fa-trash-o"></i>Remove selected</a></li>
+			</ul>
+		</div>
+		<div class="ui-widget-content ui-corner-all">
+			<h3>Options</h3>
+			<table>
+				<tr>
+					<td></td>
+					<td><a id="moveItemUpLink" class="fake-link"><i class="fa fa-arrow-up"></i></a></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><a id="moveItemLeftLink" class="fake-link"><i class="fa fa-arrow-left"></i></a></td>
+					<td><a id="rotateItemLink" class="fake-link"><i class="fa fa-repeat"></i></a></td>
+					<td><a id="moveItemRightLink" class="fake-link"><i class="fa fa-arrow-right"></i></a></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><a id="moveItemDownLink" class="fake-link"><i class="fa fa-arrow-down"></i></a></td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
 	</aside>
 	<script type="text/javascript" src="hexMaths.js"></script>
 	<script type="text/javascript" src="gridCompas.js"></script>
