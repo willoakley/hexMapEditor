@@ -139,13 +139,13 @@
 
 			// Menus:
 			$("#menu").accordion({ heightStyle: "fill", collapsible: true, icons: false });
-			addMenuItem(window.drawableFactory.newDrawableSingle("one", window.drawFuncs.dummyDrawTile), "tile");
+			addMenuItem(window.drawableFactory.newDrawableSingle("one", window.drawFuncs.tile), "tile");
 
 			addMenuItem(window.drawableFactory.newDrawableMultiple("two", [
-				{ draw: window.drawFuncs.dummyDraw },
-				{ move: "s", draw: window.drawFuncs.dummyDraw },
+				{ draw: window.drawFuncs.lightWoods },
+				{ move: "s", draw: window.drawFuncs.lightWoods },
 				{ move: "s" },
-				{ move: "s", draw: window.drawFuncs.dummyDraw },
+				{ move: "s", draw: window.drawFuncs.lightWoods },
 			]),"hex");
 
 			// Map:
