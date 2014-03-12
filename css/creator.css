@@ -12,7 +12,20 @@ aside.menu div, table
 
 #canvas
 {
-	margin-top:2px
+	margin-top:2px;
+}
+
+canvas.menuItem
+{
+	padding:3px 0 0 3px;
+	width:px;
+	height:px;
+}
+
+.menuArea h3
+{
+	margin:0.5em 0;
+	width:250px;
 }
 
 .otherMenuOptions
@@ -29,7 +42,7 @@ aside.menu div, table
 .menuSection
 {
 	width:300px;
-	height:800px
+	height:800px;
 }
 
 a.fake-link

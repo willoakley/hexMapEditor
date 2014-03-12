@@ -41,12 +41,12 @@
 			itemGrid.addItem(window.newGridIndex(0, 0), "n", drawableItem, { id: id });
 
 			$("<canvas id=\"" + id + "\"/>")
-				.attr("class", "draggable")
+				.attr("class", "draggable ui-widget-content ui-corner-all menuItem")
 				.attr("draggable", "true")
 				.attr("ondragstart", "menuItemBeginDrag(event)")
 				.attr("ondragend", "menuItemEndDrag(event)")
-				.attr("width", "120")
-				.attr("height", "120")
+				.attr("width", "115")
+				.attr("height", "100")
 				.data("drag-data", JSON.stringify({ menuId: id, type: menuType }))
 			.appendTo("<li/>")
 			.appendTo($(menuElementId));
