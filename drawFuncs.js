@@ -109,71 +109,14 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.tile, },
+			outline: { show: true, thickness: 2 },
 		};
 		window.drawFuncs._hexagon(context, options);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
 		var tileCentreIndex = { gx: 4, gy: 3 };
-		tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple(
-			"tempRiver",
-			[
-				{ move: "n" }, { move: "n" }, { move: "n" }, { move: "sw" },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se" },
-				{ move: "s", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw" },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "se" },
-				{ move: "s", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "s", draw: window.drawFuncs._outlineHex },
-				{ move: "se" },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se" },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-			]
-		));
-
+		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
 		tempGrid.draw(context);
-
-		options.fill = undefined;
-		options.outline = { show: true, thickness: 2 };
-		window.drawFuncs._hexagon(context, options);
 
 		window.drawFuncs._hilightHexagon(context, options, state);
 	},
@@ -319,3 +262,55 @@ window.drawFuncs = {
 		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 };
+
+window.tileBacking = window.drawableFactory.newDrawableMultiple("tempRiver", [
+	{ move: "n" }, { move: "n" }, { move: "n" }, { move: "sw" },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "ne", draw: window.drawFuncs._outlineHex },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "ne", draw: window.drawFuncs._outlineHex },
+	{ move: "se" },
+	{ move: "s", draw: window.drawFuncs._outlineHex },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw", draw: window.drawFuncs._outlineHex },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw", draw: window.drawFuncs._outlineHex },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw" },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "ne", draw: window.drawFuncs._outlineHex },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "ne", draw: window.drawFuncs._outlineHex },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "ne", draw: window.drawFuncs._outlineHex },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "sw", draw: window.drawFuncs._outlineHex },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw", draw: window.drawFuncs._outlineHex },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw", draw: window.drawFuncs._outlineHex },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw", draw: window.drawFuncs._outlineHex },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "se" },
+	{ move: "s", draw: window.drawFuncs._outlineHex },
+	{ move: "ne", draw: window.drawFuncs._outlineHex },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "ne", draw: window.drawFuncs._outlineHex },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "ne", draw: window.drawFuncs._outlineHex },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "sw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw", draw: window.drawFuncs._outlineHex },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw", draw: window.drawFuncs._outlineHex },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "s", draw: window.drawFuncs._outlineHex },
+	{ move: "se" },
+	{ move: "ne", draw: window.drawFuncs._outlineHex },
+	{ move: "se" },
+	{ move: "ne", draw: window.drawFuncs._outlineHex },
+]);
