@@ -4,6 +4,12 @@ function menuItemBeginDrag(ev) {
 	var data = $(ev.currentTarget).data("drag-data");
 	ev.dataTransfer.setData("Text", data);
 
+	if (selectedItem != null) {
+		selectedItem.state = window.gridItemState.normal;
+		selectedItem = null;
+		drawCanvas();
+	}
+
 	switch (JSON.parse(data).type) {
 		case "tile": {
 			trackingData.grid = tileGrid;
