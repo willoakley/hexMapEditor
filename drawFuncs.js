@@ -123,8 +123,10 @@ window.drawFuncs = {
 
 	// - - - - - - - - - - - - - - - - - - - - - - Terrain types - - - - - - - - - - - - - - - - - - - - - - - - - -
 	lightWoods: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var sclaePadding = scale * 0.2;
 		var options = {
-			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			scale: scale - sclaePadding, state: state, offset: { px: pixelLocation.px + sclaePadding, py: pixelLocation.py + sclaePadding }, rotation: rotation,
+			outline: { show: true, thickness: 3, colour: window.colours.lightWoods }
 		};
 
 		var points = window.drawFuncs._hexagon(context, options);
@@ -137,8 +139,10 @@ window.drawFuncs = {
 	},
 
 	heavyWoods: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var sclaePadding = scale * 0.2;
 		var options = {
-			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			scale: scale - sclaePadding, state: state, offset: { px: pixelLocation.px + sclaePadding, py: pixelLocation.py + sclaePadding }, rotation: rotation,
+			outline: { show: true, thickness: 3, colour: window.colours.heavyWoods }
 		};
 
 		var points = window.drawFuncs._hexagon(context, options);
