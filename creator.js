@@ -30,7 +30,6 @@ function hilightSelectedGridPosition(position) {
 	drawCanvas();
 }
 
-// BUG: clicking same hex again doesn't deselect it so it will be removed when pressing delete link
 function canvasClick(e) {
 	var pos = { px: e.pageX - canvasElement.offset().left, py: e.pageY - canvasElement.offset().top };
 	var hex = hexGrid.getItemAt(hexGrid.getGridIndexFormPixelLocation(pos));
