@@ -1,7 +1,6 @@
 var hexGrid = null;
 var tileGrid = null;
 var canvasElement = null;
-var menuItems = {};
 var selectedItem = null;
 
 function drawCanvas() {
@@ -212,21 +211,6 @@ function loadLink() {
 	}
 
 	drawCanvas();
-}
-
-function initMenu() {
-	$("#hexMenu").html("");
-	$("#tileMenu").html("");
-	menuItems = {};
-
-	addMenuItem(window.drawableFactory.newDrawableSingle("one", window.drawFuncs.tile), "tile");
-
-	addMenuItem(window.drawableFactory.newDrawableMultiple("two", [
-		{ draw: window.drawFuncs.lightWoods },
-		{ move: "s", draw: window.drawFuncs.lightWoods },
-		{ move: "s" },
-		{ move: "s", draw: window.drawFuncs.lightWoods },
-	]),"hex");
 }
 
 $(function () {
