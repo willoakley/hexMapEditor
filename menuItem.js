@@ -51,7 +51,7 @@ function initMenu() {
 		addMenuItem(menuTiles[t], "tile");
 	}
 
-	for (var h = 0; h < menuTiles.length; h++) {
+	for (var h = 0; h < menuFeatures.length; h++) {
 		addMenuItem(menuFeatures[h], "hex");
 	}
 }
