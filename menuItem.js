@@ -1,7 +1,5 @@
 var menuItems = {};
-var menuTiles = [
-	window.drawableFactory.newDrawableSingle("one", window.drawFuncs.tile)
-];
+var menuTiles = null;
 var menuFeatures = [
 	window.drawableFactory.newDrawableMultiple("two", [
 		{ draw: window.drawFuncs.lightWoods },
@@ -35,14 +33,13 @@ var menuFeatures = [
 	window.drawableFactory.newDrawableSingle("radarStation", window.drawFuncs.heightZeroBuilding), //x1
 ];
 
-function addMenuItem(drawableItem, menuType) {
-	var id = "menu" + menuType + "_" + drawableItem.id;
-	var menuElementId = "#" + menuType + "Menu";
+function addMenuItem(drawableItem, itemType, menuElementId) {
+	var id = "menu" + itemType + "_" + drawableItem.id;
 	var itemGrid = null;
 
 	menuItems[id] = drawableItem;
 
-	if (menuType == "tile") {
+	if (itemType == "tile") {
 		itemGrid = window.newGrid(tileGrid.getScale() / 2, { sx: 1, sy: 1 });
 	}
 	else {
@@ -58,12 +55,18 @@ function addMenuItem(drawableItem, menuType) {
 		.attr("ondragend", "menuItemEndDrag(event)")
 		.attr("width", "115")
 		.attr("height", "100")
-		.data("drag-data", JSON.stringify({ menuId: id, type: menuType }))
+		.data("drag-data", JSON.stringify({ menuId: id, type: itemType }))
 	.appendTo("<li/>")
-	.appendTo($(menuElementId));
+	.appendTo($("#" + menuElementId));
 
 	var menuItemContext = getContextFromJquery($("#" + id));
 	itemGrid.draw(menuItemContext);
+}
+
+function addMenuItems(itemType, menuElementId, itemCollection) {
+	for (var i in itemCollection) {
+		addMenuItem(itemCollection[i], itemType, menuElementId);
+	}
 }
 
 function initMenu() {
@@ -71,11 +74,6 @@ function initMenu() {
 	$("#tileMenu").html("");
 	menuItems = {};
 
-	for (var t = 0; t < menuTiles.length; t++) {
-		addMenuItem(menuTiles[t], "tile");
-	}
-
-	for (var h = 0; h < menuFeatures.length; h++) {
-		addMenuItem(menuFeatures[h], "hex");
-	}
+	addMenuItems("tile", "tileMenu", [ window.drawableFactory.newDrawableSingle("one", window.drawFuncs.tile) ]);
+	addMenuItems("hex", "hexMenu", menuFeatures);
 }
