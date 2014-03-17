@@ -6,8 +6,11 @@ window.colours = {
 	heavyWoods: "#003300",
 	hilight: "rgba(255,128,64, 0.5)",
 	building: "#404040",
+	barrier: "#404040",
 	outline: "black",
 	lightOutline: "white",
+	road: "#999966",
+	nothing: "white",
 };
 
 window.drawFuncs = {
@@ -130,9 +133,61 @@ window.drawFuncs = {
 		tempGrid.draw(context);
 	},
 
-	halfTile: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+	halfTile: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			fill: { show: true, colour: window.colours.tile, },
+			outline: { show: false },
+		};
+		window.drawFuncs._hexagon(context, options);
 
-	riverOne: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+		var points = window.hexMaths.hexPointsAtOffset(options.offset.px, options.offset.py, options.scale);
+		var rotationFactor = window.gridCompas.directionValues[rotation];
+
+		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
+		var tileCentreIndex = { gx: 4, gy: 3 };
+		tempGrid.addItem(tileCentreIndex, rotation, window.halfTileBacking);
+		tempGrid.draw(context);
+
+		context.beginPath();
+		context.moveTo(points[(5 + rotationFactor) % 6].x, points[(5 + rotationFactor) % 6].y);
+		context.lineTo(points[(2 + rotationFactor) % 6].x, points[(2 + rotationFactor) % 6].y);
+		context.lineTo(points[(3 + rotationFactor) % 6].x, points[(3 + rotationFactor) % 6].y);
+		context.lineTo(points[(4 + rotationFactor) % 6].x, points[(4 + rotationFactor) % 6].y);
+		context.closePath();
+		context.fillStyle = window.colours.nothing;
+		context.fill();
+
+		context.lineWidth = 2;
+		context.beginPath();
+		context.moveTo(points[(5 + rotationFactor) % 6].x, points[(5 + rotationFactor) % 6].y);
+		context.lineTo(points[(2 + rotationFactor) % 6].x, points[(2 + rotationFactor) % 6].y);
+		context.lineTo(points[(1 + rotationFactor) % 6].x, points[(1 + rotationFactor) % 6].y);
+		context.lineTo(points[(0 + rotationFactor) % 6].x, points[(0 + rotationFactor) % 6].y);
+		context.closePath();
+		context.strokeStyle = window.colours.outline;
+		context.stroke();
+	},
+
+	riverOne: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			fill: { show: true, colour: window.colours.tile, },
+			outline: { show: true, thickness: 2 },
+		};
+		window.drawFuncs._hexagon(context, options);
+
+		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
+		var tileCentreIndex = { gx: 4, gy: 3 };
+		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
+			{ move: "n" }, { move: "n" }, { move: "n" }, { move: "sw" },
+			{ move: "nw", draw: window.drawFuncs.depthOneRiver },
+		]));
+		river.state = state;
+
+		tempGrid.draw(context);
+	},
 
 	riverTwo: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
 
@@ -282,16 +337,117 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	road: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+	road: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var points = window.hexMaths.hexPointsAtOffset(pixelLocation.px, pixelLocation.py, scale);
+		var rotationFactor = window.gridCompas.directionValues[rotation];
 
-	roadCorner: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+		context.beginPath();
+		context.moveTo(points[(0 + rotationFactor) % 6].x, points[(0 + rotationFactor) % 6].y);
+		context.lineTo(points[(1 + rotationFactor) % 6].x, points[(1 + rotationFactor) % 6].y);
+		context.lineTo(points[(3 + rotationFactor) % 6].x, points[(3 + rotationFactor) % 6].y);
+		context.lineTo(points[(4 + rotationFactor) % 6].x, points[(4 + rotationFactor) % 6].y);
+		context.closePath();
 
-	roadTJunction: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+		context.fillStyle = window.colours.road;
+		context.fill();
+		context.lineWidth = 1;
+		context.strokeStyle = window.colours.outline;
+		context.stroke();
 
-	barrier: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+		window.drawFuncs._hexagon(context, { scale: scale, state: state, offset: pixelLocation, outline: { show: false } });
+	},
+
+	roadCorner: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var points = window.hexMaths.hexPointsAtOffset(pixelLocation.px, pixelLocation.py, scale);
+		var rotationFactor = window.gridCompas.directionValues[rotation];
+
+		context.beginPath();
+		context.moveTo(points[(1 + rotationFactor) % 6].x, points[(1 + rotationFactor) % 6].y);
+		context.lineTo(points[(2 + rotationFactor) % 6].x, points[(2 + rotationFactor) % 6].y);
+		context.lineTo(points[(3 + rotationFactor) % 6].x, points[(3 + rotationFactor) % 6].y);
+		context.lineTo(points[(4 + rotationFactor) % 6].x, points[(4 + rotationFactor) % 6].y);
+		context.closePath();
+
+		context.fillStyle = window.colours.road;
+		context.fill();
+		context.lineWidth = 1;
+		context.strokeStyle = window.colours.outline;
+		context.stroke();
+
+		window.drawFuncs._hexagon(context, { scale: scale, state: state, offset: pixelLocation, outline: { show: false } });
+	},
+
+	roadTJunction: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var points = window.hexMaths.hexPointsAtOffset(pixelLocation.px, pixelLocation.py, scale);
+		var rotationFactor = window.gridCompas.directionValues[rotation];
+		var buffer = scale * 0.2;
+
+		context.beginPath();
+		context.moveTo(points[(0 + rotationFactor) % 6].x, points[(0 + rotationFactor) % 6].y);
+		context.lineTo(points[(1 + rotationFactor) % 6].x, points[(1 + rotationFactor) % 6].y);
+		context.lineTo(points[(2 + rotationFactor) % 6].x, points[(2 + rotationFactor) % 6].y);
+		context.lineTo(points[(3 + rotationFactor) % 6].x, points[(3 + rotationFactor) % 6].y);
+		context.lineTo(points[(4 + rotationFactor) % 6].x, points[(4 + rotationFactor) % 6].y);
+		context.closePath();
+
+		context.fillStyle = window.colours.road;
+		context.fill();
+		context.lineWidth = 1;
+		context.strokeStyle = window.colours.outline;
+		context.stroke();
+
+		context.beginPath();
+		context.moveTo(points[(1 + rotationFactor) % 6].x, points[(1 + rotationFactor) % 6].y);
+		context.lineTo(points[(4 + rotationFactor) % 6].x, points[(4 + rotationFactor) % 6].y);
+		context.stroke();
+
+		window.drawFuncs._hexagon(context, { scale: scale, state: state, offset: pixelLocation, outline: { show: false } });
+	},
+
+	roadBridge: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		window.drawFuncs.road(context, pixelLocation, scale, rotation, state, itemArgs);
+
+		var points = window.hexMaths.hexPointsAtOffset(pixelLocation.px, pixelLocation.py, scale);
+		var rotationFactor = window.gridCompas.directionValues[rotation];
+
+		context.beginPath();
+		context.moveTo(points[(0 + rotationFactor) % 6].x, points[(0 + rotationFactor) % 6].y);
+		context.lineTo(points[(1 + rotationFactor) % 6].x, points[(1 + rotationFactor) % 6].y);
+		context.lineTo(points[(3 + rotationFactor) % 6].x, points[(3 + rotationFactor) % 6].y);
+		context.lineTo(points[(4 + rotationFactor) % 6].x, points[(4 + rotationFactor) % 6].y);
+		context.closePath();
+
+		context.fillStyle = window.colours.road;
+		context.fill();
+		context.lineWidth = 1;
+		context.strokeStyle = window.colours.outline;
+		context.stroke();
+
+		context.beginPath();
+		context.moveTo(points[(2 + rotationFactor) % 6].x, points[(2 + rotationFactor) % 6].y);
+		context.lineTo(points[(5 + rotationFactor) % 6].x, points[(5 + rotationFactor) % 6].y);
+		context.stroke();
+
+		window.drawFuncs._hexagon(context, { scale: scale, state: state, offset: pixelLocation, outline: { show: false } });
+	},
+
+	barrier: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var points = window.hexMaths.hexPointsAtOffset(pixelLocation.px, pixelLocation.py, scale);
+		var rotationFactor = window.gridCompas.directionValues[rotation];
+		context.beginPath();
+		context.moveTo(points[(0 + rotationFactor) % 6].x, points[(0 + rotationFactor) % 6].y);
+		context.lineTo(points[(1 + rotationFactor) % 6].x, points[(1 + rotationFactor) % 6].y);
+		context.lineTo(points[(2 + rotationFactor) % 6].x, points[(2 + rotationFactor) % 6].y);
+		context.lineWidth = scale * 0.4;
+		context.strokeStyle = window.colours.barrier;
+		context.stroke();
+
+		// For hilighting purposes we need a hex even if it has nothing in it
+		window.drawFuncs._hexagon(context, { scale: scale, state: state, offset: pixelLocation, outline: { show: false } });
+	},
 };
 
-window.tileBacking = window.drawableFactory.newDrawableMultiple("tempRiver", [
+window.tileBacking = window.drawableFactory.newDrawableMultiple("tempTiles", [
 	{ move: "n" }, { move: "n" }, { move: "n" }, { move: "sw" },
 	{ move: "nw", draw: window.drawFuncs._outlineHex },
 	{ move: "se", draw: window.drawFuncs._outlineHex },
@@ -341,4 +497,38 @@ window.tileBacking = window.drawableFactory.newDrawableMultiple("tempRiver", [
 	{ move: "ne", draw: window.drawFuncs._outlineHex },
 	{ move: "se" },
 	{ move: "ne", draw: window.drawFuncs._outlineHex },
+]);
+
+window.halfTileBacking = window.drawableFactory.newDrawableMultiple("tempTiles", [
+	{ move: "n" }, { move: "n" }, { move: "n" }, { move: "sw" },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "ne", draw: window.drawFuncs._outlineHex },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "ne", draw: window.drawFuncs._outlineHex },
+	{ move: "se" },
+	{ move: "s", draw: window.drawFuncs._outlineHex },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw", draw: window.drawFuncs._outlineHex },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw", draw: window.drawFuncs._outlineHex },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw" },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "ne", draw: window.drawFuncs._outlineHex },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "ne", draw: window.drawFuncs._outlineHex },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "ne", draw: window.drawFuncs._outlineHex },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "se", draw: window.drawFuncs._outlineHex },
+	{ move: "sw" },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw" },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw" },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
+	{ move: "sw" },
+	{ move: "nw", draw: window.drawFuncs._outlineHex },
 ]);

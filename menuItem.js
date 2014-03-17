@@ -45,7 +45,9 @@ function initMenu() {
 	menuItems = {};
 
 	addMenuItems("tile", "tileMenu", [
-		window.drawableFactory.newDrawableSingle("one", window.drawFuncs.tile)
+		window.drawableFactory.newDrawableSingle("tile", window.drawFuncs.tile),
+		window.drawableFactory.newDrawableSingle("halfTile", window.drawFuncs.halfTile),
+		window.drawableFactory.newDrawableSingle("riverOne", window.drawFuncs.riverOne),
 	]);
 
 	addMenuItems("hex", "buildingMenu", [
@@ -72,7 +74,7 @@ function initMenu() {
 		window.drawableFactory.newDrawableMultiple("roadTripple", [ { draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.road }, ]), //x5
 		window.drawableFactory.newDrawableSingle("roadCorner", window.drawFuncs.roadCorner), //x6
 		window.drawableFactory.newDrawableSingle("roadTJunction", window.drawFuncs.roadTJunction), //x4
-		window.drawableFactory.newDrawableMultiple("bridge", [ { draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.water }, { draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.road }, ]), //x3
+		window.drawableFactory.newDrawableMultiple("bridge", [ { draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.water }, { draw: window.drawFuncs.roadBridge }, { move: "s", draw: window.drawFuncs.road }, ]), //x3
 	]);
 
 	addMenuItems("hex", "natrualMenu", [
