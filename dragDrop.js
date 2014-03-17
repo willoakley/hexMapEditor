@@ -10,6 +10,21 @@ function menuItemBeginDrag(ev) {
 		drawCanvas();
 	}
 
+	var menuId = $(ev.currentTarget).attr("id");
+	var drawPattern = window.menuItems[menuId].drawPath;
+	var hilightPath = [];
+
+	for (var i = 0; i < drawPattern.length; i++) {
+		var step = drawPattern[i];
+		hilightPath[i] = { move: step.move, draw: step.draw };
+
+		if (step.draw !== undefined) {
+			hilightPath[i].draw = window.drawFuncs.hilightHex;
+		}
+	}
+
+	trackingData.hilightDrawableItem = window.drawableFactory.newDrawableMultiple("hilight", hilightPath);
+
 	switch (JSON.parse(data).type) {
 		case "tile": {
 			trackingData.grid = tileGrid;

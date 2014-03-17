@@ -11,8 +11,6 @@ function drawCanvas() {
 	hexGrid.draw(context);
 };
 
-
-
 function hilightSelectedGridPosition(position) {		
 	var coordinates = trackingData.grid.getGridIndexFormPixelLocation({ px: position.px, py: position.py });
 
@@ -26,7 +24,7 @@ function hilightSelectedGridPosition(position) {
 	}
 
 	trackingData.grid.removeItem(trackingData.hilightItem);
-	trackingData.hilightItem = trackingData.grid.addItem(coordinates, "n", window.drawableFactory.newDrawableSingle("hilight", window.drawFuncs.hilightHex), { id: "hilight" });
+	trackingData.hilightItem = trackingData.grid.addItem(coordinates, "n", trackingData.hilightDrawableItem, { id: "hilight" });
 	drawCanvas();
 }
 
