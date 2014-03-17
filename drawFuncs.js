@@ -175,6 +175,14 @@ window.drawFuncs = {
 		context.fillText("\uf18c", points[1].x - (scale * 0.33), points[1].y + (scale * 0.33));
 	},
 
+	water: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			fill: { show: true, colour: window.colours.water },
+		};
+		window.drawFuncs._hexagon(context, options);
+	},
+
 	depthZeroRiver: function(context, pixelLocation, scale, rotation, state, itemArgs) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
@@ -273,6 +281,14 @@ window.drawFuncs = {
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
+
+	road: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+
+	roadCorner: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+
+	roadTJunction: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+
+	barrier: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
 };
 
 window.tileBacking = window.drawableFactory.newDrawableMultiple("tempRiver", [

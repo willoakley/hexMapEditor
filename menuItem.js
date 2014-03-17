@@ -8,7 +8,32 @@ var menuFeatures = [
 		{ move: "s", draw: window.drawFuncs.lightWoods },
 		{ move: "s" },
 		{ move: "s", draw: window.drawFuncs.lightWoods },
-	])
+	]), //dummy
+
+	window.drawableFactory.newDrawableMultiple("bridge", [
+		{ draw: window.drawFuncs.road },
+		{ move: "s", draw: window.drawFuncs.water },
+		{ draw: window.drawFuncs.road },
+		{ move: "s", draw: window.drawFuncs.road },
+	]), //x3
+	window.drawableFactory.newDrawableSingle("commsTower", window.drawFuncs.heightFourBuilding), //x2
+	window.drawableFactory.newDrawableSingle("barrier", window.drawFuncs.barrier), //x20
+	window.drawableFactory.newDrawableSingle("bunker", window.drawFuncs.heightZeroBuilding), //x1
+	window.drawableFactory.newDrawableSingle("radarStation", window.drawFuncs.heightZeroBuilding), //x1
+	window.drawableFactory.newDrawableSingle("lightWoods", window.drawFuncs.lightWoods), //x20
+	window.drawableFactory.newDrawableSingle("heavyWoods", window.drawFuncs.heavyWoods), //x10
+	window.drawableFactory.newDrawableSingle("road", window.drawFuncs.road), //x12
+	window.drawableFactory.newDrawableMultiple("roadDouble", [
+		{ draw: window.drawFuncs.road },
+		{ move: "s", draw: window.drawFuncs.road },
+	]), //x6
+	window.drawableFactory.newDrawableMultiple("roadTripple", [
+		{ draw: window.drawFuncs.road },
+		{ move: "s", draw: window.drawFuncs.road },
+		{ move: "s", draw: window.drawFuncs.road },
+	]), //x5
+	window.drawableFactory.newDrawableSingle("roadCorner", window.drawFuncs.roadCorner), //x6
+	window.drawableFactory.newDrawableSingle("roadTJunction", window.drawFuncs.roadTJunction), //x4
 ];
 
 function addMenuItem(drawableItem, menuType) {
