@@ -37,6 +37,7 @@ function addMenuItems(itemType, menuElementId, itemCollection) {
 }
 
 function initMenu() {
+	$("#tileMenu").html("");
 	$("#hexMenu").html("");
 	$("#buildingMenu").html("");
 	$("#natrualMenu").html("");
