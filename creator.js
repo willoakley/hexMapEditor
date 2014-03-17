@@ -195,7 +195,7 @@ $(function () {
 	$("#moveItemRightLink").click(function () { moveItem({ gx: 1, gy: 0 }); });
 	$("#rotateItemLink").click(rotateItemLink);
 
-	$("#menu").accordion({ heightStyle: "fill", collapsible: true, icons: false });
+	$("#menu").accordion({ heightStyle: "fill", icons: false });
 	initMenu();
 
 	canvasElement.click(canvasClick);
