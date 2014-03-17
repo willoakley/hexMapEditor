@@ -39,10 +39,7 @@ window.drawFuncs = {
 		return options;
 	},
 
-	_hexagon: function(context, drawOptions) {
-		var options = window.drawFuncs._mergeOptions(drawOptions);
-		var points = window.hexMaths.hexPointsAtOffset(options.offset.px, options.offset.py, options.scale);
-
+	_drawPoints: function (context, points) {
 		context.beginPath();
 		context.moveTo(points[0].x, points[0].y);
 		for (var ii = 1; ii < points.length; ii++) {
@@ -50,6 +47,12 @@ window.drawFuncs = {
 		}
 
 		context.closePath();
+	},
+
+	_hexagon: function(context, drawOptions) {
+		var options = window.drawFuncs._mergeOptions(drawOptions);
+		var points = window.hexMaths.hexPointsAtOffset(options.offset.px, options.offset.py, options.scale);
+		window.drawFuncs._drawPoints(context, points);
 
 		if (options.fill.show) {
 			context.fillStyle = options.fill.colour;
@@ -78,30 +81,38 @@ window.drawFuncs = {
 			context.fillText(options.text.value, textLeft, textTop, maxWidth);
 		}
 
+		if (drawOptions.state == window.gridItemState.selected) {
+			window.drawFuncs._hilightHexagon(context, { scale: options.scale, offset: options.offset, state: drawOptions.state });
+		}
+
 		return points;
 	},
 
-	_hilightHexagon: function (context, options, state) {
-		if (state !== window.gridItemState.selected) {
+	_hilightHexagon: function (context, options) {
+		if (options.state !== window.gridItemState.selected) {
 			return;
 		}
 
-		options.fill = { show: true, colour: window.colours.hilight };
-		options.outline = { show: true, colour: window.colours.hilight, thickness: 2 };
+		var points = window.hexMaths.hexPointsAtOffset(options.offset.px, options.offset.py, options.scale);
+		window.drawFuncs._drawPoints(context, points);
+		context.fillStyle = window.colours.hilight;
+		context.fill();
 
-		window.drawFuncs._hexagon(context, options);
+		context.lineWidth = 2;
+		context.strokeStyle = window.colours.hilight;
+		context.stroke();
 	},
 
 	_outlineHex: function(context, pixelLocation, scale, rotation, state, itemArgs) {
 		var options = {
-			scale: scale, offset: pixelLocation,
+			scale: scale, offset: pixelLocation, state: window.gridItemState.normal,
 			outline: { show: true, colour: window.colours.outline },
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
 
 	hilightHex: function(context, pixelLocation, scale, rotation, state, itemArgs) {
-		window.drawFuncs._hilightHexagon(context, { scale: scale, offset: pixelLocation, rotation: rotation }, window.gridItemState.selected);
+		window.drawFuncs._hilightHexagon(context, { scale: scale, offset: pixelLocation, state: window.gridItemState.selected });
 	},
 
 	// - - - - - - - - - - - - - - - - - - - - - - Tile types - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -117,9 +128,21 @@ window.drawFuncs = {
 		var tileCentreIndex = { gx: 4, gy: 3 };
 		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
 		tempGrid.draw(context);
-
-		window.drawFuncs._hilightHexagon(context, options, state);
 	},
+
+	halfTile: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+
+	riverOne: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+
+	riverTwo: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+
+	riverThree: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+
+	riverFour: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+
+	riverFive: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+
+	riverSix: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
 
 	// - - - - - - - - - - - - - - - - - - - - - - Terrain types - - - - - - - - - - - - - - - - - - - - - - - - - -
 	lightWoods: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -134,8 +157,6 @@ window.drawFuncs = {
 		context.textAlign = 'left';
 		context.font = "bold " + Math.floor(options.scale) + "px FontAwesome";
 		context.fillText("\uf18c", points[0].x - (scale * 0.33), points[0].y + (scale * 0.75));
-
-		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 
 	heavyWoods: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -152,8 +173,6 @@ window.drawFuncs = {
 		context.fillText("\uf18c", points[0].x - (scale * 0.33), points[0].y + (scale * 0.75));
 
 		context.fillText("\uf18c", points[1].x - (scale * 0.33), points[1].y + (scale * 0.33));
-
-		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 
 	depthZeroRiver: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -163,7 +182,6 @@ window.drawFuncs = {
 			text: { value: "D0" },
 		};
 		window.drawFuncs._hexagon(context, options);
-		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 
 	depthOneRiver: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -173,7 +191,6 @@ window.drawFuncs = {
 			text: { value: "D1" },
 		};
 		window.drawFuncs._hexagon(context, options);
-		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 
 	depthTwoRiver: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -183,7 +200,6 @@ window.drawFuncs = {
 			text: { value: "D2" },
 		};
 		window.drawFuncs._hexagon(context, options);
-		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 
 	heightZeroBuilding: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -193,7 +209,6 @@ window.drawFuncs = {
 			text: { value: "B0", colour: window.colours.lightOutline },
 		};
 		window.drawFuncs._hexagon(context, options);
-		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 
 	heightOneBuilding: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -203,7 +218,6 @@ window.drawFuncs = {
 			text: { value: "B1", colour: window.colours.lightOutline },
 		};
 		window.drawFuncs._hexagon(context, options);
-		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 
 	heightTwoBuilding: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -213,7 +227,6 @@ window.drawFuncs = {
 			text: { value: "B2", colour: window.colours.lightOutline },
 		};
 		window.drawFuncs._hexagon(context, options);
-		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 
 	heightThreeBuilding: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -223,7 +236,6 @@ window.drawFuncs = {
 			text: { value: "B3", colour: window.colours.lightOutline },
 		};
 		window.drawFuncs._hexagon(context, options);
-		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 
 	heightFourBuilding: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -233,7 +245,6 @@ window.drawFuncs = {
 			text: { value: "B4", colour: window.colours.lightOutline },
 		};
 		window.drawFuncs._hexagon(context, options);
-		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 
 	heightOneHill: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -243,7 +254,6 @@ window.drawFuncs = {
 			text: { value: "H1" },
 		};
 		window.drawFuncs._hexagon(context, options);
-		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 
 	heightTwoHill: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -253,7 +263,6 @@ window.drawFuncs = {
 			text: { value: "H2" },
 		};
 		window.drawFuncs._hexagon(context, options);
-		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 
 	heightThreeHill: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -263,7 +272,6 @@ window.drawFuncs = {
 			text: { value: "H3" },
 		};
 		window.drawFuncs._hexagon(context, options);
-		window.drawFuncs._hilightHexagon(context, options, state);
 	},
 };
 
