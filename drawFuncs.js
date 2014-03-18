@@ -4,6 +4,8 @@ window.colours = {
 	darkWater: "#003D99",
 	tile: "#EAEAEA",
 	hill: "#D6D6D6",
+	hillTwo: "#969696",
+	hillThree: "#5A5A5A",
 	lightWoods: "#339933",
 	heavyWoods: "#003300",
 	hilight: "rgba(255,128,64, 0.5)",
@@ -359,7 +361,7 @@ window.drawFuncs = {
 		var sclaePadding = scale * 0.2;
 		var options = {
 			scale: scale - sclaePadding, state: state, offset: { px: pixelLocation.px + sclaePadding, py: pixelLocation.py + sclaePadding }, rotation: rotation,
-			outline: { show: true, thickness: 3, colour: window.colours.lightWoods }
+			outline: { show: true, thickness: 3, colour: "rgba(135,225,0,0.7)" }
 		};
 
 		var points = window.drawFuncs._hexagon(context, options);
@@ -373,7 +375,7 @@ window.drawFuncs = {
 		var sclaePadding = scale * 0.2;
 		var options = {
 			scale: scale - sclaePadding, state: state, offset: { px: pixelLocation.px + sclaePadding, py: pixelLocation.py + sclaePadding }, rotation: rotation,
-			outline: { show: true, thickness: 3, colour: window.colours.heavyWoods }
+			outline: { show: true, thickness: 3, colour: "rgba(14, 71, 0, 0.7)" }
 		};
 
 		var points = window.drawFuncs._hexagon(context, options);
@@ -381,7 +383,6 @@ window.drawFuncs = {
 		context.textAlign = 'left';
 		context.font = "bold " + Math.floor(options.scale) + "px FontAwesome";
 		context.fillText("\uf18c", points[0].x - (scale * 0.33), points[0].y + (scale * 0.75));
-
 		context.fillText("\uf18c", points[1].x - (scale * 0.33), points[1].y + (scale * 0.33));
 	},
 
@@ -415,7 +416,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.darkWater },
-			text: { value: "D2" },
+			text: { value: "D2", colour: window.colours.lightOutline },
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -477,7 +478,7 @@ window.drawFuncs = {
 	heightTwoHill: function(context, pixelLocation, scale, rotation, state, itemArgs) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
-			fill: { show: true, colour: window.colours.hill },
+			fill: { show: true, colour: window.colours.hillTwo },
 			text: { value: "H2" },
 		};
 		window.drawFuncs._hexagon(context, options);
@@ -486,8 +487,8 @@ window.drawFuncs = {
 	heightThreeHill: function(context, pixelLocation, scale, rotation, state, itemArgs) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
-			fill: { show: true, colour: window.colours.hill },
-			text: { value: "H3" },
+			fill: { show: true, colour: window.colours.hillThree },
+			text: { value: "H3", colour: window.colours.lightOutline },
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
