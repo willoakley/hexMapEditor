@@ -81,7 +81,7 @@ window.drawFuncs = {
 			context.fillStyle = options.text.colour;
 			context.textAlign = 'center';
 			if (options.text.isIcon) {
-				context.font = Math.floor(options.scale * 1.2) + "px FontAwesome";
+				context.font = Math.floor(options.scale * 1.5) + "px FontAwesome";
 			} else {
 				context.font = "bold " + Math.floor(options.scale) + "px Arial";
 			}

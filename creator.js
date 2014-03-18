@@ -181,8 +181,15 @@ function loadLink() {
 	drawCanvas();
 }
 
+$( window ).load(function() {
+	//ensure all resources (specifically fontawesome) are loaded prior to creating the menus
+	initMenu();
+});
+
 $(function () {
 	initGrids();
+
+	$("#menu").accordion({ heightStyle: "fill", icons: false });
 
 	$("#downloadMapLink").click(downloadMapLinkClick);
 	$("#removeItemLink").click(removeItemLink);
@@ -194,9 +201,6 @@ $(function () {
 	$("#moveItemLeftLink").click(function () { moveItem({ gx: -1, gy: 0 }); });
 	$("#moveItemRightLink").click(function () { moveItem({ gx: 1, gy: 0 }); });
 	$("#rotateItemLink").click(rotateItemLink);
-
-	$("#menu").accordion({ heightStyle: "fill", icons: false });
-	initMenu();
 
 	canvasElement.click(canvasClick);
 });
