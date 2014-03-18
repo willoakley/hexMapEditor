@@ -46,9 +46,14 @@ function initMenu() {
 	menuItems = {};
 
 	addMenuItems("tile", "tileMenu", [
-		window.drawableFactory.newDrawableSingle("tile", window.drawFuncs.tile),
-		window.drawableFactory.newDrawableSingle("halfTile", window.drawFuncs.halfTile),
-		window.drawableFactory.newDrawableSingle("riverOne", window.drawFuncs.riverOne),
+		window.drawableFactory.newDrawableSingle("tile", window.drawFuncs.tile), //x8
+		window.drawableFactory.newDrawableSingle("halfTile", window.drawFuncs.halfTile), //x4
+		window.drawableFactory.newDrawableSingle("riverOne", window.drawFuncs.riverOne), //x1
+		window.drawableFactory.newDrawableSingle("riverTwo", window.drawFuncs.riverTwo), //x1
+		window.drawableFactory.newDrawableSingle("riverThree", window.drawFuncs.riverThree), //x1
+		window.drawableFactory.newDrawableSingle("riverFour", window.drawFuncs.riverFour), //x1
+		window.drawableFactory.newDrawableSingle("riverFive", window.drawFuncs.riverFive), //x1
+		window.drawableFactory.newDrawableSingle("riverSix", window.drawFuncs.riverSix), //x1
 	]);
 
 	addMenuItems("hex", "buildingMenu", [

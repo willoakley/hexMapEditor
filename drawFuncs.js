@@ -1,7 +1,9 @@
 window.colours = {
 	water: "#0066FF",
-	tile: "#D6D6D6",
-	hill: "#AEAEAE",
+	lightWater: "#80B2FF",
+	darkWater: "#003D99",
+	tile: "#EAEAEA",
+	hill: "#D6D6D6",
 	lightWoods: "#339933",
 	heavyWoods: "#003300",
 	hilight: "rgba(255,128,64, 0.5)",
@@ -181,23 +183,176 @@ window.drawFuncs = {
 		var tileCentreIndex = { gx: 4, gy: 3 };
 		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
 		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
-			{ move: "n" }, { move: "n" }, { move: "n" }, { move: "sw" },
-			{ move: "nw", draw: window.drawFuncs.depthOneRiver },
+			{ move: "n" }, { move: "n" },
+			{ move: "n", draw: window.drawFuncs.depthOneRiver },
+			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+			{ move: "se", draw: window.drawFuncs.depthOneRiver },
+			{ move: "se", draw: window.drawFuncs.depthOneRiver },
+			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
+			{ move: "se", draw: window.drawFuncs.depthOneRiver },
+			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
 		]));
 		river.state = state;
 
 		tempGrid.draw(context);
 	},
 
-	riverTwo: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+	riverTwo: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			fill: { show: true, colour: window.colours.tile, },
+			outline: { show: true, thickness: 2 },
+		};
+		window.drawFuncs._hexagon(context, options);
 
-	riverThree: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
+		var tileCentreIndex = { gx: 4, gy: 3 };
+		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
+			{ move: "n" }, { move: "n" },
+			{ move: "n", draw: window.drawFuncs.depthOneRiver },
+			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
+			{ move: "se", draw: window.drawFuncs.depthOneRiver },
+			{ move: "sw", draw: window.drawFuncs.depthZeroRiver },
+			{ move: "s", draw: window.drawFuncs.depthZeroRiver },
+			{ move: "s", draw: window.drawFuncs.depthZeroRiver },
+			{ move: "se", draw: window.drawFuncs.depthOneRiver },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+			{ move: "n" },
+			{ move: "n" },
+			{ move: "ne", draw: window.drawFuncs.depthZeroRiver },
+			{ move: "ne", draw: window.drawFuncs.depthZeroRiver },
+			{ move: "nw", draw: window.drawFuncs.depthZeroRiver },
+			{ move: "n", draw: window.drawFuncs.depthZeroRiver },
+		]));
+		river.state = state;
 
-	riverFour: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+		tempGrid.draw(context);
+	},
 
-	riverFive: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+	riverThree: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			fill: { show: true, colour: window.colours.tile, },
+			outline: { show: true, thickness: 2 },
+		};
+		window.drawFuncs._hexagon(context, options);
 
-	riverSix: function(context, pixelLocation, scale, rotation, state, itemArgs) {},
+		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
+		var tileCentreIndex = { gx: 4, gy: 3 };
+		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
+			{ move: "n" }, { move: "n" },
+			{ move: "n", draw: window.drawFuncs.depthOneRiver },
+			{ move: "se", draw: window.drawFuncs.depthOneRiver },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
+			{ move: "se", draw: window.drawFuncs.depthOneRiver },
+			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
+		]));
+		river.state = state;
+
+		tempGrid.draw(context);
+	},
+
+	riverFour: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			fill: { show: true, colour: window.colours.tile, },
+			outline: { show: true, thickness: 2 },
+		};
+		window.drawFuncs._hexagon(context, options);
+
+		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
+		var tileCentreIndex = { gx: 4, gy: 3 };
+		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
+			{ move: "se" }, { move: "se" },
+			{ move: "se", draw: window.drawFuncs.depthOneRiver },
+			{ move: "n", draw: window.drawFuncs.depthOneRiver },
+			{ move: "n", draw: window.drawFuncs.depthOneRiver },
+			{ move: "nw", draw: window.drawFuncs.depthOneRiver },
+			{ move: "nw", draw: window.drawFuncs.depthOneRiver },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+		]));
+		river.state = state;
+
+		tempGrid.draw(context);
+	},
+
+	riverFive: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			fill: { show: true, colour: window.colours.tile, },
+			outline: { show: true, thickness: 2 },
+		};
+		window.drawFuncs._hexagon(context, options);
+
+		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
+		var tileCentreIndex = { gx: 4, gy: 3 };
+		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
+			{ move: "s" }, { move: "s" },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+			{ move: "n", draw: window.drawFuncs.depthOneRiver },
+			{ move: "n", draw: window.drawFuncs.depthOneRiver },
+			{ move: "ne", draw: window.drawFuncs.depthOneRiver },
+			{ move: "n", draw: window.drawFuncs.depthOneRiver },
+			{ move: "n", draw: window.drawFuncs.depthOneRiver },
+			{ move: "ne", draw: window.drawFuncs.depthOneRiver },
+			{ move: "se", draw: window.drawFuncs.depthOneRiver },
+		]));
+		river.state = state;
+
+		tempGrid.draw(context);
+	},
+
+	riverSix: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			fill: { show: true, colour: window.colours.tile, },
+			outline: { show: true, thickness: 2 },
+		};
+		window.drawFuncs._hexagon(context, options);
+
+		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
+		var tileCentreIndex = { gx: 4, gy: 3 };
+		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
+			{ move: "s" }, { move: "s" },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+			{ move: "n", draw: window.drawFuncs.depthOneRiver },
+			{ move: "n", draw: window.drawFuncs.depthOneRiver },
+			{ move: "ne", draw: window.drawFuncs.depthOneRiver },
+			{ move: "n", draw: window.drawFuncs.depthOneRiver },
+			{ move: "n", draw: window.drawFuncs.depthOneRiver },
+			{ move: "nw", draw: window.drawFuncs.depthOneRiver },
+			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
+			{ move: "s", draw: window.drawFuncs.depthTwoRiver },
+			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+			{ move: "se", draw: window.drawFuncs.depthTwoRiver },
+			{ move: "s", draw: window.drawFuncs.depthOneRiver },
+			{ move: "n" },
+			{ move: "n", draw: window.drawFuncs.depthTwoRiver },
+			{ move: "ne", draw: window.drawFuncs.depthTwoRiver },
+			{ move: "n", draw: window.drawFuncs.depthOneRiver },
+		]));
+		river.state = state;
+
+		tempGrid.draw(context);
+	},
 
 	// - - - - - - - - - - - - - - - - - - - - - - Terrain types - - - - - - - - - - - - - - - - - - - - - - - - - -
 	lightWoods: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -241,7 +396,7 @@ window.drawFuncs = {
 	depthZeroRiver: function(context, pixelLocation, scale, rotation, state, itemArgs) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
-			fill: { show: true, colour: window.colours.water },
+			fill: { show: true, colour: window.colours.lightWater },
 			text: { value: "D0" },
 		};
 		window.drawFuncs._hexagon(context, options);
@@ -259,7 +414,7 @@ window.drawFuncs = {
 	depthTwoRiver: function(context, pixelLocation, scale, rotation, state, itemArgs) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
-			fill: { show: true, colour: window.colours.water },
+			fill: { show: true, colour: window.colours.darkWater },
 			text: { value: "D2" },
 		};
 		window.drawFuncs._hexagon(context, options);
