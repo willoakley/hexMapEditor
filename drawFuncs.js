@@ -15,6 +15,7 @@ window.colours = {
 	lightOutline: "white",
 	road: "#999966",
 	nothing: "white",
+	objective: "red",
 };
 
 window.drawFuncs = {
@@ -73,18 +74,17 @@ window.drawFuncs = {
 		}
 
 		if (options.text.value != undefined && options.text.value.length > 0) {
-			var font = "Arial";
-			if (options.text.isIcon) {
-				font = "FontAwesome";
-			}
-
 			var maxWidth = window.hexMaths.getOffsetWidth(options.scale);
 			var textLeft = options.offset.px + (window.hexMaths.getWidth(options.scale) / 2.0);
 			var textTop = options.offset.py + (window.hexMaths.getHeight(options.scale) / 2.0) + (options.scale / 2.0);
 
 			context.fillStyle = options.text.colour;
 			context.textAlign = 'center';
-			context.font = "bold " + Math.floor(options.scale * 0.9) + "px " + font;
+			if (options.text.isIcon) {
+				context.font = Math.floor(options.scale * 1.2) + "px FontAwesome";
+			} else {
+				context.font = "bold " + Math.floor(options.scale) + "px Arial";
+			}
 			context.fillText(options.text.value, textLeft, textTop, maxWidth);
 		}
 
@@ -600,6 +600,114 @@ window.drawFuncs = {
 
 		// For hilighting purposes we need a hex even if it has nothing in it
 		window.drawFuncs._hexagon(context, { scale: scale, state: state, offset: pixelLocation, outline: { show: false } });
+	},
+
+	bullseye: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			text: { value: "\uf140", isIcon: true, colour: window.colours.objective },
+			outline: { show: false },
+		};
+		window.drawFuncs._hexagon(context, options);
+	},
+
+	flag: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			text: { value: "\uf024", isIcon: true, colour: window.colours.objective },
+			outline: { show: false },
+		};
+		window.drawFuncs._hexagon(context, options);
+	},
+
+	bolt: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			text: { value: "\uf0e7", isIcon: true, colour: window.colours.objective },
+			outline: { show: false },
+		};
+		window.drawFuncs._hexagon(context, options);
+	},
+
+	comms: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			text: { value: "\uf130", isIcon: true, colour: window.colours.objective },
+			outline: { show: false },
+		};
+		window.drawFuncs._hexagon(context, options);
+	},
+
+	truck: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			text: { value: "\uf0d1", isIcon: true, colour: window.colours.objective },
+			outline: { show: false },
+		};
+		window.drawFuncs._hexagon(context, options);
+	},
+
+	warning: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			text: { value: "\uf071", isIcon: true, colour: window.colours.objective },
+			outline: { show: false },
+		};
+		window.drawFuncs._hexagon(context, options);
+	},
+
+	person: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			text: { value: "\uf007", isIcon: true, colour: window.colours.objective },
+			outline: { show: false },
+		};
+		window.drawFuncs._hexagon(context, options);
+	},
+
+	wrench: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			text: { value: "\uf0ad", isIcon: true, colour: window.colours.objective },
+			outline: { show: false },
+		};
+		window.drawFuncs._hexagon(context, options);
+	},
+
+	a: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			text: { value: "A", colour: window.colours.objective },
+			outline: { show: false },
+		};
+		window.drawFuncs._hexagon(context, options);
+	},
+
+	b: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			text: { value: "B", colour: window.colours.objective },
+			outline: { show: false },
+		};
+		window.drawFuncs._hexagon(context, options);
+	},
+
+	c: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			text: { value: "C", colour: window.colours.objective },
+			outline: { show: false },
+		};
+		window.drawFuncs._hexagon(context, options);
+	},
+
+	d: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var options = {
+			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
+			text: { value: "D", colour: window.colours.objective },
+			outline: { show: false },
+		};
+		window.drawFuncs._hexagon(context, options);
 	},
 };
 

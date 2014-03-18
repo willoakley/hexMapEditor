@@ -97,6 +97,17 @@ function initMenu() {
 	]);
 
 	addMenuItems("hex", "objectivesMenu", [
-		/* Objectives go here */
+		window.drawableFactory.newDrawableSingle("a", window.drawFuncs.a), //x10
+		window.drawableFactory.newDrawableSingle("b", window.drawFuncs.b), //x10
+		window.drawableFactory.newDrawableSingle("c", window.drawFuncs.c), //x10
+		window.drawableFactory.newDrawableSingle("d", window.drawFuncs.d), //x10
+		window.drawableFactory.newDrawableSingle("bullseye", window.drawFuncs.bullseye), //x10
+		window.drawableFactory.newDrawableSingle("flag", window.drawFuncs.flag), //x10
+		window.drawableFactory.newDrawableSingle("bolt", window.drawFuncs.bolt), //x10
+		window.drawableFactory.newDrawableSingle("comms", window.drawFuncs.comms), //x10
+		window.drawableFactory.newDrawableSingle("truck", window.drawFuncs.truck), //x10
+		window.drawableFactory.newDrawableSingle("warning", window.drawFuncs.warning), //x10
+		window.drawableFactory.newDrawableSingle("person", window.drawFuncs.person), //x10
+		window.drawableFactory.newDrawableSingle("wrench", window.drawFuncs.wrench), //x10
 	]);
 }
