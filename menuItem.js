@@ -1,6 +1,7 @@
 var menuItems = {};
 
-function addMenuItem(drawableItem, itemType, menuElementId) {
+function addMenuItem(itemWithQuantity, itemType, menuElementId) {
+	var drawableItem = itemWithQuantity.item;
 	var id = "menu" + itemType + "_" + drawableItem.id;
 	var itemGrid = null;
 
@@ -15,7 +16,9 @@ function addMenuItem(drawableItem, itemType, menuElementId) {
 
 	itemGrid.addItem(window.newGridIndex(0, 0), "n", drawableItem, { id: id });
 
-	$("<canvas id=\"" + id + "\"/>")
+	var listItem = $("<li />");
+	var container = $("<div />");
+	container.append($("<canvas id=\"" + id + "\"/>")
 		.attr("class", "draggable ui-widget-content ui-corner-all menuItem")
 		.attr("draggable", "true")
 		.attr("ondragstart", "menuItemBeginDrag(event)")
@@ -23,8 +26,11 @@ function addMenuItem(drawableItem, itemType, menuElementId) {
 		.attr("width", "115")
 		.attr("height", "100")
 		.data("drag-data", JSON.stringify({ menuId: id, type: itemType }))
-	.appendTo("<li/>")
-	.appendTo($("#" + menuElementId));
+	);
+	container.append($("<span class=\"name\">" + drawableItem.id + "</span>"));
+	container.append($("<span class=\"quantity\">x" + itemWithQuantity.quantity + "</span>"));
+
+	$("#" + menuElementId).append(listItem.append(container));
 
 	var menuItemContext = getContextFromJquery($("#" + id));
 	itemGrid.draw(menuItemContext);
@@ -46,68 +52,68 @@ function initMenu() {
 	menuItems = {};
 
 	addMenuItems("tile", "tileMenu", [
-		window.drawableFactory.newDrawableSingle("tile", window.drawFuncs.tile), //x8
-		window.drawableFactory.newDrawableSingle("halfTile", window.drawFuncs.halfTile), //x4
-		window.drawableFactory.newDrawableSingle("riverOne", window.drawFuncs.riverOne), //x1
-		window.drawableFactory.newDrawableSingle("riverTwo", window.drawFuncs.riverTwo), //x1
-		window.drawableFactory.newDrawableSingle("riverThree", window.drawFuncs.riverThree), //x1
-		window.drawableFactory.newDrawableSingle("riverFour", window.drawFuncs.riverFour), //x1
-		window.drawableFactory.newDrawableSingle("riverFive", window.drawFuncs.riverFive), //x1
-		window.drawableFactory.newDrawableSingle("riverSix", window.drawFuncs.riverSix), //x1
+		{ quantity: 8, item: window.drawableFactory.newDrawableSingle("tile", window.drawFuncs.tile) },
+		{ quantity: 4, item: window.drawableFactory.newDrawableSingle("halfTile", window.drawFuncs.halfTile) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("riverOne", window.drawFuncs.riverOne) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("riverTwo", window.drawFuncs.riverTwo) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("riverThree", window.drawFuncs.riverThree) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("riverFour", window.drawFuncs.riverFour) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("riverFive", window.drawFuncs.riverFive) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("riverSix", window.drawFuncs.riverSix) },
 	]);
 
 	addMenuItems("hex", "buildingMenu", [
-		window.drawableFactory.newDrawableMultiple("gasTank", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "ne", draw: window.drawFuncs.heightTwoBuilding }, ]), //x2
-		window.drawableFactory.newDrawableMultiple("barracks", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, ]), //x1
-		window.drawableFactory.newDrawableMultiple("buildingOne", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, ]), //x1
-		window.drawableFactory.newDrawableMultiple("buildingTwo", [ { draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, ]), //x1
-		window.drawableFactory.newDrawableMultiple("buildingThree", [ { draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, { move: "ne", draw: window.drawFuncs.heightThreeBuilding }, { move: "n", draw: window.drawFuncs.heightThreeBuilding }, ]), //x1
-		window.drawableFactory.newDrawableMultiple("buildingFour", [ { move: "s", draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, { move: "se", draw: window.drawFuncs.heightThreeBuilding }, { move: "n", draw: window.drawFuncs.heightThreeBuilding }, { move: "n", draw: window.drawFuncs.heightThreeBuilding }, { move: "se", draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, ]), //x1
-		window.drawableFactory.newDrawableMultiple("buildingFive", [ { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "se", draw: window.drawFuncs.heightTwoBuilding }, { move: "n", draw: window.drawFuncs.heightTwoBuilding }, { move: "n", draw: window.drawFuncs.heightTwoBuilding }, { move: "se", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, ]), //x1
-		window.drawableFactory.newDrawableMultiple("mechBay", [ { draw: window.drawFuncs.heightFourBuilding }, { move: "s", draw: window.drawFuncs.heightFourBuilding }, { move: "s", draw: window.drawFuncs.heightFourBuilding }, { move: "s", draw: window.drawFuncs.heightZeroBuilding }, { move: "s", draw: window.drawFuncs.heightFourBuilding }, { move: "se", draw: window.drawFuncs.heightFourBuilding }, { move: "n", draw: window.drawFuncs.heightFourBuilding }, { move: "n", draw: window.drawFuncs.heightFourBuilding }, { move: "n", draw: window.drawFuncs.heightFourBuilding }, { move: "n", draw: window.drawFuncs.heightFourBuilding }, ]), //x1
-		window.drawableFactory.newDrawableMultiple("factoryOne", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "ne", draw: window.drawFuncs.heightOneBuilding }, { move: "n", draw: window.drawFuncs.heightOneBuilding }, { move: "n", draw: window.drawFuncs.heightOneBuilding }, { move: "n", draw: window.drawFuncs.heightOneBuilding }, { move: "ne", draw: window.drawFuncs.heightOneBuilding }, { move: "s", draw: window.drawFuncs.heightOneBuilding }, { move: "s", draw: window.drawFuncs.heightOneBuilding }, { move: "s", draw: window.drawFuncs.heightOneBuilding }, { move: "s", draw: window.drawFuncs.heightOneBuilding }, ]), //x1
-		window.drawableFactory.newDrawableMultiple("factoryTwo", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "ne", draw: window.drawFuncs.heightTwoBuilding }, { move: "n", draw: window.drawFuncs.heightTwoBuilding }, { move: "n", draw: window.drawFuncs.heightTwoBuilding }, ]), //x1
-		window.drawableFactory.newDrawableMultiple("missileSilo", [ { move: "s", draw: window.drawFuncs.heightZeroBuilding }, { move: "s", draw: window.drawFuncs.heightZeroBuilding }, { move: "s", draw: window.drawFuncs.heightZeroBuilding }, { move: "se", draw: window.drawFuncs.heightZeroBuilding }, { move: "n", draw: window.drawFuncs.heightOneBuilding }, { move: "n", draw: window.drawFuncs.heightZeroBuilding }, { move: "n", draw: window.drawFuncs.heightZeroBuilding }, { move: "se", draw: window.drawFuncs.heightZeroBuilding }, { move: "s", draw: window.drawFuncs.heightZeroBuilding }, ]), //x1
-		window.drawableFactory.newDrawableSingle("commsTower", window.drawFuncs.heightFourBuilding), //x2
-		window.drawableFactory.newDrawableSingle("barrier", window.drawFuncs.barrier), //x20
-		window.drawableFactory.newDrawableSingle("bunker", window.drawFuncs.heightZeroBuilding), //x1
-		window.drawableFactory.newDrawableSingle("radarStation", window.drawFuncs.heightZeroBuilding), //x1
+		{ quantity: 2, item: window.drawableFactory.newDrawableMultiple("gasTank", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "ne", draw: window.drawFuncs.heightTwoBuilding }, ]) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("barracks", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, ]) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("buildingOne", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, ]) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("buildingTwo", [ { draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, ]) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("buildingThree", [ { draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, { move: "ne", draw: window.drawFuncs.heightThreeBuilding }, { move: "n", draw: window.drawFuncs.heightThreeBuilding }, ]) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("buildingFour", [ { move: "s", draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, { move: "se", draw: window.drawFuncs.heightThreeBuilding }, { move: "n", draw: window.drawFuncs.heightThreeBuilding }, { move: "n", draw: window.drawFuncs.heightThreeBuilding }, { move: "se", draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, ]) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("buildingFive", [ { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "se", draw: window.drawFuncs.heightTwoBuilding }, { move: "n", draw: window.drawFuncs.heightTwoBuilding }, { move: "n", draw: window.drawFuncs.heightTwoBuilding }, { move: "se", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, ]) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("mechBay", [ { draw: window.drawFuncs.heightFourBuilding }, { move: "s", draw: window.drawFuncs.heightFourBuilding }, { move: "s", draw: window.drawFuncs.heightFourBuilding }, { move: "s", draw: window.drawFuncs.heightZeroBuilding }, { move: "s", draw: window.drawFuncs.heightFourBuilding }, { move: "se", draw: window.drawFuncs.heightFourBuilding }, { move: "n", draw: window.drawFuncs.heightFourBuilding }, { move: "n", draw: window.drawFuncs.heightFourBuilding }, { move: "n", draw: window.drawFuncs.heightFourBuilding }, { move: "n", draw: window.drawFuncs.heightFourBuilding }, ]) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("factoryOne", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "ne", draw: window.drawFuncs.heightOneBuilding }, { move: "n", draw: window.drawFuncs.heightOneBuilding }, { move: "n", draw: window.drawFuncs.heightOneBuilding }, { move: "n", draw: window.drawFuncs.heightOneBuilding }, { move: "ne", draw: window.drawFuncs.heightOneBuilding }, { move: "s", draw: window.drawFuncs.heightOneBuilding }, { move: "s", draw: window.drawFuncs.heightOneBuilding }, { move: "s", draw: window.drawFuncs.heightOneBuilding }, { move: "s", draw: window.drawFuncs.heightOneBuilding }, ]) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("factoryTwo", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "ne", draw: window.drawFuncs.heightTwoBuilding }, { move: "n", draw: window.drawFuncs.heightTwoBuilding }, { move: "n", draw: window.drawFuncs.heightTwoBuilding }, ]) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("missileSilo", [ { move: "s", draw: window.drawFuncs.heightZeroBuilding }, { move: "s", draw: window.drawFuncs.heightZeroBuilding }, { move: "s", draw: window.drawFuncs.heightZeroBuilding }, { move: "se", draw: window.drawFuncs.heightZeroBuilding }, { move: "n", draw: window.drawFuncs.heightOneBuilding }, { move: "n", draw: window.drawFuncs.heightZeroBuilding }, { move: "n", draw: window.drawFuncs.heightZeroBuilding }, { move: "se", draw: window.drawFuncs.heightZeroBuilding }, { move: "s", draw: window.drawFuncs.heightZeroBuilding }, ]) },
+		{ quantity: 2, item: window.drawableFactory.newDrawableSingle("commsTower", window.drawFuncs.heightFourBuilding) },
+		{ quantity: 20, item: window.drawableFactory.newDrawableSingle("barrier", window.drawFuncs.barrier) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("bunker", window.drawFuncs.heightZeroBuilding) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("radarStation", window.drawFuncs.heightZeroBuilding) },
 	]);
 
 	addMenuItems("hex", "roadMenu", [
-		window.drawableFactory.newDrawableSingle("road", window.drawFuncs.road), //x12
-		window.drawableFactory.newDrawableMultiple("roadDouble", [ { draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.road }, ]), //x6
-		window.drawableFactory.newDrawableMultiple("roadTripple", [ { draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.road }, ]), //x5
-		window.drawableFactory.newDrawableSingle("roadCorner", window.drawFuncs.roadCorner), //x6
-		window.drawableFactory.newDrawableSingle("roadTJunction", window.drawFuncs.roadTJunction), //x4
-		window.drawableFactory.newDrawableMultiple("bridge", [ { draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.water }, { draw: window.drawFuncs.roadBridge }, { move: "s", draw: window.drawFuncs.road }, ]), //x3
+		{ quantity: 12, item: window.drawableFactory.newDrawableSingle("road", window.drawFuncs.road) },
+		{ quantity: 6, item: window.drawableFactory.newDrawableMultiple("roadDouble", [ { draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.road }, ]) },
+		{ quantity: 5, item: window.drawableFactory.newDrawableMultiple("roadTripple", [ { draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.road }, ]) },
+		{ quantity: 6, item: window.drawableFactory.newDrawableSingle("roadCorner", window.drawFuncs.roadCorner) },
+		{ quantity: 4, item: window.drawableFactory.newDrawableSingle("roadTJunction", window.drawFuncs.roadTJunction) },
+		{ quantity: 3, item: window.drawableFactory.newDrawableMultiple("bridge", [ { draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.water }, { draw: window.drawFuncs.roadBridge }, { move: "s", draw: window.drawFuncs.road }, ] ) },
 	]);
 
 	addMenuItems("hex", "natrualMenu", [
-		window.drawableFactory.newDrawableSingle("lightWoods", window.drawFuncs.lightWoods), //x20
-		window.drawableFactory.newDrawableSingle("heavyWoods", window.drawFuncs.heavyWoods), //x10
-		window.drawableFactory.newDrawableMultiple("hillOne", [ { move: "se" }, { move: "ne", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "sw", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightTwoHill }, { move: "se", draw: window.drawFuncs.heightTwoHill }, { move: "sw", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightThreeHill }, { move: "ne", draw: window.drawFuncs.heightThreeHill }, { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill } ] ), //x1
-		window.drawableFactory.newDrawableMultiple("hillTwo", [ { draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "nw", draw: window.drawFuncs.heightTwoHill } ] ), //x1
-		window.drawableFactory.newDrawableMultiple("hillThree", [ { move: "se", draw: window.drawFuncs.heightTwoHill }, { move: "sw", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightThreeHill }, { move: "s", draw: window.drawFuncs.heightThreeHill }, { move: "ne", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightOneHill } ] ), //x1
-		window.drawableFactory.newDrawableMultiple("hillFour", [ { draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightTwoHill }, { move: "ne", draw: window.drawFuncs.heightOneHill } ] ), //x1
-		window.drawableFactory.newDrawableMultiple("hillFive", [ { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "ne", draw: window.drawFuncs.heightTwoHill }, { move: "n", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "sw", draw: window.drawFuncs.heightOneHill } ] ), //x1
-		window.drawableFactory.newDrawableMultiple("hillSix", [ { draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "sw", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightTwoHill }, { move: "sw", draw: window.drawFuncs.heightTwoHill } ] ), //x1
-		window.drawableFactory.newDrawableMultiple("hillSeven", [ { draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightTwoHill }, { move: "n", draw: window.drawFuncs.heightTwoHill }, { move: "se", draw: window.drawFuncs.heightThreeHill }, { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "ne", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightOneHill } ] ), //x1
-		window.drawableFactory.newDrawableMultiple("hillEight", [ { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "sw", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightTwoHill }, { move: "ne", draw: window.drawFuncs.heightThreeHill }, { move: "s", draw: window.drawFuncs.heightThreeHill }, { move: "se", draw: window.drawFuncs.heightTwoHill }, { move: "n", draw: window.drawFuncs.heightTwoHill }, { move: "n", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill } ] ), //x1
+		{ quantity: 20, item: window.drawableFactory.newDrawableSingle("lightWoods", window.drawFuncs.lightWoods) },
+		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("heavyWoods", window.drawFuncs.heavyWoods) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillOne", [ { move: "se" }, { move: "ne", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "sw", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightTwoHill }, { move: "se", draw: window.drawFuncs.heightTwoHill }, { move: "sw", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightThreeHill }, { move: "ne", draw: window.drawFuncs.heightThreeHill }, { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill } ] ) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillTwo", [ { draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "nw", draw: window.drawFuncs.heightTwoHill } ] ) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillThree", [ { move: "se", draw: window.drawFuncs.heightTwoHill }, { move: "sw", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightThreeHill }, { move: "s", draw: window.drawFuncs.heightThreeHill }, { move: "ne", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightOneHill } ] ) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillFour", [ { draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightTwoHill }, { move: "ne", draw: window.drawFuncs.heightOneHill } ] ) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillFive", [ { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "ne", draw: window.drawFuncs.heightTwoHill }, { move: "n", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "sw", draw: window.drawFuncs.heightOneHill } ] ) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillSix", [ { draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "sw", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightTwoHill }, { move: "sw", draw: window.drawFuncs.heightTwoHill } ] ) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillSeven", [ { draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightTwoHill }, { move: "n", draw: window.drawFuncs.heightTwoHill }, { move: "se", draw: window.drawFuncs.heightThreeHill }, { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "ne", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightOneHill } ] ) },
+		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillEight", [ { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "sw", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightTwoHill }, { move: "ne", draw: window.drawFuncs.heightThreeHill }, { move: "s", draw: window.drawFuncs.heightThreeHill }, { move: "se", draw: window.drawFuncs.heightTwoHill }, { move: "n", draw: window.drawFuncs.heightTwoHill }, { move: "n", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill } ] ) },
 	]);
 
 	addMenuItems("hex", "objectivesMenu", [
-		window.drawableFactory.newDrawableSingle("a", window.drawFuncs.a), //x10
-		window.drawableFactory.newDrawableSingle("b", window.drawFuncs.b), //x10
-		window.drawableFactory.newDrawableSingle("c", window.drawFuncs.c), //x10
-		window.drawableFactory.newDrawableSingle("d", window.drawFuncs.d), //x10
-		window.drawableFactory.newDrawableSingle("bullseye", window.drawFuncs.bullseye), //x10
-		window.drawableFactory.newDrawableSingle("flag", window.drawFuncs.flag), //x10
-		window.drawableFactory.newDrawableSingle("bolt", window.drawFuncs.bolt), //x10
-		window.drawableFactory.newDrawableSingle("comms", window.drawFuncs.comms), //x10
-		window.drawableFactory.newDrawableSingle("truck", window.drawFuncs.truck), //x10
-		window.drawableFactory.newDrawableSingle("warning", window.drawFuncs.warning), //x10
-		window.drawableFactory.newDrawableSingle("person", window.drawFuncs.person), //x10
-		window.drawableFactory.newDrawableSingle("wrench", window.drawFuncs.wrench), //x10
+		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("a", window.drawFuncs.a) },
+		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("b", window.drawFuncs.b) },
+		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("c", window.drawFuncs.c) },
+		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("d", window.drawFuncs.d) },
+		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("bullseye", window.drawFuncs.bullseye) },
+		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("flag", window.drawFuncs.flag) },
+		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("bolt", window.drawFuncs.bolt) },
+		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("comms", window.drawFuncs.comms) },
+		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("truck", window.drawFuncs.truck) },
+		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("warning", window.drawFuncs.warning) },
+		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("person", window.drawFuncs.person) },
+		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("wrench", window.drawFuncs.wrench) },
 	]);
 }

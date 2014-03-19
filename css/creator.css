@@ -41,7 +41,7 @@ canvas.menuItem
 
 .menuSection
 {
-	width:300px;
+	width:330px;
 	height:800px;
 }
 
@@ -52,7 +52,46 @@ a.fake-link
 	cursor:pointer;
 }
 
-.fa
+ul.menu
 {
-	padding-right: 0.4em;
+	padding:0;
+}
+
+ul.menu li
+{
+	list-style-type: none;
+	float:left;
+	margin:0;
+	padding:0;
+}
+
+ul.menu li div
+{
+	width:120px;
+	margin:0 1em 1.5em 0;
+}
+
+ul.menu li span
+{
+	font-size: 12px;
+}
+
+ul.menu li span.name
+{
+	float: left;
+}
+
+ul.menu li span.quantity
+{
+	float:right;
+}
+
+#menu .ui-accordion-content
+{
+	padding:0.5em 1em;
+}
+
+.fa::before
+{
+margin-right:0.4em;
 }
