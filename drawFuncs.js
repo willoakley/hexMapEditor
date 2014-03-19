@@ -123,6 +123,81 @@ window.drawFuncs = {
 	},
 
 	// - - - - - - - - - - - - - - - - - - - - - - Tile types - - - - - - - - - - - - - - - - - - - - - - - - - -
+	_tileBackingImages: {},
+
+	_getTileBackingImage: function (scale) {
+		var tileIndex = "scale_" + scale;
+		if (window.drawFuncs._tileBackingImages[tileIndex] !== undefined) {
+			return window.drawFuncs._tileBackingImages[tileIndex];
+		}
+
+		var tileHexesCanvas = $("<canvas id=\"" + tileIndex + "\"/>").attr("style", "display:none;").attr("width", window.hexMaths.getWidth(scale) + 1).attr("height", window.hexMaths.getHeight(scale) + 1);
+		$("body").append(tileHexesCanvas);
+
+		var tileHexes = window.newGrid(scale / 7, { sx: 9, sy: 7 }, { px: 0, py: 0 });
+		tileHexes.addItem(
+			{ gx: 4, gy: 3 },
+			"n",
+			window.drawableFactory.newDrawableMultiple("tempTiles", [
+				{ move: "n" }, { move: "n" }, { move: "n" }, { move: "sw" },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "ne", draw: window.drawFuncs._outlineHex },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "ne", draw: window.drawFuncs._outlineHex },
+				{ move: "se" },
+				{ move: "s", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw" },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "ne", draw: window.drawFuncs._outlineHex },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "ne", draw: window.drawFuncs._outlineHex },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "ne", draw: window.drawFuncs._outlineHex },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "se" },
+				{ move: "s", draw: window.drawFuncs._outlineHex },
+				{ move: "ne", draw: window.drawFuncs._outlineHex },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "ne", draw: window.drawFuncs._outlineHex },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "ne", draw: window.drawFuncs._outlineHex },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "s", draw: window.drawFuncs._outlineHex },
+				{ move: "se" },
+				{ move: "ne", draw: window.drawFuncs._outlineHex },
+				{ move: "se" },
+				{ move: "ne", draw: window.drawFuncs._outlineHex },
+			]));
+		tileHexes.draw(tileHexesCanvas[0].getContext("2d"));
+
+		var backingHexImage = new Image();
+		backingHexImage.src = tileHexesCanvas[0].toDataURL("image/png");
+		window.drawFuncs._tileBackingImages[tileIndex] = backingHexImage;
+
+		return window.drawFuncs._tileBackingImages[tileIndex];
+	},
+
 	tile: function(context, pixelLocation, scale, rotation, state, itemArgs) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
@@ -130,6 +205,8 @@ window.drawFuncs = {
 			outline: { show: true, thickness: 2 },
 		};
 		window.drawFuncs._hexagon(context, options);
+
+		$("body").append(window.drawFuncs._getTileBackingImage(scale));
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
 		var tileCentreIndex = { gx: 4, gy: 3 };
