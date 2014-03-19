@@ -11,7 +11,11 @@ function menuItemBeginDrag(ev) {
 	}
 
 	var menuId = $(ev.currentTarget).attr("id");
-	var drawPattern = window.menuItems[menuId].drawPath;
+	if (window.menuItems[menuId].quantity < 1) {
+		return false;
+	}
+
+	var drawPattern = window.menuItems[menuId].item.drawPath;
 	var hilightPath = [];
 
 	for (var i = 0; i < drawPattern.length; i++) {
@@ -48,7 +52,7 @@ function canvasDrop(ev) {
 	var clickY = ev.pageY - canvasElement.offset().top;
 	var data = JSON.parse(ev.dataTransfer.getData("Text"));
 
-	if (data === undefined || data.type === undefined) {
+	if (data === undefined || data.type === undefined || menuItems[data.menuId].quantity < 1) {
 		return;
 	}
 
@@ -65,8 +69,10 @@ function canvasDrop(ev) {
 		}
 	}
 
+	menuItems[data.menuId].adjustQuantity(-1);
+
 	var coordinates = grid.getGridIndexFormPixelLocation({ px: clickX, py: clickY });
-	grid.addItem(coordinates, "n", menuItems[data.menuId], { id: data.menuId });
+	grid.addItem(coordinates, "n", menuItems[data.menuId].item, { id: data.menuId });
 	drawCanvas();
 }
 

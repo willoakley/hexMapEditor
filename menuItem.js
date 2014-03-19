@@ -5,7 +5,24 @@ function addMenuItem(itemWithQuantity, itemType, menuElementId) {
 	var id = "menu" + itemType + "_" + drawableItem.id;
 	var itemGrid = null;
 
-	menuItems[id] = drawableItem;
+	menuItems[id] = {
+		id: id,
+		name: "",
+		item: drawableItem,
+		quantity: itemWithQuantity.quantity,
+		adjustQuantity: function (byAmmount) {
+			if (this.quantity < 1 && this.quantity + byAmmount > 0) {
+				$("#" + this.id).parent().removeClass("disable");
+			}
+
+			if (this.quantity > 0 && this.quantity + byAmmount <= 0) {
+				$("#" + this.id).parent().addClass("disable");
+			}
+
+			this.quantity += byAmmount;
+			$("#"+this.id).parent().find(".quantity").html("x" + this.quantity);
+		},
+	};
 
 	if (itemType == "tile") {
 		itemGrid = window.newGrid(tileGrid.getScale() / 2, { sx: 1, sy: 1 });
@@ -17,7 +34,7 @@ function addMenuItem(itemWithQuantity, itemType, menuElementId) {
 	itemGrid.addItem(window.newGridIndex(0, 0), "n", drawableItem, { id: id });
 
 	var listItem = $("<li />");
-	var container = $("<div />");
+	var container = $("<div />").attr("draggable", "true");
 	container.append($("<canvas id=\"" + id + "\"/>")
 		.attr("class", "draggable ui-widget-content ui-corner-all menuItem")
 		.attr("draggable", "true")

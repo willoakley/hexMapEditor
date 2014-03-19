@@ -80,6 +80,13 @@ function removeItemLink(ev) {
 
 	hexGrid.removeItem(selectedItem);
 	tileGrid.removeItem(selectedItem);
+
+	for(var mi in window.menuItems) {
+		if (window.menuItems[mi].item.id == selectedItem.drawableItem.id) {
+			window.menuItems[mi].adjustQuantity(1);
+		}
+	}
+
 	selectedItem = null;
 	drawCanvas();
 }

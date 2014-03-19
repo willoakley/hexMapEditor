@@ -71,6 +71,16 @@ ul.menu li div
 	margin:0 1em 1.5em 0;
 }
 
+ul.menu li div.disable
+{
+	background-color: grey;
+}
+
+div.disable canvas
+{
+	background-color: grey;
+}
+
 ul.menu li span
 {
 	font-size: 12px;
