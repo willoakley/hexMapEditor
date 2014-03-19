@@ -18,6 +18,8 @@ window.colours = {
 	objective: "red",
 };
 
+var tileCentreIndex = { gx: 4, gy: 3 };
+
 window.drawFuncs = {
 	_mergeOptions: function (additionalOptions) {
 		var options = {
@@ -198,6 +200,61 @@ window.drawFuncs = {
 		return window.drawFuncs._tileBackingImages[tileIndex];
 	},
 
+	_getHalfTileBackingImage: function (scale) {
+		var tileIndex = "scale_" + scale + "_half";
+		if (window.drawFuncs._tileBackingImages[tileIndex] !== undefined) {
+			return window.drawFuncs._tileBackingImages[tileIndex];
+		}
+
+		var tileHexesCanvas = $("<canvas id=\"" + tileIndex + "\"/>").attr("style", "display:none;").attr("width", window.hexMaths.getWidth(scale) + 1).attr("height", (window.hexMaths.getHeight(scale) / 2.0) + 1);
+		$("body").append(tileHexesCanvas);
+
+		var tileHexes = window.newGrid(scale / 7, { sx: 9, sy: 4 }, { px: 0, py: 0 });
+		tileHexes.addItem(
+			{ gx: 4, gy: 3 },
+			"n",
+			window.drawableFactory.newDrawableMultiple("tempTiles", [
+				{ move: "n" }, { move: "n" }, { move: "n" }, { move: "sw" },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "ne", draw: window.drawFuncs._outlineHex },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "ne", draw: window.drawFuncs._outlineHex },
+				{ move: "se" },
+				{ move: "s", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw" },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "ne", draw: window.drawFuncs._outlineHex },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "ne", draw: window.drawFuncs._outlineHex },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "ne", draw: window.drawFuncs._outlineHex },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "se", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+				{ move: "sw", draw: window.drawFuncs._outlineHex },
+				{ move: "nw", draw: window.drawFuncs._outlineHex },
+			]));
+		tileHexes.draw(tileHexesCanvas[0].getContext("2d"));
+
+		var backingHexImage = new Image();
+		backingHexImage.src = tileHexesCanvas[0].toDataURL("image/png");
+		window.drawFuncs._tileBackingImages[tileIndex] = backingHexImage;
+
+		return window.drawFuncs._tileBackingImages[tileIndex];
+	},
+
 	tile: function(context, pixelLocation, scale, rotation, state, itemArgs) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
@@ -205,39 +262,12 @@ window.drawFuncs = {
 			outline: { show: true, thickness: 2 },
 		};
 		window.drawFuncs._hexagon(context, options);
-
-		$("body").append(window.drawFuncs._getTileBackingImage(scale));
-
-		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var tileCentreIndex = { gx: 4, gy: 3 };
-		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
-		tempGrid.draw(context);
+		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 	},
 
 	halfTile: function(context, pixelLocation, scale, rotation, state, itemArgs) {
-		var options = {
-			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
-			fill: { show: true, colour: window.colours.tile, },
-			outline: { show: false },
-		};
-		window.drawFuncs._hexagon(context, options);
-
-		var points = window.hexMaths.hexPointsAtOffset(options.offset.px, options.offset.py, options.scale);
+		var points = window.hexMaths.hexPointsAtOffset(pixelLocation.px, pixelLocation.py, scale);
 		var rotationFactor = window.gridCompas.directionValues[rotation];
-
-		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var tileCentreIndex = { gx: 4, gy: 3 };
-		tempGrid.addItem(tileCentreIndex, rotation, window.halfTileBacking);
-		tempGrid.draw(context);
-
-		context.beginPath();
-		context.moveTo(points[(5 + rotationFactor) % 6].x, points[(5 + rotationFactor) % 6].y);
-		context.lineTo(points[(2 + rotationFactor) % 6].x, points[(2 + rotationFactor) % 6].y);
-		context.lineTo(points[(3 + rotationFactor) % 6].x, points[(3 + rotationFactor) % 6].y);
-		context.lineTo(points[(4 + rotationFactor) % 6].x, points[(4 + rotationFactor) % 6].y);
-		context.closePath();
-		context.fillStyle = window.colours.nothing;
-		context.fill();
 
 		context.lineWidth = 2;
 		context.beginPath();
@@ -246,8 +276,23 @@ window.drawFuncs = {
 		context.lineTo(points[(1 + rotationFactor) % 6].x, points[(1 + rotationFactor) % 6].y);
 		context.lineTo(points[(0 + rotationFactor) % 6].x, points[(0 + rotationFactor) % 6].y);
 		context.closePath();
+
+		context.fillStyle = window.colours.tile;
+		context.fill();
 		context.strokeStyle = window.colours.outline;
 		context.stroke();
+
+		var halfWidth = window.hexMaths.getWidth(scale) / 2.0;
+		var halfHeight = window.hexMaths.getHeight(scale) / 2.0;
+		var image = window.drawFuncs._getHalfTileBackingImage(scale);
+
+		context.save();
+		context.translate(pixelLocation.px + halfWidth, pixelLocation.py + halfHeight);
+		context.rotate((rotationFactor * 60) * Math.PI / 180);
+		context.drawImage(image, -halfWidth, -halfHeight);
+		context.restore();
+
+		window.drawFuncs._hexagon(context, { scale: scale, state: state, offset: pixelLocation, outline: { show: false } });
 	},
 
 	riverOne: function(context, pixelLocation, scale, rotation, state, itemArgs) {
@@ -257,10 +302,10 @@ window.drawFuncs = {
 			outline: { show: true, thickness: 2 },
 		};
 		window.drawFuncs._hexagon(context, options);
+		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var tileCentreIndex = { gx: 4, gy: 3 };
-		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
+
 		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
 			{ move: "n" }, { move: "n" },
 			{ move: "n", draw: window.drawFuncs.depthOneRiver },
@@ -275,7 +320,6 @@ window.drawFuncs = {
 			{ move: "s", draw: window.drawFuncs.depthOneRiver },
 		]));
 		river.state = state;
-
 		tempGrid.draw(context);
 	},
 
@@ -286,10 +330,9 @@ window.drawFuncs = {
 			outline: { show: true, thickness: 2 },
 		};
 		window.drawFuncs._hexagon(context, options);
+		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var tileCentreIndex = { gx: 4, gy: 3 };
-		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
 		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
 			{ move: "n" }, { move: "n" },
 			{ move: "n", draw: window.drawFuncs.depthOneRiver },
@@ -320,10 +363,9 @@ window.drawFuncs = {
 			outline: { show: true, thickness: 2 },
 		};
 		window.drawFuncs._hexagon(context, options);
+		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var tileCentreIndex = { gx: 4, gy: 3 };
-		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
 		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
 			{ move: "n" }, { move: "n" },
 			{ move: "n", draw: window.drawFuncs.depthOneRiver },
@@ -348,10 +390,9 @@ window.drawFuncs = {
 			outline: { show: true, thickness: 2 },
 		};
 		window.drawFuncs._hexagon(context, options);
+		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var tileCentreIndex = { gx: 4, gy: 3 };
-		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
 		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
 			{ move: "se" }, { move: "se" },
 			{ move: "se", draw: window.drawFuncs.depthOneRiver },
@@ -377,10 +418,9 @@ window.drawFuncs = {
 			outline: { show: true, thickness: 2 },
 		};
 		window.drawFuncs._hexagon(context, options);
+		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var tileCentreIndex = { gx: 4, gy: 3 };
-		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
 		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
 			{ move: "s" }, { move: "s" },
 			{ move: "s", draw: window.drawFuncs.depthOneRiver },
@@ -404,10 +444,9 @@ window.drawFuncs = {
 			outline: { show: true, thickness: 2 },
 		};
 		window.drawFuncs._hexagon(context, options);
+		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var tileCentreIndex = { gx: 4, gy: 3 };
-		tempGrid.addItem(tileCentreIndex, rotation, window.tileBacking);
 		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
 			{ move: "s" }, { move: "s" },
 			{ move: "s", draw: window.drawFuncs.depthOneRiver },
@@ -787,89 +826,3 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 };
-
-window.tileBacking = window.drawableFactory.newDrawableMultiple("tempTiles", [
-	{ move: "n" }, { move: "n" }, { move: "n" }, { move: "sw" },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "ne", draw: window.drawFuncs._outlineHex },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "ne", draw: window.drawFuncs._outlineHex },
-	{ move: "se" },
-	{ move: "s", draw: window.drawFuncs._outlineHex },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw", draw: window.drawFuncs._outlineHex },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw", draw: window.drawFuncs._outlineHex },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw" },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "ne", draw: window.drawFuncs._outlineHex },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "ne", draw: window.drawFuncs._outlineHex },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "ne", draw: window.drawFuncs._outlineHex },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "sw", draw: window.drawFuncs._outlineHex },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw", draw: window.drawFuncs._outlineHex },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw", draw: window.drawFuncs._outlineHex },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw", draw: window.drawFuncs._outlineHex },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "se" },
-	{ move: "s", draw: window.drawFuncs._outlineHex },
-	{ move: "ne", draw: window.drawFuncs._outlineHex },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "ne", draw: window.drawFuncs._outlineHex },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "ne", draw: window.drawFuncs._outlineHex },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "sw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw", draw: window.drawFuncs._outlineHex },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw", draw: window.drawFuncs._outlineHex },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "s", draw: window.drawFuncs._outlineHex },
-	{ move: "se" },
-	{ move: "ne", draw: window.drawFuncs._outlineHex },
-	{ move: "se" },
-	{ move: "ne", draw: window.drawFuncs._outlineHex },
-]);
-
-window.halfTileBacking = window.drawableFactory.newDrawableMultiple("tempTiles", [
-	{ move: "n" }, { move: "n" }, { move: "n" }, { move: "sw" },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "ne", draw: window.drawFuncs._outlineHex },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "ne", draw: window.drawFuncs._outlineHex },
-	{ move: "se" },
-	{ move: "s", draw: window.drawFuncs._outlineHex },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw", draw: window.drawFuncs._outlineHex },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw", draw: window.drawFuncs._outlineHex },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw" },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "ne", draw: window.drawFuncs._outlineHex },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "ne", draw: window.drawFuncs._outlineHex },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "ne", draw: window.drawFuncs._outlineHex },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "se", draw: window.drawFuncs._outlineHex },
-	{ move: "sw" },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw" },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw" },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-	{ move: "sw" },
-	{ move: "nw", draw: window.drawFuncs._outlineHex },
-]);
