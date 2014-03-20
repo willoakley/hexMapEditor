@@ -170,7 +170,8 @@ function loadLink() {
 			continue;
 		}
 
-		tileGrid.addItem(tile.position, tile.facing, menuItems[id], { id: id });
+		tileGrid.addItem(tile.position, tile.facing, menuItems[id].item, { id: id });
+		menuItems[id].adjustQuantity(-1);
 	}
 
 	for (var f = 0; f < objInput.features.length; f++) {
@@ -182,7 +183,8 @@ function loadLink() {
 			continue;
 		}
 
-		hexGrid.addItem(feature.position, feature.facing, menuItems[id], { id: id });
+		hexGrid.addItem(feature.position, feature.facing, menuItems[id].item, { id: id });
+		menuItems[id].adjustQuantity(-1);
 	}
 
 	drawCanvas();
