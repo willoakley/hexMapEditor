@@ -74,6 +74,10 @@ window.newGrid = function (scale, size, offset) {
 			return false;
 		},
 
+		_idGenerator: function () {
+			return Math.floor((1 + Math.random()) * 0x10000).toString(16); /* Uniqueish */
+		},
+
 		getScale: function() {
 			return this._scale;
 		},
@@ -162,7 +166,7 @@ window.newGrid = function (scale, size, offset) {
 		},
 
 		addItem: function (gridIndex, facing, drawableItem, itemArgs) {
-			var index = gridIndex.gx + "," + gridIndex.gy + "," + drawableItem.id;
+			var index = drawableItem.id + "_" + this._idGenerator();
 
 			this._grid[index] = {
 				drawableItem: drawableItem,
