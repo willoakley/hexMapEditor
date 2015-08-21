@@ -101,6 +101,12 @@ ul.menu li span.quantity
 	padding:0.5em 1em;
 }
 
+input[type="checkbox"]
+{
+	margin-left:0;
+	margin-right:4px;
+}
+
 .fa::before
 {
 margin-right:0.4em;

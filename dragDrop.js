@@ -73,6 +73,13 @@ function canvasDrop(ev) {
 
 	var coordinates = grid.getGridIndexFormPixelLocation({ px: clickX, py: clickY });
 	grid.addItem(coordinates, "n", menuItems[data.menuId].item, { id: data.menuId });
+
+	if (document.getElementById("autoSelectItem").checked) {
+		var item = tileGrid.getItemAt(coordinates);
+		item.state = window.gridItemState.selected;
+		selectedItem = item;
+	}
+
 	drawCanvas();
 }
 
