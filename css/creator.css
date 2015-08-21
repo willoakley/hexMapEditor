@@ -8,6 +8,12 @@ aside.menu div, table
 {
 	margin:0 0 10px 0;
 	padding:0 0.5em;
+
+}
+
+aside
+{
+	width: 15%;
 }
 
 #canvas

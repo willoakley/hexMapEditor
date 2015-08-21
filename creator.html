@@ -36,36 +36,15 @@
 		</div>
 	</section>
 	<section>
-		<canvas id="canvas" width="944" height="800" class="ui-widget-content ui-corner-all" ondrop="canvasDrop(event)" ondragover="permitDropping(event)"></canvas>
+		<canvas id="canvas" width="944" height="800" class="ui-widget-content ui-corner-all" ondrop="canvasDrop(event)" ondragover="permitDropping(event)" tabindex="1"></canvas>
 	</section>
 	<aside class="menu">
 		<div class="ui-widget-content ui-corner-all menuArea">
 			<h3><i class="fa fa-fw fa-arrows"></i>Options</h3>
-			<table>
-				<tr>
-					<td></td>
-					<td><a id="moveItemUpLink" class="fake-link"><i class="fa fa-arrow-up"></i></a></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td><a id="moveItemLeftLink" class="fake-link"><i class="fa fa-arrow-left"></i></a></td>
-					<td><a id="rotateItemLink" class="fake-link"><i class="fa fa-repeat"></i></a></td>
-					<td><a id="moveItemRightLink" class="fake-link"><i class="fa fa-arrow-right"></i></a></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><a id="moveItemDownLink" class="fake-link"><i class="fa fa-arrow-down"></i></a></td>
-					<td></td>
-				</tr>
-			</table>
-			<ul class="otherMenuOptions">
-				<li>
-					<a id="removeItemLink" class="fake-link"><i class="fa fa-trash-o"></i>Remove</a>
-				</li>
-				<li>
-					<input type="checkbox" id="autoSelectItem" name="autoSelectItem" checked="checked"/><label for="autoSlectItem">Auto-select added items</label>
-				</li>
-			</ul>
+			<div>Cick an item on the map then use the arrow keys to move it, Shift to rotate and Del to delete.</div>
+			<div>
+				<input type="checkbox" id="autoSelectItem" name="autoSelectItem" checked="checked"/><label for="autoSlectItem">Auto-select added items</label>
+			</div>
 		</div>
 		<div class="ui-widget-content ui-corner-all menuArea">
 			<h3><i class="fa fa-fw fa-bookmark-o"></i>Load / Save</h3>

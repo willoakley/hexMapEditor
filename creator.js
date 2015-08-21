@@ -205,11 +205,42 @@ $(function () {
 	$("#saveMapLink").click(saveLink);
 	$("#loadMapLink").click(loadLink);
 
-	$("#moveItemUpLink").click(function () { moveItem({ gx: 0, gy: -1 }); });
-	$("#moveItemDownLink").click(function () { moveItem({ gx: 0, gy: 1 }); });
-	$("#moveItemLeftLink").click(function () { moveItem({ gx: -1, gy: 0 }); });
-	$("#moveItemRightLink").click(function () { moveItem({ gx: 1, gy: 0 }); });
-	$("#rotateItemLink").click(rotateItemLink);
-
 	canvasElement.click(canvasClick);
+	canvasElement.focus();
+});
+
+$(document).on("keydown", function (e) {
+	if (!$("#canvas").is(":focus") || selectedItem == null) {
+		return true;
+	}
+
+	switch(e.keyCode) {
+		case 37: { // left
+			moveItem({ gx: -1, gy: 0 });
+			break;
+		}
+		case 38: { // up
+			moveItem({ gx: 0, gy: -1 });
+			break;
+		}
+		case 39: { // right
+			moveItem({ gx: 1, gy: 0 });
+			break;
+		}
+		case 40: { // down
+			moveItem({ gx: 0, gy: 1 });
+			break;
+		}
+		case 16: { // shift
+			rotateItemLink(null);
+			break;
+		}
+		case 46: // delete
+		case 8: { // backspace
+			removeItemLink(null);
+			break;
+		}
+	}
+
+	return false;
 });

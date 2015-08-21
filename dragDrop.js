@@ -78,6 +78,8 @@ function canvasDrop(ev) {
 		var item = tileGrid.getItemAt(coordinates);
 		item.state = window.gridItemState.selected;
 		selectedItem = item;
+
+		document.getElementById("canvas").focus();
 	}
 
 	drawCanvas();
