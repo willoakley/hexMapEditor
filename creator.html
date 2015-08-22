@@ -38,33 +38,35 @@
 	<section>
 		<canvas id="canvas" width="944" height="800" class="ui-widget-content ui-corner-all" ondrop="canvasDrop(event)" ondragover="permitDropping(event)" tabindex="1"></canvas>
 	</section>
-	<aside class="menu">
-		<div class="ui-widget-content ui-corner-all menuArea">
-			<h3><i class="fa fa-fw fa-arrows"></i>Options</h3>
+	<aside class="menu ui-accordion">
+		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top"><i class="fa fa-fw fa-arrows"></i>Options</h3>
+		<div class="ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active menuArea">	
 			<div>Cick an item on the map then use the arrow keys to move it, Shift to rotate and Del to delete.</div>
 			<div>
 				<input type="checkbox" id="autoSelectItem" name="autoSelectItem" checked="checked"/><label for="autoSlectItem">Auto-select added items</label>
 			</div>
 		</div>
-		<div class="ui-widget-content ui-corner-all menuArea">
-			<h3><i class="fa fa-fw fa-bookmark-o"></i>Load / Save</h3>
+		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top"><i class="fa fa-map"></i>Mode</h3>
+		<div class="ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active menuArea">
+			<div>
+				<input type="radio" name="canvasMode" value="map" checked="checked" id="canvasModeMap"/><label for="canvasModeMap">Map</label>
+				<br/>
+				<input type="radio" name="canvasMode" value="satelite" id="canvasModeSatelite" /><label for="canvasModeSatelite">Satelite</label>
+			</div>			
+		</div>
+		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top"><i class="fa fa-fw fa-bookmark-o"></i>Load / Save</h3>
+		<div class="ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active menuArea">
 			<ul class="otherMenuOptions">
 				<li><a id="downloadMapLink" class="fake-link" target="_blank"><i class="fa fa-floppy-o"></i>To image</a></li>
-				<li><a id="saveMapLink" class="fake-link" target="_blank"><i class="fa fa-download"></i>Save as JSON:</li>
+				<li><a id="saveMapLink" class="fake-link" target="_blank"><i class="fa fa-download"></i>Save as JSON:</a></li>
 				<li>
 					<textarea id="saveBox" cols="25" rows="5"></textarea>
 				</li>
-				<li><a id="loadMapLink" class="fake-link" target="_blank"><i class="fa fa-upload"></i>Load from JSON:</li>
+				<li><a id="loadMapLink" class="fake-link" target="_blank"><i class="fa fa-upload"></i>Load from JSON:</a></li>
 				<li>
 					<textarea id="loadBox" cols="25" rows="5"></textarea>
 				</li>
 			</ul>
-		</div>
-		<div class="ui-widget-content ui-corner-all menuArea">
-			<h3><i class="fa fa-map"></i>Mode</h3>
-			<input type="radio" name="canvasMode" value="map" checked="checked" id="canvasModeMap"/><label for="canvasModeMap">Map</label>
-			<br/>
-			<input type="radio" name="canvasMode" value="satelite" id="canvasModeSatelite" /><label for="canvasModeSatelite">Satelite</label>
 		</div>
 	</aside>
 	<script type="text/javascript" src="hexMaths.js"></script>

@@ -1,3 +1,9 @@
+body
+{
+	font-family:Verdana,Arial,sans-serif;
+	font-size:17px;
+}
+
 section, aside
 {
 	float:left;
@@ -7,8 +13,8 @@ section, aside
 aside.menu div, table
 {
 	margin:0 0 10px 0;
-	padding:0 0.5em;
-
+	padding:0.5em;
+	font-size:12px;
 }
 
 aside
@@ -28,10 +34,10 @@ canvas.menuItem
 	height:100px;
 }
 
-.menuArea h3
+.menu h3
 {
-	margin:0.5em 0;
-	width:250px;
+	font-size:17px;
+	padding: 0.5em;
 }
 
 .otherMenuOptions
@@ -47,7 +53,7 @@ canvas.menuItem
 
 .menuSection
 {
-	width:330px;
+	width:334px;
 	height:800px;
 }
 
@@ -115,5 +121,5 @@ input[type="checkbox"]
 
 .fa::before
 {
-margin-right:0.4em;
+	margin-right:0.4em;
 }
