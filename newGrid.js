@@ -3,6 +3,11 @@ window.gridItemState = Object.freeze({
 	selected: "selected",
 });
 
+window.mapMode = Object.freeze({
+	map: "map",
+	satelite: "satelite",
+});
+
 window.newGrid = function (scale, size, offset) {
 	scale = scale || 16.0;
 	offset = offset || { px: 0.0, py: 0.0 };
@@ -247,11 +252,20 @@ window.newGrid = function (scale, size, offset) {
 			this.recalculateAffectedIndexes();
 		},
 
-		draw: function (context) {
+		draw: function (context, mode) {
 			var keys = Object.keys(this._grid);
 			for (var k = 0; k < keys.length; k++) {
 				var item = this._grid[keys[k]];
 				var currentIndex = item.positioning.startIndex;
+				var pixelLocation = this._getPixelLocationFormGridIndex(currentIndex);
+
+				if (mode == window.mapMode.satelite) {
+					var sateliteDraw = item.drawableItem.sateliteDrawFunction;
+					if (sateliteDraw != undefined && typeof sateliteDraw === 'function') {
+						sateliteDraw(context, pixelLocation, this._scale, item.positioning.facing, item.state, item.itemArgs);
+						continue;
+					}
+				}
 
 				for (var i = 0; i < item.drawableItem.drawPath.length; i++) {
 					var current = item.drawableItem.drawPath[i];
@@ -269,7 +283,7 @@ window.newGrid = function (scale, size, offset) {
 						continue;
 					}
 
-					var pixelLocation = this._getPixelLocationFormGridIndex(currentIndex);
+					pixelLocation = this._getPixelLocationFormGridIndex(currentIndex);
 					current.draw(context, pixelLocation, this._scale, item.positioning.facing, item.state, item.itemArgs);
 				}
 			}
