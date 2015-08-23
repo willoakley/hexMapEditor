@@ -1,0 +1,17 @@
+
+Approximate hex measurements for double size template:
+full hex 	width: 64px
+			height: 61px
+repeating section 	width: 50px
+					height: 31px
+					
+					
+					
+
+ [][]  
+[][][]	W:164
+ [][]	H:183
+ 
+
+[][][]	W:164
+ [][]	H:122

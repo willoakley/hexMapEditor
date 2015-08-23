@@ -9,7 +9,7 @@ window.drawFuncsSatelite = {
 		- image src path?
 		*/
 		var degrees = 30;
-		var image = $("<img />").attr("src", "sceneryImages/barracks.jpg")[0]; // maybe preload the images on opening to make it easier?
+		var image = $("<img />").attr("src", "sceneryImages/barracksPng.png")[0]; // maybe preload the images on opening to make it easier?
 
 		context.save();
 
