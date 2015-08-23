@@ -5,4 +5,6 @@ hexMapEditor
 
 Eventually for use in planning battletech campaigns with the various scenery I've built.
 
+To export the satelite view as an image requires the application to be hosted otherwise the locally loaded images will be treated as cross-domain and the canvas export will fail.
+
 URL: https://github.com/willoakley/hexMapEditor
