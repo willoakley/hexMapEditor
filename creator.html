@@ -40,29 +40,33 @@
 	</section>
 	<aside class="menu ui-accordion">
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top"><i class="fa fa-fw fa-arrows"></i>Options</h3>
-		<div class="ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active menuArea">	
-			<div>Cick an item on the map then use the arrow keys to move it, Shift to rotate and Del to delete.</div>
+		<div class="ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active menuArea">
+			<ul class="otherMenuOptions">
+				<li><i class="fa fa-arrow-up"></i><i class="fa fa-arrow-down"></i><i class="fa fa-arrow-left"></i><i class="fa fa-arrow-right"></i> - Move selected</li>
+				<li>Shift - Rotate selected clockwise</li>
+				<li>Del - Delete selected</li>
+			</ul>
 			<div>
-				<input type="checkbox" id="autoSelectItem" name="autoSelectItem" checked="checked"/><label for="autoSlectItem">Auto-select added items</label>
+				<input type="checkbox" id="autoSelectItem" name="autoSelectItem" checked="checked"/><label for="autoSlectItem">Auto-select newly added items</label>
 			</div>
 		</div>
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top"><i class="fa fa-map"></i>Mode</h3>
 		<div class="ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active menuArea">
 			<div>
-				<input type="radio" name="canvasMode" value="map" checked="checked" id="canvasModeMap"/><label for="canvasModeMap">Map</label>
+				<input type="radio" name="canvasMode" value="map" id="canvasModeMap"/><label for="canvasModeMap">Map</label>
 				<br/>
-				<input type="radio" name="canvasMode" value="satelite" id="canvasModeSatelite" /><label for="canvasModeSatelite">Satelite</label>
+				<input type="radio" name="canvasMode" value="satelite" checked="checked" id="canvasModeSatelite" /><label for="canvasModeSatelite">Satelite</label>
 			</div>			
 		</div>
 		<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top"><i class="fa fa-fw fa-bookmark-o"></i>Load / Save</h3>
 		<div class="ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active menuArea">
 			<ul class="otherMenuOptions">
-				<li><a id="downloadMapLink" class="fake-link" target="_blank"><i class="fa fa-floppy-o"></i>To image</a></li>
-				<li><a id="saveMapLink" class="fake-link" target="_blank"><i class="fa fa-download"></i>Save as JSON:</a></li>
+				<li><a id="downloadMapLink" class="fake-link" target="_blank"><i class="fa fa-floppy-o"></i>Save as an image</a></li>
+				<li><a id="saveMapLink" class="fake-link" target="_blank"><i class="fa fa-download"></i>Generate loadable JSON</a></li>
 				<li>
 					<textarea id="saveBox" cols="25" rows="5"></textarea>
 				</li>
-				<li><a id="loadMapLink" class="fake-link" target="_blank"><i class="fa fa-upload"></i>Load from JSON:</a></li>
+				<li><a id="loadMapLink" class="fake-link" target="_blank"><i class="fa fa-upload"></i>Load using the JSON below:</a></li>
 				<li>
 					<textarea id="loadBox" cols="25" rows="5"></textarea>
 				</li>
