@@ -83,6 +83,29 @@ window.newGrid = function (scale, size, offset) {
 			return Math.floor((1 + Math.random()) * 0x10000).toString(16); /* Uniqueish */
 		},
 
+		_positionedGridIndexesForDrawPath: function (startIndex, facing, drawPath) {
+			var gridIndexes = [];
+			var currentIndex = startIndex;
+			var pixelLocation = this._getPixelLocationFormGridIndex(currentIndex);
+
+			for (var i = 0; i < drawPath.length; i++) {
+				var current = drawPath[i];
+
+				if (this._moveIsValid(current.move)) {
+					var moveDirection = current.move;
+					if (facing != window.gridCompas.directionOptions.north) {
+						moveDirection = window.gridCompas.rotateFacingBy(moveDirection, window.gridCompas.directionValues[facing]);
+					}
+
+					currentIndex = window.gridCompas.getNeghbouringGridIndex(currentIndex, moveDirection);
+				}
+
+				gridIndexes[gridIndexes.length] = { gx: currentIndex.gx, gy: currentIndex.gy };
+			}
+
+			return gridIndexes;
+		},
+
 		getScale: function() {
 			return this._scale;
 		},
@@ -256,37 +279,38 @@ window.newGrid = function (scale, size, offset) {
 			var keys = Object.keys(this._grid);
 			for (var k = 0; k < keys.length; k++) {
 				var item = this._grid[keys[k]];
-				var currentIndex = item.positioning.startIndex;
-				var pixelLocation = this._getPixelLocationFormGridIndex(currentIndex);
+				var sateliteDraw = item.drawableItem.sateliteDrawFunction;
+				var shouldSateliteDrawThisItem = mode == window.mapMode.satelite && sateliteDraw != undefined && typeof sateliteDraw === 'function';
+				var isHighlightedItem = item.state == window.gridItemState.selected;
 
-				if (mode == window.mapMode.satelite) {
-					var sateliteDraw = item.drawableItem.sateliteDrawFunction;
-					if (sateliteDraw != undefined && typeof sateliteDraw === 'function') {
-						sateliteDraw(context, pixelLocation, this._scale, item.positioning.facing, item.state, item.itemArgs);
+				if (shouldSateliteDrawThisItem) {
+					sateliteDraw(context, this._getPixelLocationFormGridIndex(item.positioning.startIndex), this._scale, item.positioning.facing, item.state, item.itemArgs);
+
+					if (!isHighlightedItem) {
 						continue;
 					}
 				}
 
+				var positionedGridIndexesForDrawPath = this._positionedGridIndexesForDrawPath(item.positioning.startIndex, item.positioning.facing, item.drawableItem.drawPath);
+
 				for (var i = 0; i < item.drawableItem.drawPath.length; i++) {
 					var current = item.drawableItem.drawPath[i];
-
-					if (this._moveIsValid(current.move)) {
-						var moveDirection = current.move;
-						if (item.positioning.facing != window.gridCompas.directionOptions.north) {
-							moveDirection = window.gridCompas.rotateFacingBy(moveDirection, window.gridCompas.directionValues[item.positioning.facing]);
-						}
-
-						currentIndex = window.gridCompas.getNeghbouringGridIndex(currentIndex, moveDirection);
-					}
 
 					if (current.draw === undefined) {
 						continue;
 					}
 
-					pixelLocation = this._getPixelLocationFormGridIndex(currentIndex);
-					current.draw(context, pixelLocation, this._scale, item.positioning.facing, item.state, item.itemArgs);
+					var pixelLocation = this._getPixelLocationFormGridIndex(positionedGridIndexesForDrawPath[i]);
+					if (!shouldSateliteDrawThisItem) {
+						current.draw(context, pixelLocation, this._scale, item.positioning.facing, item.state, item.itemArgs);
+					}
+
+					if (isHighlightedItem) {
+						window.drawFuncs.hilightHex(context, pixelLocation, this._scale, item.positioning.facing, item.state, item.itemArgs);
+					}
 				}
 			}
 		},
+
 	};
 };

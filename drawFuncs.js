@@ -90,10 +90,6 @@ window.drawFuncs = {
 			context.fillText(options.text.value, textLeft, textTop, maxWidth);
 		}
 
-		if (drawOptions.state == window.gridItemState.selected) {
-			window.drawFuncs._hilightHexagon(context, { scale: options.scale, offset: options.offset, state: drawOptions.state });
-		}
-
 		return points;
 	},
 
