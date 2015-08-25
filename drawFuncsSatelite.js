@@ -19,11 +19,6 @@ window.drawFuncsSatelite = {
 	dummy: function(context, pixelLocation, scale, rotation, state, itemArgs) {
 		var image = window.sateliteImages.barracks;
 		window.drawFuncsSatelite._drawImage(context, pixelLocation, scale, rotation, image);
-
-		// TODO Move the highlighting call back up into the grid's draw function so it can be the same regardless of what the map mode is in
-		if (state == window.gridItemState.selected) {
-			window.drawFuncs.hilightHex(context, pixelLocation, scale, rotation, state, itemArgs);
-		}
 	},
 }
 
