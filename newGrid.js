@@ -40,6 +40,14 @@ window.newGrid = function (scale, size, offset) {
 			return { px: this._pixelOffset.px + leftOffset, py: this._pixelOffset.py + topOffset };
 		},
 
+		_getPixelLocationFormGridIndexForCentreHex: function (gridIndex) {
+			var pixelLocation = this._getPixelLocationFormGridIndex(gridIndex);
+			var halfHeight = window.hexMaths.getHeight(this._scale) / 2.0;
+			var halfWidth = window.hexMaths.getWidth(this._scale) / 2.0;
+
+			return { px: this._pixelOffset.px + pixelLocation.px + halfWidth, py: this._pixelOffset.py + pixelLocation.py + halfHeight };
+		},
+
 		_calculateAffectedIndexesFromMovement: function (drawableItem, startPosition, facing) {
 			var affectedPositions = [];
 			var count = 0;
@@ -284,7 +292,7 @@ window.newGrid = function (scale, size, offset) {
 				var isHighlightedItem = item.state == window.gridItemState.selected;
 
 				if (shouldSateliteDrawThisItem) {
-					sateliteDraw(context, this._getPixelLocationFormGridIndex(item.positioning.startIndex), this._scale, item.positioning.facing, item.state, item.itemArgs);
+					sateliteDraw(context, this._getPixelLocationFormGridIndex(item.positioning.startIndex), this._getPixelLocationFormGridIndexForCentreHex(item.positioning.startIndex), this._scale, item.positioning.facing, item.state, item.itemArgs);
 
 					if (!isHighlightedItem) {
 						continue;

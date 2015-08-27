@@ -1,24 +1,26 @@
 window.drawFuncsSatelite = {
-	_drawImage: function (context, pixelLocation, scale, rotation, image) {
+	_drawImage: function (context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, image) {
 		var imageScale = scale /  32.0;
 
 		context.save();
 		// This might not want to be the top left as it mucks up the drawing when translated
-		context.translate(pixelLocation.px, pixelLocation.py);
+		context.translate(pixelLocationCentre.px, pixelLocationCentre.py);
 
 		var rotationFactor = window.gridCompas.directionValues[rotation];
 		if (rotationFactor > 0) {
 			context.rotate((rotationFactor * 60) * Math.PI / 180);
 		}
 
+		var negOffset = { px: pixelLocationTopLeft.px - pixelLocationCentre.px, py: pixelLocationTopLeft.py - pixelLocationCentre.py };
+
 		// TODO Sort out the draw position when the image is rotated because of the hex rotation
-		context.drawImage(image, 0, 0, image.width * imageScale, image.height * imageScale);
+		context.drawImage(image, negOffset.px, negOffset.py, image.width * imageScale, image.height * imageScale);
 		context.restore();
 	},
 
-	dummy: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	dummy: function(context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, state, itemArgs) {
 		var image = window.sateliteImages.barracks;
-		window.drawFuncsSatelite._drawImage(context, pixelLocation, scale, rotation, image);
+		window.drawFuncsSatelite._drawImage(context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, image);
 	},
 }
 
