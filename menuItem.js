@@ -69,7 +69,7 @@ function initMenu() {
 	menuItems = {};
 
 	addMenuItems("tile", "tileMenu", [
-		{ quantity: 8, name: "Plain tile", item: window.drawableFactory.newDrawableSingle("tile", window.drawFuncs.tile) },
+		{ quantity: 8, name: "Plain tile", item: window.drawableFactory.newDrawableSingle("tile", window.drawFuncs.tile, window.drawFuncsSatelite.tile) },
 		{ quantity: 4, name: "Half tile", item: window.drawableFactory.newDrawableSingle("halfTile", window.drawFuncs.halfTile) },
 		{ quantity: 1, name: "River tile", item: window.drawableFactory.newDrawableSingle("riverOne", window.drawFuncs.riverOne) },
 		{ quantity: 1, name: "River tile", item: window.drawableFactory.newDrawableSingle("riverTwo", window.drawFuncs.riverTwo) },
@@ -81,7 +81,7 @@ function initMenu() {
 
 	addMenuItems("hex", "buildingMenu", [
 		{ quantity: 2, name: "Gas tank", item: window.drawableFactory.newDrawableMultiple("gasTank", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "ne", draw: window.drawFuncs.heightTwoBuilding }, ]) },
-		{ quantity: 1, name: "Barracks", item: window.drawableFactory.newDrawableMultiple("barracks", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, ], window.drawFuncsSatelite.dummy) },
+		{ quantity: 1, name: "Barracks", item: window.drawableFactory.newDrawableMultiple("barracks", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, ], window.drawFuncsSatelite.barracks) },
 		{ quantity: 1, name: "Tower block", item: window.drawableFactory.newDrawableMultiple("buildingOne", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, ]) },
 		{ quantity: 1, name: "Tower block", item: window.drawableFactory.newDrawableMultiple("buildingTwo", [ { draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, ]) },
 		{ quantity: 1, name: "Tower block", item: window.drawableFactory.newDrawableMultiple("buildingThree", [ { draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, { move: "ne", draw: window.drawFuncs.heightThreeBuilding }, { move: "n", draw: window.drawFuncs.heightThreeBuilding }, ]) },
