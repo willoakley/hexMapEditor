@@ -69,7 +69,7 @@ function initMenu() {
 	menuItems = {};
 
 	addMenuItems("tile", "tileMenu", [
-		{ quantity: 8, name: "Plain tile", item: window.drawableFactory.newDrawableSingle("tile", window.drawFuncs.tile, window.drawFuncsSatelite.tile) },
+		{ quantity: 8, name: "Plain tile", item: window.drawableFactory.newDrawableSingle("tile", window.drawFuncs.tile, window.drawFuncsSatelite.plainTile) },
 		{ quantity: 4, name: "Half tile", item: window.drawableFactory.newDrawableSingle("halfTile", window.drawFuncs.halfTile) },
 		{ quantity: 1, name: "River tile", item: window.drawableFactory.newDrawableSingle("riverOne", window.drawFuncs.riverOne) },
 		{ quantity: 1, name: "River tile", item: window.drawableFactory.newDrawableSingle("riverTwo", window.drawFuncs.riverTwo) },
@@ -94,7 +94,7 @@ function initMenu() {
 		{ quantity: 2, name: "Comms tower", item: window.drawableFactory.newDrawableSingle("commsTower", window.drawFuncs.heightFourBuilding) },
 		{ quantity: 20, name: "Barrier", item: window.drawableFactory.newDrawableSingle("barrier", window.drawFuncs.barrier) },
 		{ quantity: 1, name: "Bunker", item: window.drawableFactory.newDrawableSingle("bunker", window.drawFuncs.heightZeroBuilding) },
-		{ quantity: 1, name: "Radar post", item: window.drawableFactory.newDrawableSingle("radarStation", window.drawFuncs.heightZeroBuilding) },
+		{ quantity: 1, name: "Radar station", item: window.drawableFactory.newDrawableSingle("radarStation", window.drawFuncs.heightZeroBuilding, window.drawFuncsSatelite.radarStation) },
 	]);
 
 	addMenuItems("hex", "roadMenu", [

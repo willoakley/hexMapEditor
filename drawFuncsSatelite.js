@@ -21,8 +21,12 @@ window.drawFuncsSatelite = {
 	barracks: function(context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, state, itemArgs) {
 		window.drawFuncsSatelite._drawImage(context, pixelLocationTopLeft, pixelLocationCentre, window.drawFuncsSatelite._itemScale, rotation, window.sateliteImages.barracks);
 	},
+	
+	radarStation: function(context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, state, itemArgs) {
+		window.drawFuncsSatelite._drawImage(context, pixelLocationTopLeft, pixelLocationCentre, window.drawFuncsSatelite._itemScale, rotation, window.sateliteImages.radarStation);
+	},
 
-	tile: function(context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, state, itemArgs) {
-		window.drawFuncsSatelite._drawImage(context, pixelLocationTopLeft, pixelLocationCentre, window.drawFuncsSatelite._tileScale, rotation, window.sateliteImages.tile);
+	plainTile: function(context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, state, itemArgs) {
+		window.drawFuncsSatelite._drawImage(context, pixelLocationTopLeft, pixelLocationCentre, window.drawFuncsSatelite._tileScale, rotation, window.sateliteImages.plainTile);
 	},
 }
