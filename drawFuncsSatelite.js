@@ -18,19 +18,17 @@ window.drawFuncsSatelite = {
 		context.restore();
 	},
 
-	barracks: function(context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, state, itemArgs) {
-		window.drawFuncsSatelite._drawImage(context, pixelLocationTopLeft, pixelLocationCentre, window.drawFuncsSatelite._itemScale, rotation, window.sateliteImages.barracks);
+	canSateliteRenderItem: function (id) {
+		return $(window.sateliteImages[id]).is('img');
 	},
 
-	buildingFive: function(context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, state, itemArgs) {
-		window.drawFuncsSatelite._drawImage(context, pixelLocationTopLeft, pixelLocationCentre, window.drawFuncsSatelite._itemScale, rotation, window.sateliteImages.buildingFive);
-	},
-	
-	radarStation: function(context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, state, itemArgs) {
-		window.drawFuncsSatelite._drawImage(context, pixelLocationTopLeft, pixelLocationCentre, window.drawFuncsSatelite._itemScale, rotation, window.sateliteImages.radarStation);
-	},
+	drawSateliteItem: function(context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, state, id) {
+		var image = window.sateliteImages[id];
+		var imageScale = window.drawFuncsSatelite._itemScale;
+		if (scale > 16) {
+			imageScale = window.drawFuncsSatelite._tileScale;
+		}
 
-	plainTile: function(context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, state, itemArgs) {
-		window.drawFuncsSatelite._drawImage(context, pixelLocationTopLeft, pixelLocationCentre, window.drawFuncsSatelite._tileScale, rotation, window.sateliteImages.plainTile);
+		window.drawFuncsSatelite._drawImage(context, pixelLocationTopLeft, pixelLocationCentre, imageScale, rotation, image);
 	},
 }

@@ -73,7 +73,7 @@ function canvasDrop(ev) {
 
 	var coordinates = grid.getGridIndexFormPixelLocation({ px: clickX, py: clickY });
 	grid.addItem(coordinates, "n", menuItems[data.menuId].item, { id: data.menuId });
-	console.log(menuItems[data.menuId].item);
+
 	if (document.getElementById("autoSelectItem").checked) {
 		var selectableItemCoOrdinates = coordinates
 		var itemDrawPath = menuItems[data.menuId].item.drawPath;

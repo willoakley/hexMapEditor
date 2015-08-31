@@ -291,13 +291,11 @@ window.newGrid = function (scale, size, offset) {
 			var keys = Object.keys(this._grid);
 			for (var k = 0; k < keys.length; k++) {
 				var item = this._grid[keys[k]];
-				var sateliteDraw = item.drawableItem.sateliteDrawFunction;
-				var shouldSateliteDrawThisItem = mode == window.mapMode.satelite && sateliteDraw != undefined && typeof sateliteDraw === 'function';
+				var shouldSateliteDrawThisItem = mode == window.mapMode.satelite && window.drawFuncsSatelite.canSateliteRenderItem(item.drawableItem.id);
 				var isHighlightedItem = item.state == window.gridItemState.selected;
 
 				if (shouldSateliteDrawThisItem) {
-					sateliteDraw(context, this._getPixelLocationFormGridIndex(item.positioning.startIndex), this._getPixelLocationFormGridIndexForCentreHex(item.positioning.startIndex), this._scale, item.positioning.facing, item.state, item.itemArgs);
-
+					window.drawFuncsSatelite.drawSateliteItem(context, this._getPixelLocationFormGridIndex(item.positioning.startIndex), this._getPixelLocationFormGridIndexForCentreHex(item.positioning.startIndex), this._scale, item.positioning.facing, item.state, item.drawableItem.id);
 					if (!isHighlightedItem) {
 						continue;
 					}
