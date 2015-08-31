@@ -301,11 +301,14 @@ window.newGrid = function (scale, size, offset) {
 					}
 				}
 
+				if (isHighlightedItem) {
+					window.drawFuncs.hilightRotationPointHex(context, this._getPixelLocationFormGridIndex(item.positioning.startIndex), this._scale, item.positioning.facing, item.state, item.itemArgs);
+				}
+
 				var positionedGridIndexesForDrawPath = this._positionedGridIndexesForDrawPath(item.positioning.startIndex, item.positioning.facing, item.drawableItem.drawPath);
 
 				for (var i = 0; i < item.drawableItem.drawPath.length; i++) {
 					var current = item.drawableItem.drawPath[i];
-
 					if (current.draw === undefined) {
 						continue;
 					}

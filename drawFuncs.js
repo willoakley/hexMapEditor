@@ -9,6 +9,7 @@ window.colours = {
 	lightWoods: "#339933",
 	heavyWoods: "#003300",
 	hilight: "rgba(255,128,64, 0.5)",
+	hilightAlternate: "rgba(253,150,239, 0.5)",
 	building: "#404040",
 	barrier: "#404040",
 	outline: "black",
@@ -118,6 +119,17 @@ window.drawFuncs = {
 
 	hilightHex: function(context, pixelLocation, scale, rotation, state, itemArgs) {
 		window.drawFuncs._hilightHexagon(context, { scale: scale, offset: pixelLocation, state: window.gridItemState.selected });
+	},
+
+	hilightRotationPointHex: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+		var points = window.hexMaths.hexPointsAtOffset(pixelLocation.px, pixelLocation.py, scale);
+		window.drawFuncs._drawPoints(context, points);
+		context.fillStyle = window.colours.hilightAlternate;
+		context.fill();
+
+		context.lineWidth = 2;
+		context.strokeStyle = window.colours.hilightAlternate;
+		context.stroke();
 	},
 
 	// - - - - - - - - - - - - - - - - - - - - - - Tile types - - - - - - - - - - - - - - - - - - - - - - - - - -
