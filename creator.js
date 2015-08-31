@@ -7,12 +7,17 @@ function drawCanvas() {
 	var context = getContextFromJquery(canvasElement);
 
 	context.clearRect(0, 0, canvasElement.width(), canvasElement.height());
-	var canvasMode = $("input[type='radio'][name='canvasMode']:checked").val();
+	var canvasMode = getCanvasMode();
 
 	tileGrid.draw(context, canvasMode);
 	hexGrid.draw(context, canvasMode);
+	redrawMenuItems(canvasMode);
 	canvasElement.focus();
 };
+
+function getCanvasMode() {
+	return $("input[type='radio'][name='canvasMode']:checked").val();
+}
 
 function hilightSelectedGridPosition(position) {		
 	var coordinates = trackingData.grid.getGridIndexFormPixelLocation({ px: position.px, py: position.py });

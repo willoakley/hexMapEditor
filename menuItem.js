@@ -5,11 +5,21 @@ function addMenuItem(itemWithQuantity, itemType, menuElementId) {
 	var id = "menu" + itemType + "_" + drawableItem.id;
 	var itemGrid = null;
 
+	if (itemType == "tile") {
+		itemGrid = window.newGrid(tileGrid.getScale() / 2.1, { sx: 1, sy: 1 });
+	}
+	else {
+		itemGrid = window.newGrid(hexGrid.getScale() / 2, { sx: 9, sy: 7 });
+	}
+
+	itemGrid.addItem(window.newGridIndex(0, 0), "n", drawableItem, { id: id });
+
 	menuItems[id] = {
 		id: id,
 		name: drawableItem.description,
 		item: drawableItem,
 		quantity: itemWithQuantity.quantity,
+		itemGrid: itemGrid,
 		adjustQuantity: function (byAmmount) {
 			if (this.quantity < 1 && this.quantity + byAmmount > 0) {
 				$("#" + this.id).parent().removeClass("disable");
@@ -22,16 +32,12 @@ function addMenuItem(itemWithQuantity, itemType, menuElementId) {
 			this.quantity += byAmmount;
 			$("#"+this.id).parent().find(".quantity").html("x" + this.quantity);
 		},
+		draw: function(mapContext) {
+			var context = getContextFromJquery($("#" + this.id));
+			context.clearRect(0, 0, canvasElement.width(), canvasElement.height());
+			this.itemGrid.draw(context, mapContext);
+		},
 	};
-
-	if (itemType == "tile") {
-		itemGrid = window.newGrid(tileGrid.getScale() / 2, { sx: 1, sy: 1 });
-	}
-	else {
-		itemGrid = window.newGrid(hexGrid.getScale() / 2, { sx: 9, sy: 7 });
-	}
-
-	itemGrid.addItem(window.newGridIndex(0, 0), "n", drawableItem, { id: id });
 
 	var listItem = $("<li />");
 	var container = $("<div />").attr("draggable", "true");
@@ -46,11 +52,15 @@ function addMenuItem(itemWithQuantity, itemType, menuElementId) {
 	);
 	container.append($("<span class=\"name\">" + drawableItem.description + "</span>"));
 	container.append($("<span class=\"quantity\">x" + itemWithQuantity.quantity + "</span>"));
-
 	$("#" + menuElementId).append(listItem.append(container));
 
-	var menuItemContext = getContextFromJquery($("#" + id));
-	itemGrid.draw(menuItemContext);
+	menuItems[id].draw(getCanvasMode());
+}
+
+function redrawMenuItems(mapContext) {
+	for (var id in menuItems) {
+		menuItems[id].draw(mapContext);
+	}
 }
 
 function addMenuItems(itemType, menuElementId, itemCollection) {
