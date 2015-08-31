@@ -91,6 +91,10 @@ window.newGrid = function (scale, size, offset) {
 			return Math.floor((1 + Math.random()) * 0x10000).toString(16); /* Uniqueish */
 		},
 
+		_isMultipleDrawItem: function (drawableItem) {
+			return drawableItem.drawPath.length > 1;
+		},
+
 		_positionedGridIndexesForDrawPath: function (startIndex, facing, drawPath) {
 			var gridIndexes = [];
 			var currentIndex = startIndex;
@@ -217,7 +221,7 @@ window.newGrid = function (scale, size, offset) {
 
 			var item = this._grid[index];
 
-			if (drawableItem.type == "multiple") {
+			if (this._isMultipleDrawItem(drawableItem)) {
 				// need to update affected hexes based on the paths
 				item.positioning.affectedIndexes = this._calculateAffectedIndexesFromMovement(item.drawableItem, item.positioning.startIndex, item.positioning.facing);
 			}
@@ -267,7 +271,7 @@ window.newGrid = function (scale, size, offset) {
 
 			item.positioning.facing = window.gridCompas.rotateFacingBy(item.positioning.facing, 1);
 
-			if (item.drawableItem.type == "multiple") {
+			if (this._isMultipleDrawItem(item.drawableItem)) {
 				item.positioning.affectedIndexes = this._calculateAffectedIndexesFromMovement(item.drawableItem, item.positioning.startIndex, item.positioning.facing);
 				this.recalculateAffectedIndexes();
 			}

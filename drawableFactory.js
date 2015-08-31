@@ -8,23 +8,16 @@ window.drawableFactory = {
 		For no draw at hex (i.e. just move a space) ommit the 'draw' property
 	*/
 
-	newDrawableSingle: function (id, description, drawFunction, sateliteDrawFunction) {
-		return {
-			id: id,
-			description: description,
-			type: "single",
-			drawPath: [ { draw: drawFunction } ],
-			sateliteDrawFunction: sateliteDrawFunction
-		};
-	},
-
 	newDrawableMultiple: function (id, description, pathDrawFunctionArray, sateliteDrawFunction) {
 		return {
 			id: id,
 			description: description,
-			type: "multiple",
 			drawPath: pathDrawFunctionArray,
 			sateliteDrawFunction: sateliteDrawFunction
 		};
+	},
+
+	newDrawableSingle: function (id, description, drawFunction, sateliteDrawFunction) {
+		return window.drawableFactory.newDrawableMultiple(id, description, [ { draw: drawFunction } ], sateliteDrawFunction);
 	},
 };
