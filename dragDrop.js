@@ -73,9 +73,21 @@ function canvasDrop(ev) {
 
 	var coordinates = grid.getGridIndexFormPixelLocation({ px: clickX, py: clickY });
 	grid.addItem(coordinates, "n", menuItems[data.menuId].item, { id: data.menuId });
-
+	console.log(menuItems[data.menuId].item);
 	if (document.getElementById("autoSelectItem").checked) {
-		var item = grid.getItemAt(coordinates);
+		var selectableItemCoOrdinates = coordinates
+		var itemDrawPath = menuItems[data.menuId].item.drawPath;
+
+		for (var itemDrawIndex = 0; itemDrawIndex < itemDrawPath.length; itemDrawIndex = itemDrawIndex + 1) {
+			if (itemDrawPath[itemDrawIndex].move != undefined || itemDrawPath[itemDrawIndex].draw == undefined) {
+				selectableItemCoOrdinates = window.gridCompas.getNeghbouringGridIndex(selectableItemCoOrdinates, itemDrawPath[itemDrawIndex].move);
+			}
+			else {
+				break;
+			}
+		}
+
+		var item = grid.getItemAt(selectableItemCoOrdinates);
 		item.state = window.gridItemState.selected;
 		selectedItem = item;
 

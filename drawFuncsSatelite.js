@@ -21,6 +21,10 @@ window.drawFuncsSatelite = {
 	barracks: function(context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, state, itemArgs) {
 		window.drawFuncsSatelite._drawImage(context, pixelLocationTopLeft, pixelLocationCentre, window.drawFuncsSatelite._itemScale, rotation, window.sateliteImages.barracks);
 	},
+
+	buildingFive: function(context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, state, itemArgs) {
+		window.drawFuncsSatelite._drawImage(context, pixelLocationTopLeft, pixelLocationCentre, window.drawFuncsSatelite._itemScale, rotation, window.sateliteImages.buildingFive);
+	},
 	
 	radarStation: function(context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, state, itemArgs) {
 		window.drawFuncsSatelite._drawImage(context, pixelLocationTopLeft, pixelLocationCentre, window.drawFuncsSatelite._itemScale, rotation, window.sateliteImages.radarStation);

@@ -15,7 +15,7 @@ window.sateliteImages = {
 	buildingTwo: null,
 	buildingThree: null,
 	buildingFour: null,
-	buildingFive: null,
+	buildingFive: $('<img src="file:///C:/Users/Will/Documents/Work/Git/hexMapEditor/sceneryImages/buildingFivePng.png" />')[0],
 	mechBay: null,
 	FactoryOne: null,
 	factoryTwo: null,
