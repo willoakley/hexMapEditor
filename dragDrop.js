@@ -27,7 +27,7 @@ function menuItemBeginDrag(ev) {
 		}
 	}
 
-	trackingData.hilightDrawableItem = window.drawableFactory.newDrawableMultiple("hilight", hilightPath);
+	trackingData.hilightDrawableItem = window.drawableFactory.newDrawableMultiple("hilight", "hilight", hilightPath);
 
 	switch (JSON.parse(data).type) {
 		case "tile": {

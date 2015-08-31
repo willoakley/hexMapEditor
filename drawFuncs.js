@@ -136,7 +136,7 @@ window.drawFuncs = {
 		tileHexes.addItem(
 			{ gx: 4, gy: 3 },
 			"n",
-			window.drawableFactory.newDrawableMultiple("tempTiles", [
+			window.drawableFactory.newDrawableMultiple("tempTiles", "tempTiles", [
 				{ move: "n" }, { move: "n" }, { move: "n" }, { move: "sw" },
 				{ move: "nw", draw: window.drawFuncs._outlineHex },
 				{ move: "se", draw: window.drawFuncs._outlineHex },
@@ -209,7 +209,7 @@ window.drawFuncs = {
 		tileHexes.addItem(
 			{ gx: 4, gy: 3 },
 			"n",
-			window.drawableFactory.newDrawableMultiple("tempTiles", [
+			window.drawableFactory.newDrawableMultiple("tempTiles", "tempTiles", [
 				{ move: "n" }, { move: "n" }, { move: "n" }, { move: "sw" },
 				{ move: "nw", draw: window.drawFuncs._outlineHex },
 				{ move: "se", draw: window.drawFuncs._outlineHex },
@@ -302,7 +302,7 @@ window.drawFuncs = {
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
 
-		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", "tempRiver", [
 			{ move: "n" }, { move: "n" },
 			{ move: "n", draw: window.drawFuncs.depthOneRiver },
 			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
@@ -329,7 +329,7 @@ window.drawFuncs = {
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", "tempRiver", [
 			{ move: "n" }, { move: "n" },
 			{ move: "n", draw: window.drawFuncs.depthOneRiver },
 			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
@@ -362,7 +362,7 @@ window.drawFuncs = {
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", "tempRiver", [
 			{ move: "n" }, { move: "n" },
 			{ move: "n", draw: window.drawFuncs.depthOneRiver },
 			{ move: "se", draw: window.drawFuncs.depthOneRiver },
@@ -389,7 +389,7 @@ window.drawFuncs = {
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", "tempRiver", [
 			{ move: "se" }, { move: "se" },
 			{ move: "se", draw: window.drawFuncs.depthOneRiver },
 			{ move: "n", draw: window.drawFuncs.depthOneRiver },
@@ -417,7 +417,7 @@ window.drawFuncs = {
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", "tempRiver", [
 			{ move: "s" }, { move: "s" },
 			{ move: "s", draw: window.drawFuncs.depthOneRiver },
 			{ move: "n", draw: window.drawFuncs.depthOneRiver },
@@ -443,7 +443,7 @@ window.drawFuncs = {
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", [
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", "tempRiver", [
 			{ move: "s" }, { move: "s" },
 			{ move: "s", draw: window.drawFuncs.depthOneRiver },
 			{ move: "n", draw: window.drawFuncs.depthOneRiver },
