@@ -6,8 +6,11 @@ var selectedItem = null;
 function drawCanvas() {
 	var context = getContextFromJquery(canvasElement);
 
-	context.clearRect(0, 0, canvasElement.width(), canvasElement.height());
 	var canvasMode = getCanvasMode();
+	context.clearRect(0, 0, canvasElement.width(), canvasElement.height());
+	context.rect(0, 0, canvasElement.width(), canvasElement.height());
+	context.fillStyle = canvasMode == window.mapMode.satelite ? window.colours.sateliteBackground : window.colours.tile;
+	context.fill();
 
 	tileGrid.draw(context, canvasMode);
 	hexGrid.draw(context, canvasMode);

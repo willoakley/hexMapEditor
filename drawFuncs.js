@@ -17,6 +17,7 @@ window.colours = {
 	road: "#999966",
 	nothing: "white",
 	objective: "red",
+	sateliteBackground: "#576870",
 };
 
 var tileCentreIndex = { gx: 4, gy: 3 };
