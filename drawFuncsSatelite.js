@@ -1,7 +1,7 @@
 window.drawFuncsSatelite = {
 	_tileScale: 0.56,
 	_itemScale: 0.5,
-	_menuItemScale: 0.25,
+	_menuItemScale: 0.5,
 	_menuTileScale: 0.28,
 
 	_drawImage: function (context, pixelLocationTopLeft, pixelLocationCentre, scale, rotation, image) {
