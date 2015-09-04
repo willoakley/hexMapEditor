@@ -35,7 +35,7 @@ function hilightSelectedGridPosition(position) {
 	}
 
 	trackingData.grid.removeItem(trackingData.hilightItem);
-	trackingData.hilightItem = trackingData.grid.addItem(coordinates, "n", trackingData.hilightDrawableItem, { id: "hilight" });
+	trackingData.hilightItem = trackingData.grid.addItem(coordinates, "n", trackingData.hilightDrawableItem);
 	drawCanvas();
 }
 

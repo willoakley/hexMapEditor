@@ -16,18 +16,25 @@ function menuItemBeginDrag(ev) {
 	}
 
 	var drawPattern = window.menuItems[menuId].item.drawPath;
-	var hilightPath = [];
+	var hilightPath = "";
 
-	for (var i = 0; i < drawPattern.length; i++) {
-		var step = drawPattern[i];
-		hilightPath[i] = { move: step.move, draw: step.draw };
+	for (var dp in drawPattern) {
+		var current = drawPattern[dp];
 
-		if (step.draw !== undefined) {
-			hilightPath[i].draw = window.drawFuncs.hilightHex;
+		if (dp > 0) {
+			hilightPath += ",";
+		}
+
+		if (current.move != undefined) {
+			hilightPath += current.move + ":";
+		}
+
+		if (current.draw != undefined) {
+			hilightPath += "hilightHex";
 		}
 	}
 
-	trackingData.hilightDrawableItem = window.drawableFactory.newDrawableMultiple("hilight", "hilight", hilightPath);
+	trackingData.hilightDrawableItem = window.drawableFactory.newDrawableFromJson('{"id":"hilight","description":"hilight","drawPath":"' + hilightPath + '"}');
 
 	switch (JSON.parse(data).type) {
 		case "tile": {

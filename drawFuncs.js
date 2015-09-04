@@ -149,57 +149,7 @@ window.drawFuncs = {
 		tileHexes.addItem(
 			{ gx: 4, gy: 3 },
 			"n",
-			window.drawableFactory.newDrawableMultiple("tempTiles", "tempTiles", [
-				{ move: "n" }, { move: "n" }, { move: "n" }, { move: "sw" },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se" },
-				{ move: "s", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw" },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "se" },
-				{ move: "s", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "s", draw: window.drawFuncs._outlineHex },
-				{ move: "se" },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se" },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-			]));
+			window.drawableFactory.newDrawableFromJson('{"id":"tempTiles","description":"tempTiles","drawPath":"n:,n:,n:,sw:,nw:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:,s:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,sw:,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,se:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,se:,s:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,sw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,s:_outlineHex,se:,ne:_outlineHex,se:,ne:_outlineHex"}'));
 		tileHexes.draw(tileHexesCanvas[0].getContext("2d"));
 
 		var backingHexImage = new Image();
@@ -222,39 +172,7 @@ window.drawFuncs = {
 		tileHexes.addItem(
 			{ gx: 4, gy: 3 },
 			"n",
-			window.drawableFactory.newDrawableMultiple("tempTiles", "tempTiles", [
-				{ move: "n" }, { move: "n" }, { move: "n" }, { move: "sw" },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se" },
-				{ move: "s", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw" },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "ne", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "se", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-				{ move: "sw", draw: window.drawFuncs._outlineHex },
-				{ move: "nw", draw: window.drawFuncs._outlineHex },
-			]));
+			window.drawableFactory.newDrawableFromJson('{"id":"tempTiles","description":"tempTiles","drawPath":"n:,n:,n:,sw:,nw:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:,s:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,sw:,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,se:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex"}'));
 		tileHexes.draw(tileHexesCanvas[0].getContext("2d"));
 
 		var backingHexImage = new Image();
@@ -267,8 +185,8 @@ window.drawFuncs = {
 	tile: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
-			fill: { show: true, colour: window.colours.tile, },
-			outline: { show: true, thickness: 2 },
+			fill: { show: true, colour: window.colours.tile },
+			outline: { show: true, thickness: 2 }
 		};
 		window.drawFuncs._hexagon(context, options);
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
@@ -307,27 +225,19 @@ window.drawFuncs = {
 	riverOne: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
-			fill: { show: true, colour: window.colours.tile, },
-			outline: { show: true, thickness: 2 },
+			fill: { show: true, colour: window.colours.tile },
+			outline: { show: true, thickness: 2 }
 		};
 		window.drawFuncs._hexagon(context, options);
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
 
-		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", "tempRiver", [
-			{ move: "n" }, { move: "n" },
-			{ move: "n", draw: window.drawFuncs.depthOneRiver },
-			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-			{ move: "se", draw: window.drawFuncs.depthOneRiver },
-			{ move: "se", draw: window.drawFuncs.depthOneRiver },
-			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
-			{ move: "se", draw: window.drawFuncs.depthOneRiver },
-			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-		]));
+		var river = tempGrid.addItem(
+			tileCentreIndex,
+			rotation,
+			window.drawableFactory.newDrawableFromJson('{"id":"tempRiver","description":"tempRiver","drawPath":"n:,n:,n:depthOneRiver,sw:depthOneRiver,s:depthOneRiver,s:depthOneRiver,se:depthOneRiver,se:depthOneRiver,sw:depthOneRiver,se:depthOneRiver,sw:depthOneRiver,s:depthOneRiver" }'));
+
 		river.state = state;
 		tempGrid.draw(context);
 	},
@@ -335,31 +245,17 @@ window.drawFuncs = {
 	riverTwo: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
-			fill: { show: true, colour: window.colours.tile, },
-			outline: { show: true, thickness: 2 },
+			fill: { show: true, colour: window.colours.tile },
+			outline: { show: true, thickness: 2 }
 		};
 		window.drawFuncs._hexagon(context, options);
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", "tempRiver", [
-			{ move: "n" }, { move: "n" },
-			{ move: "n", draw: window.drawFuncs.depthOneRiver },
-			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
-			{ move: "se", draw: window.drawFuncs.depthOneRiver },
-			{ move: "sw", draw: window.drawFuncs.depthZeroRiver },
-			{ move: "s", draw: window.drawFuncs.depthZeroRiver },
-			{ move: "s", draw: window.drawFuncs.depthZeroRiver },
-			{ move: "se", draw: window.drawFuncs.depthOneRiver },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-			{ move: "n" },
-			{ move: "n" },
-			{ move: "ne", draw: window.drawFuncs.depthZeroRiver },
-			{ move: "ne", draw: window.drawFuncs.depthZeroRiver },
-			{ move: "nw", draw: window.drawFuncs.depthZeroRiver },
-			{ move: "n", draw: window.drawFuncs.depthZeroRiver },
-		]));
+		var river = tempGrid.addItem(
+			tileCentreIndex,
+			rotation,
+			window.drawableFactory.newDrawableFromJson('{"id":"tempRiver", "description":"tempRiver", "drawPath":"n:,n:,n:depthOneRiver,sw:depthOneRiver,se:depthOneRiver,sw:depthZeroRiver,s:depthZeroRiver,s:depthZeroRiver,se:depthOneRiver,s:depthOneRiver,s:depthOneRiver,n:,n:,ne:depthZeroRiver,ne:depthZeroRiver,nw:depthZeroRiver,n:depthZeroRiver"}'));
 		river.state = state;
 
 		tempGrid.draw(context);
@@ -368,53 +264,37 @@ window.drawFuncs = {
 	riverThree: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
-			fill: { show: true, colour: window.colours.tile, },
-			outline: { show: true, thickness: 2 },
+			fill: { show: true, colour: window.colours.tile },
+			outline: { show: true, thickness: 2 }
 		};
 		window.drawFuncs._hexagon(context, options);
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", "tempRiver", [
-			{ move: "n" }, { move: "n" },
-			{ move: "n", draw: window.drawFuncs.depthOneRiver },
-			{ move: "se", draw: window.drawFuncs.depthOneRiver },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
-			{ move: "se", draw: window.drawFuncs.depthOneRiver },
-			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
-		]));
-		river.state = state;
+		var river = tempGrid.addItem(
+			tileCentreIndex,
+			rotation, 
+			window.drawableFactory.newDrawableFromJson('{"id":"tempRiver", "description":"tempRiver", "drawPath":"n:,n:,n:depthOneRiver,se:depthOneRiver,s:depthOneRiver,s:depthOneRiver,s:depthOneRiver,s:depthOneRiver,sw:depthOneRiver,se:depthOneRiver,sw:depthOneRiver"}'));
 
+		river.state = state;
 		tempGrid.draw(context);
 	},
 
 	riverFour: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
-			fill: { show: true, colour: window.colours.tile, },
-			outline: { show: true, thickness: 2 },
+			fill: { show: true, colour: window.colours.tile },
+			outline: { show: true, thickness: 2 }
 		};
 		window.drawFuncs._hexagon(context, options);
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", "tempRiver", [
-			{ move: "se" }, { move: "se" },
-			{ move: "se", draw: window.drawFuncs.depthOneRiver },
-			{ move: "n", draw: window.drawFuncs.depthOneRiver },
-			{ move: "n", draw: window.drawFuncs.depthOneRiver },
-			{ move: "nw", draw: window.drawFuncs.depthOneRiver },
-			{ move: "nw", draw: window.drawFuncs.depthOneRiver },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-		]));
+		var river = tempGrid.addItem(
+			tileCentreIndex,
+			rotation,
+			window.drawableFactory.newDrawableFromJson('{"id":"tempRiver", "description":"tempRiver","drawPath":"se:,se:,se:depthOneRiver,n:depthOneRiver,n:depthOneRiver,nw:depthOneRiver,nw:depthOneRiver,s:depthOneRiver,s:depthOneRiver,s:depthOneRiver,sw:depthOneRiver,s:depthOneRiver"}'));
+
 		river.state = state;
 
 		tempGrid.draw(context);
@@ -423,61 +303,38 @@ window.drawFuncs = {
 	riverFive: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
-			fill: { show: true, colour: window.colours.tile, },
-			outline: { show: true, thickness: 2 },
+			fill: { show: true, colour: window.colours.tile },
+			outline: { show: true, thickness: 2 }
 		};
 		window.drawFuncs._hexagon(context, options);
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", "tempRiver", [
-			{ move: "s" }, { move: "s" },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-			{ move: "n", draw: window.drawFuncs.depthOneRiver },
-			{ move: "n", draw: window.drawFuncs.depthOneRiver },
-			{ move: "ne", draw: window.drawFuncs.depthOneRiver },
-			{ move: "n", draw: window.drawFuncs.depthOneRiver },
-			{ move: "n", draw: window.drawFuncs.depthOneRiver },
-			{ move: "ne", draw: window.drawFuncs.depthOneRiver },
-			{ move: "se", draw: window.drawFuncs.depthOneRiver },
-		]));
-		river.state = state;
+		var river = tempGrid.addItem(
+			tileCentreIndex,
+			rotation,
+			window.drawableFactory.newDrawableFromJson('{"id":"tempRiver","description":"tempRiver","drawPath":",s:,s:,s:depthOneRiver,n:depthOneRiver,n:depthOneRiver,ne:depthOneRiver,n:depthOneRiver,n:depthOneRiver,ne:depthOneRiver,se:depthOneRiver"}'));
 
+		river.state = state;
 		tempGrid.draw(context);
 	},
 
 	riverSix: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
-			fill: { show: true, colour: window.colours.tile, },
-			outline: { show: true, thickness: 2 },
+			fill: { show: true, colour: window.colours.tile },
+			outline: { show: true, thickness: 2 }
 		};
 		window.drawFuncs._hexagon(context, options);
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawableFactory.newDrawableMultiple("tempRiver", "tempRiver", [
-			{ move: "s" }, { move: "s" },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-			{ move: "n", draw: window.drawFuncs.depthOneRiver },
-			{ move: "n", draw: window.drawFuncs.depthOneRiver },
-			{ move: "ne", draw: window.drawFuncs.depthOneRiver },
-			{ move: "n", draw: window.drawFuncs.depthOneRiver },
-			{ move: "n", draw: window.drawFuncs.depthOneRiver },
-			{ move: "nw", draw: window.drawFuncs.depthOneRiver },
-			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
-			{ move: "s", draw: window.drawFuncs.depthTwoRiver },
-			{ move: "sw", draw: window.drawFuncs.depthOneRiver },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-			{ move: "se", draw: window.drawFuncs.depthTwoRiver },
-			{ move: "s", draw: window.drawFuncs.depthOneRiver },
-			{ move: "n" },
-			{ move: "n", draw: window.drawFuncs.depthTwoRiver },
-			{ move: "ne", draw: window.drawFuncs.depthTwoRiver },
-			{ move: "n", draw: window.drawFuncs.depthOneRiver },
-		]));
-		river.state = state;
+		var river = tempGrid.addItem(
+			tileCentreIndex,
+			rotation,
+			window.drawableFactory.newDrawableFromJson('{ "id":"tempRiver", "description":"tempRiver","drawPath":"s,s:,s:depthOneRiver,n:depthOneRiver,n:depthOneRiver,ne:depthOneRiver,n:depthOneRiver,n:depthOneRiver,nw:depthOneRiver,sw:depthOneRiver,s:depthTwoRiver,sw:depthOneRiver,s:depthOneRiver,se:depthTwoRiver,s:depthOneRiver,n:,n:depthTwoRiver,ne:depthTwoRiver,n:depthOneRiver"}'));
 
+		river.state = state;
 		tempGrid.draw(context);
 	},
 
@@ -514,7 +371,7 @@ window.drawFuncs = {
 	water: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
-			fill: { show: true, colour: window.colours.water },
+			fill: { show: true, colour: window.colours.water }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -523,7 +380,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.lightWater },
-			text: { value: "D0" },
+			text: { value: "D0" }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -532,7 +389,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.water },
-			text: { value: "D1" },
+			text: { value: "D1" }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -541,7 +398,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.darkWater },
-			text: { value: "D2", colour: window.colours.lightOutline },
+			text: { value: "D2", colour: window.colours.lightOutline }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -550,7 +407,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.building },
-			text: { value: "B0", colour: window.colours.lightOutline },
+			text: { value: "B0", colour: window.colours.lightOutline }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -559,7 +416,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.building },
-			text: { value: "B1", colour: window.colours.lightOutline },
+			text: { value: "B1", colour: window.colours.lightOutline }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -568,7 +425,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.building },
-			text: { value: "B2", colour: window.colours.lightOutline },
+			text: { value: "B2", colour: window.colours.lightOutline }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -577,7 +434,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.building },
-			text: { value: "B3", colour: window.colours.lightOutline },
+			text: { value: "B3", colour: window.colours.lightOutline }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -586,7 +443,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.building },
-			text: { value: "B4", colour: window.colours.lightOutline },
+			text: { value: "B4", colour: window.colours.lightOutline }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -595,7 +452,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.hill },
-			text: { value: "H1" },
+			text: { value: "H1" }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -604,7 +461,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.hillTwo },
-			text: { value: "H2" },
+			text: { value: "H2" }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -613,7 +470,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.hillThree },
-			text: { value: "H3", colour: window.colours.lightOutline },
+			text: { value: "H3", colour: window.colours.lightOutline }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -731,7 +588,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf140", isIcon: true, colour: window.colours.objective },
-			outline: { show: false },
+			outline: { show: false }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -740,7 +597,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf024", isIcon: true, colour: window.colours.objective },
-			outline: { show: false },
+			outline: { show: false }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -749,7 +606,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf0e7", isIcon: true, colour: window.colours.objective },
-			outline: { show: false },
+			outline: { show: false }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -758,7 +615,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf130", isIcon: true, colour: window.colours.objective },
-			outline: { show: false },
+			outline: { show: false }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -767,7 +624,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf0d1", isIcon: true, colour: window.colours.objective },
-			outline: { show: false },
+			outline: { show: false }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -776,7 +633,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf071", isIcon: true, colour: window.colours.objective },
-			outline: { show: false },
+			outline: { show: false }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -785,7 +642,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf007", isIcon: true, colour: window.colours.objective },
-			outline: { show: false },
+			outline: { show: false }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -794,7 +651,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf0ad", isIcon: true, colour: window.colours.objective },
-			outline: { show: false },
+			outline: { show: false }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -803,7 +660,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "A", colour: window.colours.objective },
-			outline: { show: false },
+			outline: { show: false }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -812,7 +669,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "B", colour: window.colours.objective },
-			outline: { show: false },
+			outline: { show: false }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -821,7 +678,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "C", colour: window.colours.objective },
-			outline: { show: false },
+			outline: { show: false }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},
@@ -830,7 +687,7 @@ window.drawFuncs = {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "D", colour: window.colours.objective },
-			outline: { show: false },
+			outline: { show: false }
 		};
 		window.drawFuncs._hexagon(context, options);
 	},

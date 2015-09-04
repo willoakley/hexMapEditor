@@ -1,23 +1,10 @@
 window.drawableFactory = {
-	/*  
-		See drawableFactory.js for example definitions of drawFunction function.
-		
-		pathDrawFunctionArray should be an array of objects like:
-		{ move: "s"; draw: drawFunction }
-		For no move, supply move as null or ommit the 'move' property. The move is assuming the structure is designed in its north facing position
-		For no draw at hex (i.e. just move a space) ommit the 'draw' property
-	*/
-
-	newDrawableMultiple: function (id, description, pathDrawFunctionArray) {
+	_newDrawableMultiple: function (id, description, pathDrawFunctionArray) {
 		return {
 			id: id,
 			description: description,
 			drawPath: pathDrawFunctionArray
 		};
-	},
-
-	newDrawableSingle: function (id, description, drawFunction) {
-		return window.drawableFactory.newDrawableMultiple(id, description, [ { draw: drawFunction } ]);
 	},
 
 	newDrawableFromJson: function (jsonString) {
@@ -28,7 +15,7 @@ window.drawableFactory = {
 			throw "bad drawable item supplied";
 		}
 
-		var moveAndDraw = drawable.drawPath.split(",");
+		var moveAndDraw = drawable.drawPath.replace(/\s/g, "").split(",");
 		if (moveAndDraw.length < 1) {
 			throw "no parseable move/draw actions in path";
 		}
@@ -52,17 +39,24 @@ window.drawableFactory = {
 				}
 
 				// TODO replace this with just saving the name and evaluating on the draw action.
-				if (window.drawFuncs[actions[1]] == undefined) {
-					throw "action " + actions[1] + " does not exist from path element " + ii;
+				if (actions[1].length > 0) {				
+					if (window.drawFuncs[actions[1]] == undefined) {
+						throw "action " + actions[1] + " does not exist from path element " + ii;
+					}
+
+					extractedDraw = window.drawFuncs[actions[1]];
 				}
 
-				extractedDraw = window.drawFuncs[actions[1]];
+				if (window.gridCompas.directionValues[actions[0]] == undefined) {
+					throw "move " + actions[0] + " is not a valid compas direction from path element " + ii;
+				}
+
 				extractedMove = actions[0];
 			}
 
 			drawArray[drawArray.length] = { move: extractedMove, draw: extractedDraw };
 		}
 
-		return window.drawableFactory.newDrawableMultiple(drawable.id, drawable.description, drawArray);
+		return window.drawableFactory._newDrawableMultiple(drawable.id, drawable.description, drawArray);
 	},
 };
