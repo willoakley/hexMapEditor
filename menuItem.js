@@ -12,7 +12,7 @@ function addMenuItem(itemWithQuantity, itemType, menuElementId) {
 		itemGrid = window.newGrid(hexGrid.getScale() / 2, { sx: 9, sy: 7 });
 	}
 
-	itemGrid.addItem(window.newGridIndex(0, 0), "n", drawableItem, { id: id });
+	itemGrid.addItem(window.newGridIndex(0, 0), "n", drawableItem);
 
 	menuItems[id] = {
 		id: id,

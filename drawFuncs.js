@@ -110,7 +110,7 @@ window.drawFuncs = {
 		context.stroke();
 	},
 
-	_outlineHex: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	_outlineHex: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, offset: pixelLocation, state: window.gridItemState.normal,
 			outline: { show: true, colour: window.colours.outline },
@@ -118,11 +118,11 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	hilightHex: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	hilightHex: function(context, pixelLocation, scale, rotation, state) {
 		window.drawFuncs._hilightHexagon(context, { scale: scale, offset: pixelLocation, state: window.gridItemState.selected });
 	},
 
-	hilightRotationPointHex: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	hilightRotationPointHex: function(context, pixelLocation, scale, rotation, state) {
 		var points = window.hexMaths.hexPointsAtOffset(pixelLocation.px, pixelLocation.py, scale);
 		window.drawFuncs._drawPoints(context, points);
 		context.fillStyle = window.colours.hilightAlternate;
@@ -264,7 +264,7 @@ window.drawFuncs = {
 		return window.drawFuncs._tileBackingImages[tileIndex];
 	},
 
-	tile: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	tile: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.tile, },
@@ -274,7 +274,7 @@ window.drawFuncs = {
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 	},
 
-	halfTile: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	halfTile: function(context, pixelLocation, scale, rotation, state) {
 		var points = window.hexMaths.hexPointsAtOffset(pixelLocation.px, pixelLocation.py, scale);
 		var rotationFactor = window.gridCompas.directionValues[rotation];
 
@@ -304,7 +304,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, { scale: scale, state: state, offset: pixelLocation, outline: { show: false } });
 	},
 
-	riverOne: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	riverOne: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.tile, },
@@ -332,7 +332,7 @@ window.drawFuncs = {
 		tempGrid.draw(context);
 	},
 
-	riverTwo: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	riverTwo: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.tile, },
@@ -365,7 +365,7 @@ window.drawFuncs = {
 		tempGrid.draw(context);
 	},
 
-	riverThree: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	riverThree: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.tile, },
@@ -392,7 +392,7 @@ window.drawFuncs = {
 		tempGrid.draw(context);
 	},
 
-	riverFour: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	riverFour: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.tile, },
@@ -420,7 +420,7 @@ window.drawFuncs = {
 		tempGrid.draw(context);
 	},
 
-	riverFive: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	riverFive: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.tile, },
@@ -446,7 +446,7 @@ window.drawFuncs = {
 		tempGrid.draw(context);
 	},
 
-	riverSix: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	riverSix: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.tile, },
@@ -482,7 +482,7 @@ window.drawFuncs = {
 	},
 
 	// - - - - - - - - - - - - - - - - - - - - - - Terrain types - - - - - - - - - - - - - - - - - - - - - - - - - -
-	lightWoods: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	lightWoods: function(context, pixelLocation, scale, rotation, state) {
 		var sclaePadding = scale * 0.2;
 		var options = {
 			scale: scale - sclaePadding, state: state, offset: { px: pixelLocation.px + sclaePadding, py: pixelLocation.py + sclaePadding }, rotation: rotation,
@@ -496,7 +496,7 @@ window.drawFuncs = {
 		context.fillText("\uf18c", points[0].x - (scale * 0.33), points[0].y + (scale * 0.75));
 	},
 
-	heavyWoods: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	heavyWoods: function(context, pixelLocation, scale, rotation, state) {
 		var sclaePadding = scale * 0.2;
 		var options = {
 			scale: scale - sclaePadding, state: state, offset: { px: pixelLocation.px + sclaePadding, py: pixelLocation.py + sclaePadding }, rotation: rotation,
@@ -511,7 +511,7 @@ window.drawFuncs = {
 		context.fillText("\uf18c", points[1].x - (scale * 0.33), points[1].y + (scale * 0.33));
 	},
 
-	water: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	water: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.water },
@@ -519,7 +519,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	depthZeroRiver: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	depthZeroRiver: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.lightWater },
@@ -528,7 +528,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	depthOneRiver: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	depthOneRiver: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.water },
@@ -537,7 +537,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	depthTwoRiver: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	depthTwoRiver: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.darkWater },
@@ -546,7 +546,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	heightZeroBuilding: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	heightZeroBuilding: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.building },
@@ -555,7 +555,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	heightOneBuilding: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	heightOneBuilding: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.building },
@@ -564,7 +564,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	heightTwoBuilding: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	heightTwoBuilding: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.building },
@@ -573,7 +573,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	heightThreeBuilding: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	heightThreeBuilding: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.building },
@@ -582,7 +582,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	heightFourBuilding: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	heightFourBuilding: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.building },
@@ -591,7 +591,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	heightOneHill: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	heightOneHill: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.hill },
@@ -600,7 +600,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	heightTwoHill: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	heightTwoHill: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.hillTwo },
@@ -609,7 +609,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	heightThreeHill: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	heightThreeHill: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			fill: { show: true, colour: window.colours.hillThree },
@@ -618,7 +618,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	road: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	road: function(context, pixelLocation, scale, rotation, state) {
 		var points = window.hexMaths.hexPointsAtOffset(pixelLocation.px, pixelLocation.py, scale);
 		var rotationFactor = window.gridCompas.directionValues[rotation];
 
@@ -638,7 +638,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, { scale: scale, state: state, offset: pixelLocation, outline: { show: false } });
 	},
 
-	roadCorner: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	roadCorner: function(context, pixelLocation, scale, rotation, state) {
 		var points = window.hexMaths.hexPointsAtOffset(pixelLocation.px, pixelLocation.py, scale);
 		var rotationFactor = window.gridCompas.directionValues[rotation];
 
@@ -658,7 +658,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, { scale: scale, state: state, offset: pixelLocation, outline: { show: false } });
 	},
 
-	roadTJunction: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	roadTJunction: function(context, pixelLocation, scale, rotation, state) {
 		var points = window.hexMaths.hexPointsAtOffset(pixelLocation.px, pixelLocation.py, scale);
 		var rotationFactor = window.gridCompas.directionValues[rotation];
 		var buffer = scale * 0.2;
@@ -685,8 +685,8 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, { scale: scale, state: state, offset: pixelLocation, outline: { show: false } });
 	},
 
-	roadBridge: function(context, pixelLocation, scale, rotation, state, itemArgs) {
-		window.drawFuncs.road(context, pixelLocation, scale, rotation, state, itemArgs);
+	roadBridge: function(context, pixelLocation, scale, rotation, state) {
+		window.drawFuncs.road(context, pixelLocation, scale, rotation, state);
 
 		var points = window.hexMaths.hexPointsAtOffset(pixelLocation.px, pixelLocation.py, scale);
 		var rotationFactor = window.gridCompas.directionValues[rotation];
@@ -712,7 +712,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, { scale: scale, state: state, offset: pixelLocation, outline: { show: false } });
 	},
 
-	barrier: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	barrier: function(context, pixelLocation, scale, rotation, state) {
 		var points = window.hexMaths.hexPointsAtOffset(pixelLocation.px, pixelLocation.py, scale);
 		var rotationFactor = window.gridCompas.directionValues[rotation];
 		context.beginPath();
@@ -727,7 +727,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, { scale: scale, state: state, offset: pixelLocation, outline: { show: false } });
 	},
 
-	bullseye: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	bullseye: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf140", isIcon: true, colour: window.colours.objective },
@@ -736,7 +736,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	flag: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	flag: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf024", isIcon: true, colour: window.colours.objective },
@@ -745,7 +745,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	bolt: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	bolt: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf0e7", isIcon: true, colour: window.colours.objective },
@@ -754,7 +754,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	comms: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	comms: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf130", isIcon: true, colour: window.colours.objective },
@@ -763,7 +763,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	truck: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	truck: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf0d1", isIcon: true, colour: window.colours.objective },
@@ -772,7 +772,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	warning: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	warning: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf071", isIcon: true, colour: window.colours.objective },
@@ -781,7 +781,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	person: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	person: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf007", isIcon: true, colour: window.colours.objective },
@@ -790,7 +790,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	wrench: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	wrench: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "\uf0ad", isIcon: true, colour: window.colours.objective },
@@ -799,7 +799,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	a: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	a: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "A", colour: window.colours.objective },
@@ -808,7 +808,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	b: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	b: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "B", colour: window.colours.objective },
@@ -817,7 +817,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	c: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	c: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "C", colour: window.colours.objective },
@@ -826,7 +826,7 @@ window.drawFuncs = {
 		window.drawFuncs._hexagon(context, options);
 	},
 
-	d: function(context, pixelLocation, scale, rotation, state, itemArgs) {
+	d: function(context, pixelLocation, scale, rotation, state) {
 		var options = {
 			scale: scale, state: state, offset: pixelLocation, rotation: rotation,
 			text: { value: "D", colour: window.colours.objective },

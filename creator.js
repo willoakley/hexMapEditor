@@ -181,7 +181,7 @@ function loadLink() {
 			continue;
 		}
 
-		tileGrid.addItem(tile.position, tile.facing, menuItems[id].item, { id: id });
+		tileGrid.addItem(tile.position, tile.facing, menuItems[id].item);
 		menuItems[id].adjustQuantity(-1);
 	}
 
@@ -194,7 +194,7 @@ function loadLink() {
 			continue;
 		}
 
-		hexGrid.addItem(feature.position, feature.facing, menuItems[id].item, { id: id });
+		hexGrid.addItem(feature.position, feature.facing, menuItems[id].item);
 		menuItems[id].adjustQuantity(-1);
 	}
 

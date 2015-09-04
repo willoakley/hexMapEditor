@@ -205,12 +205,11 @@ window.newGrid = function (scale, size, offset) {
 			}
 		},
 
-		addItem: function (gridIndex, facing, drawableItem, itemArgs) {
+		addItem: function (gridIndex, facing, drawableItem) {
 			var index = drawableItem.id + "_" + this._idGenerator();
 
 			this._grid[index] = {
 				drawableItem: drawableItem,
-				itemArgs: itemArgs,
 				state: window.gridItemState.normal,
 				positioning: {
 					facing: facing,
