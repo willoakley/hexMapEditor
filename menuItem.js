@@ -1,7 +1,7 @@
 var menuItems = {};
 
 function addMenuItem(itemWithQuantity, itemType, menuElementId) {
-	var drawableItem = itemWithQuantity.item;
+	var drawableItem = window.drawableFactory.newDrawableFromJson(itemWithQuantity.item);
 	var id = "menu" + itemType + "_" + drawableItem.id;
 	var itemGrid = null;
 
@@ -79,68 +79,68 @@ function initMenu() {
 	menuItems = {};
 
 	addMenuItems("tile", "tileMenu", [
-		{ quantity: 8, item: window.drawableFactory.newDrawableSingle("tile","Plain tile", window.drawFuncs.tile) },
-		{ quantity: 4, item: window.drawableFactory.newDrawableSingle("halfTile","Half tile", window.drawFuncs.halfTile) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("riverOne","River tile", window.drawFuncs.riverOne) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("riverTwo","River tile", window.drawFuncs.riverTwo) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("riverThree","River tile", window.drawFuncs.riverThree) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("riverFour","River tile", window.drawFuncs.riverFour) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("riverFive","River tile", window.drawFuncs.riverFive) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("riverSix","River tile", window.drawFuncs.riverSix) },
-	]);
-
-	addMenuItems("hex", "buildingMenu", [
-		{ quantity: 2, item: window.drawableFactory.newDrawableMultiple("gasTank","Gas tank", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "ne", draw: window.drawFuncs.heightTwoBuilding }, ]) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("barracks","Barracks", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, ]) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("buildingOne","Tower block", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, ]) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("buildingTwo","Tower block", [ { draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, ]) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("buildingThree","Tower block", [ { draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, { move: "ne", draw: window.drawFuncs.heightThreeBuilding }, { move: "n", draw: window.drawFuncs.heightThreeBuilding }, ]) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("buildingFour","Tower block", [ { move: "s", draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, { move: "se", draw: window.drawFuncs.heightThreeBuilding }, { move: "n", draw: window.drawFuncs.heightThreeBuilding }, { move: "n", draw: window.drawFuncs.heightThreeBuilding }, { move: "se", draw: window.drawFuncs.heightThreeBuilding }, { move: "s", draw: window.drawFuncs.heightThreeBuilding }, ]) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("buildingFive","Tower block", [ { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "se", draw: window.drawFuncs.heightTwoBuilding }, { move: "n", draw: window.drawFuncs.heightTwoBuilding }, { move: "n", draw: window.drawFuncs.heightTwoBuilding }, { move: "se", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, ]) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("mechBay","Mech bay", [ { draw: window.drawFuncs.heightFourBuilding }, { move: "s", draw: window.drawFuncs.heightFourBuilding }, { move: "s", draw: window.drawFuncs.heightFourBuilding }, { move: "s", draw: window.drawFuncs.heightZeroBuilding }, { move: "s", draw: window.drawFuncs.heightFourBuilding }, { move: "se", draw: window.drawFuncs.heightFourBuilding }, { move: "n", draw: window.drawFuncs.heightFourBuilding }, { move: "n", draw: window.drawFuncs.heightFourBuilding }, { move: "n", draw: window.drawFuncs.heightFourBuilding }, { move: "n", draw: window.drawFuncs.heightFourBuilding }, ]) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("factoryOne","Factory", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "ne", draw: window.drawFuncs.heightOneBuilding }, { move: "n", draw: window.drawFuncs.heightOneBuilding }, { move: "n", draw: window.drawFuncs.heightOneBuilding }, { move: "n", draw: window.drawFuncs.heightOneBuilding }, { move: "ne", draw: window.drawFuncs.heightOneBuilding }, { move: "s", draw: window.drawFuncs.heightOneBuilding }, { move: "s", draw: window.drawFuncs.heightOneBuilding }, { move: "s", draw: window.drawFuncs.heightOneBuilding }, { move: "s", draw: window.drawFuncs.heightOneBuilding }, ]) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("factoryTwo","Factory", [ { draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "s", draw: window.drawFuncs.heightTwoBuilding }, { move: "ne", draw: window.drawFuncs.heightTwoBuilding }, { move: "n", draw: window.drawFuncs.heightTwoBuilding }, { move: "n", draw: window.drawFuncs.heightTwoBuilding }, ]) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("missileSilo","Missile silo", [ { move: "s", draw: window.drawFuncs.heightZeroBuilding }, { move: "s", draw: window.drawFuncs.heightZeroBuilding }, { move: "s", draw: window.drawFuncs.heightZeroBuilding }, { move: "se", draw: window.drawFuncs.heightZeroBuilding }, { move: "n", draw: window.drawFuncs.heightOneBuilding }, { move: "n", draw: window.drawFuncs.heightZeroBuilding }, { move: "n", draw: window.drawFuncs.heightZeroBuilding }, { move: "se", draw: window.drawFuncs.heightZeroBuilding }, { move: "s", draw: window.drawFuncs.heightZeroBuilding }, ]) },
-		{ quantity: 2, item: window.drawableFactory.newDrawableSingle("commsTower","Comms tower", window.drawFuncs.heightFourBuilding) },
-		{ quantity: 20, item: window.drawableFactory.newDrawableSingle("barrier","Barrier", window.drawFuncs.barrier) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("bunker","Bunker", window.drawFuncs.heightZeroBuilding) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableSingle("radarStation","Radar station", window.drawFuncs.heightZeroBuilding) },
-	]);
-
-	addMenuItems("hex", "roadMenu", [
-		{ quantity: 12, item: window.drawableFactory.newDrawableSingle("road","Road", window.drawFuncs.road) },
-		{ quantity: 6, item: window.drawableFactory.newDrawableMultiple("roadDouble","Double road", [ { draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.road }, ]) },
-		{ quantity: 5, item: window.drawableFactory.newDrawableMultiple("roadTripple","Tripple road", [ { draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.road }, ]) },
-		{ quantity: 6, item: window.drawableFactory.newDrawableSingle("roadCorner","Corner", window.drawFuncs.roadCorner) },
-		{ quantity: 4, item: window.drawableFactory.newDrawableSingle("roadTJunction","T-Junction", window.drawFuncs.roadTJunction) },
-		{ quantity: 3, item: window.drawableFactory.newDrawableMultiple("bridge","Bridge", [ { draw: window.drawFuncs.road }, { move: "s", draw: window.drawFuncs.water }, { draw: window.drawFuncs.roadBridge }, { move: "s", draw: window.drawFuncs.road }, ] ) },
-	]);
-
-	addMenuItems("hex", "natrualMenu", [
-		{ quantity: 20, item: window.drawableFactory.newDrawableSingle("lightWoods","Light woods", window.drawFuncs.lightWoods) },
-		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("heavyWoods","Heavy woods", window.drawFuncs.heavyWoods) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillOne","Hill", [ { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "sw", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightTwoHill }, { move: "se", draw: window.drawFuncs.heightTwoHill }, { move: "sw", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightThreeHill }, { move: "ne", draw: window.drawFuncs.heightThreeHill }, { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill } ] ) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillTwo","Hill", [ { draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "nw", draw: window.drawFuncs.heightTwoHill } ] ) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillThree","Hill", [ { move: "se", draw: window.drawFuncs.heightTwoHill }, { move: "sw", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightThreeHill }, { move: "s", draw: window.drawFuncs.heightThreeHill }, { move: "ne", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightOneHill } ] ) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillFour","Hill", [ { draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightTwoHill }, { move: "ne", draw: window.drawFuncs.heightOneHill } ] ) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillFive","Hill", [ { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "ne", draw: window.drawFuncs.heightTwoHill }, { move: "n", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "sw", draw: window.drawFuncs.heightOneHill } ] ) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillSix","Hill", [ { draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "sw", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightTwoHill }, { move: "sw", draw: window.drawFuncs.heightTwoHill } ] ) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillSeven","Hill", [ { draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightTwoHill }, { move: "n", draw: window.drawFuncs.heightTwoHill }, { move: "se", draw: window.drawFuncs.heightThreeHill }, { move: "s", draw: window.drawFuncs.heightTwoHill }, { move: "ne", draw: window.drawFuncs.heightOneHill }, { move: "n", draw: window.drawFuncs.heightOneHill } ] ) },
-		{ quantity: 1, item: window.drawableFactory.newDrawableMultiple("hillEight","Hill", [ { move: "se", draw: window.drawFuncs.heightOneHill }, { move: "sw", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "s", draw: window.drawFuncs.heightOneHill }, { move: "ne", draw: window.drawFuncs.heightTwoHill }, { move: "ne", draw: window.drawFuncs.heightThreeHill }, { move: "s", draw: window.drawFuncs.heightThreeHill }, { move: "se", draw: window.drawFuncs.heightTwoHill }, { move: "n", draw: window.drawFuncs.heightTwoHill }, { move: "n", draw: window.drawFuncs.heightOneHill }, { move: "se", draw: window.drawFuncs.heightOneHill } ] ) },
+		{ quantity: 8, item: '{ "id":"tile", "description": "Plain tile", "drawPath": "tile" }' },
+		{ quantity: 4, item: '{ "id":"halfTile", "description": "Half tile", "drawPath": "halfTile" }' },
+		{ quantity: 1, item: '{ "id":"riverOne", "description": "River tile", "drawPath": "riverOne" }' },
+		{ quantity: 1, item: '{ "id":"riverTwo", "description": "River tile", "drawPath": "riverTwo" }' },
+		{ quantity: 1, item: '{ "id":"riverThree", "description": "River tile", "drawPath": "riverThree" }' },
+		{ quantity: 1, item: '{ "id":"riverFour", "description": "River tile", "drawPath": "riverFour" }' },
+		{ quantity: 1, item: '{ "id":"riverFive", "description": "River tile", "drawPath": "riverFive" }' },
+		{ quantity: 1, item: '{ "id":"riverSix", "description": "River tile", "drawPath": "riverSix"} ' },
 	]);
 
 	addMenuItems("hex", "objectivesMenu", [
-		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("a","Point A", window.drawFuncs.a) },
-		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("b","Point B", window.drawFuncs.b) },
-		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("c","Point C", window.drawFuncs.c) },
-		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("d","Point D", window.drawFuncs.d) },
-		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("bullseye","Bullseye", window.drawFuncs.bullseye) },
-		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("flag","Flag", window.drawFuncs.flag) },
-		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("bolt","Lightning bolt", window.drawFuncs.bolt) },
-		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("comms","Comms", window.drawFuncs.comms) },
-		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("truck","Vehicle", window.drawFuncs.truck) },
-		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("warning","Warning", window.drawFuncs.warning) },
-		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("person","Person", window.drawFuncs.person) },
-		{ quantity: 10, item: window.drawableFactory.newDrawableSingle("wrench","Wrench", window.drawFuncs.wrench) },
+		{ quantity: 10, item: '{ "id":"a", "description": "Point A", "drawPath": "a" }' },
+		{ quantity: 10, item: '{ "id":"b", "description": "Point B", "drawPath": "b" }' },
+		{ quantity: 10, item: '{ "id":"c", "description": "Point C", "drawPath": "c" }' },
+		{ quantity: 10, item: '{ "id":"d", "description": "Point D", "drawPath": "d" }' },
+		{ quantity: 10, item: '{ "id":"bullseye", "description": "Bullseye", "drawPath": "bullseye" }' },
+		{ quantity: 10, item: '{ "id":"flag", "description": "Flag", "drawPath": "flag" }' },
+		{ quantity: 10, item: '{ "id":"bolt", "description": "Lightning bolt", "drawPath": "bolt" }' },
+		{ quantity: 10, item: '{ "id":"comms", "description": "Comms", "drawPath": "comms" }' },
+		{ quantity: 10, item: '{ "id":"truck", "description": "Vehicle", "drawPath": "truck" }' },
+		{ quantity: 10, item: '{ "id":"warning", "description": "Warning", "drawPath": "warning" }' },
+		{ quantity: 10, item: '{ "id":"person", "description": "Person", "drawPath": "person" }' },
+		{ quantity: 10, item: '{ "id":"wrench", "description": "Wrench", "drawPath": "wrench" }' },
+	]);
+
+	addMenuItems("hex", "natrualMenu", [
+		{ quantity: 20, item: '{ "id":"lightWoods", "description": "Light woods", "drawPath": "lightWoods" }' },
+		{ quantity: 10, item: '{ "id":"heavyWoods", "description": "Heavy woods", "drawPath": "heavyWoods" }' },
+		{ quantity: 1, item: '{ "id":"hillOne", "description": "Hill", "drawPath": "se:heightOneHill,s:heightOneHill,sw:heightOneHill,s:heightOneHill,se:heightOneHill,n:heightOneHill,ne:heightTwoHill,se:heightTwoHill,sw:heightTwoHill,s:heightThreeHill,ne:heightThreeHill,s:heightTwoHill,s:heightOneHill,s:heightOneHill,ne:heightOneHill,n:heightOneHill,n:heightOneHill,se:heightOneHill" }' },
+		{ quantity: 1, item: '{ "id":"hillTwo", "description": "Hill", "drawPath": "heightOneHill,s:heightOneHill,s:heightOneHill,ne:heightOneHill,se:heightOneHill,s:heightOneHill,nw:heightTwoHill" }' },
+		{ quantity: 1, item: '{ "id":"hillThree", "description": "Hill", "drawPath": "se:heightTwoHill,sw:heightOneHill,s:heightOneHill,ne:heightThreeHill,s:heightThreeHill,ne:heightTwoHill,s:heightOneHill,ne:heightOneHill" }' },
+		{ quantity: 1, item: '{ "id":"hillFour", "description": "Hill", "drawPath": "heightTwoHill,s:heightTwoHill,s:heightOneHill,se:heightOneHill,n:heightTwoHill,ne:heightOneHill" }' },
+		{ quantity: 1, item: '{ "id":"hillFive", "description": "Hill", "drawPath": "s:heightTwoHill,s:heightTwoHill,ne:heightTwoHill,n:heightOneHill,se:heightOneHill,s:heightOneHill,sw:heightOneHill" }' },
+		{ quantity: 1, item: '{ "id":"hillSix", "description": "Hill", "drawPath": "heightOneHill,s:heightOneHill,ne:heightOneHill,se:heightOneHill,s:heightOneHill,sw:heightOneHill,n:heightTwoHill,sw:heightTwoHill" }' },
+		{ quantity: 1, item: '{ "id":"hillSeven", "description": "Hill", "drawPath": "heightOneHill,s:heightTwoHill,s:heightOneHill,ne:heightTwoHill,n:heightTwoHill,se:heightThreeHill,s:heightTwoHill,ne:heightOneHill,n:heightOneHill" }' },
+		{ quantity: 1, item: '{ "id":"hillEight", "description": "Hill", "drawPath": "se:heightOneHill,sw:heightOneHill,s:heightOneHill,s:heightOneHill,ne:heightTwoHill,ne:heightThreeHill,s:heightThreeHill,se:heightTwoHill,n:heightTwoHill,n:heightOneHill,se:heightOneHill" }' },
+	]);
+
+	addMenuItems("hex", "roadMenu", [
+		{ quantity: 12, item:'{ "id":"road", "description": "Road", "drawPath": "road" }' },
+		{ quantity: 6, item: '{ "id":"roadDouble", "description": "Double road", "drawPath": "road,s:road" }' },
+		{ quantity: 5, item: '{ "id":"roadTripple", "description": "Tripple road", "drawPath": "road,s:road,s:road" }' },
+		{ quantity: 6, item: '{ "id":"roadCorner", "description": "Corner", "drawPath": "roadCorner" }' },
+		{ quantity: 4, item: '{ "id":"roadTJunction", "description": "T-Junction", "drawPath": "roadTJunction" }' },
+		{ quantity: 3, item: '{ "id":"bridge", "description": "Bridge", "drawPath": "road,s:water,roadBridge,s:road" }' },
+	]);
+
+	addMenuItems("hex", "buildingMenu", [
+		{ quantity: 2, item: '{ "id": "gasTank", "description": "Gas tank", "drawPath": "heightTwoBuilding,s:heightTwoBuilding,ne:heightTwoBuilding" }' },
+		{ quantity: 1, item: '{ "id": "barracks", "description": "Barracks", "drawPath": "heightTwoBuilding,s:heightTwoBuilding" }' },
+		{ quantity: 1, item: '{ "id": "buildingOne", "description": "Tower block", "drawPath": "heightTwoBuilding,s:heightTwoBuilding" }' },
+		{ quantity: 1, item: '{ "id": "buildingTwo", "description": "Tower block", "drawPath": "heightThreeBuilding,s:heightThreeBuilding" }' },
+		{ quantity: 1, item: '{ "id": "buildingThree", "description": "Tower block", "drawPath": "heightThreeBuilding,s:heightThreeBuilding,s:heightThreeBuilding,ne:heightThreeBuilding,n:heightThreeBuilding" }' },
+		{ quantity: 1, item: '{ "id": "buildingFour", "description": "Tower block", "drawPath": "s:heightThreeBuilding,s:heightThreeBuilding,se:heightThreeBuilding,n:heightThreeBuilding,n:heightThreeBuilding,se:heightThreeBuilding,s:heightThreeBuilding" }' },
+		{ quantity: 1, item: '{ "id": "buildingFive", "description": "Tower block", "drawPath": "s:heightTwoBuilding,s:heightTwoBuilding,se:heightTwoBuilding,n:heightTwoBuilding,n:heightTwoBuilding,se:heightTwoBuilding,s:heightTwoBuilding" }' },
+		{ quantity: 1, item: '{ "id": "mechBay", "description": "Mech bay", "drawPath": "heightFourBuilding,s:heightFourBuilding,s:heightFourBuilding,s:heightZeroBuilding,s:heightFourBuilding,se:heightFourBuilding,n:heightFourBuilding,n:heightFourBuilding,n:heightFourBuilding,n:heightFourBuilding" }' },
+		{ quantity: 1, item: '{ "id": "factoryOne", "description": "Factory", "drawPath": "heightTwoBuilding,s:heightTwoBuilding,s:heightTwoBuilding,s:heightTwoBuilding,s:heightTwoBuilding,ne:heightOneBuilding,n:heightOneBuilding,n:heightOneBuilding,n:heightOneBuilding,ne:heightOneBuilding,s:heightOneBuilding,s:heightOneBuilding,s:heightOneBuilding,s:heightOneBuilding" }' },
+		{ quantity: 1, item: '{ "id": "factoryTwo", "description": "Factory", "drawPath": "heightTwoBuilding,s:heightTwoBuilding,s:heightTwoBuilding,s:heightTwoBuilding,ne:heightTwoBuilding,n:heightTwoBuilding,n:heightTwoBuilding" }' },
+		{ quantity: 1, item: '{ "id": "missileSilo", "description": "Missile silo", "drawPath": "s:heightZeroBuilding,s:heightZeroBuilding,s:heightZeroBuilding,se:heightZeroBuilding,n:heightOneBuilding,n:heightZeroBuilding,n:heightZeroBuilding,se:heightZeroBuilding,s:heightZeroBuilding" }' },
+		{ quantity: 2, item: '{ "id": "commsTower", "description": "Comms tower", "drawPath": "heightFourBuilding" }' },
+		{ quantity: 20,item: '{ "id": "barrier", "description": "Barrier", "drawPath": "barrier" }' },
+		{ quantity: 1, item: '{ "id": "bunker", "description": "Bunker", "drawPath": "heightZeroBuilding" }' },
+		{ quantity: 1, item: '{ "id": "radarStation", "description": "Radar station", "drawPath": "heightZeroBuilding" }' },
 	]);
 }
