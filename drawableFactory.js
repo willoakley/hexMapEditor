@@ -7,6 +7,24 @@ window.drawableFactory = {
 		};
 	},
 
+	newDrawableFromExistingDrawable: function (drawableItem, newId, newDescription, newDrawFunction) {
+		if (window.drawFuncs[newDrawFunction] == undefined) {
+			throw "action " + newDrawFunction + " does not exist";
+		}
+
+		var pathDrawFunctionArray = [];
+		for(var ii in drawableItem.drawPath) {
+			pathDrawFunctionArray[ii] = { move: drawableItem.drawPath[ii].move, draw: window.drawFuncs[newDrawFunction] };
+		}
+
+		return {
+			id: newId,
+			description: newDescription,
+			drawPath: pathDrawFunctionArray
+		};
+	},
+
+	// This function is really slow. Avoid calling multiple times
 	newDrawableFromJson: function (jsonString) {
 		var drawable = JSON.parse(jsonString);
 		var drawArray = [];

@@ -34,7 +34,7 @@ function menuItemBeginDrag(ev) {
 		}
 	}
 
-	trackingData.hilightDrawableItem = window.drawableFactory.newDrawableFromJson('{"id":"hilight","description":"hilight","drawPath":"' + hilightPath + '"}');
+	trackingData.hilightDrawableItem = window.drawableFactory.newDrawableFromExistingDrawable(window.menuItems[menuId].item, "hilight", "hilight", "hilightHex");
 
 	switch (JSON.parse(data).type) {
 		case "tile": {
