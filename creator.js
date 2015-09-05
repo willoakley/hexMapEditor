@@ -2,11 +2,17 @@ var hexGrid = null;
 var tileGrid = null;
 var canvasElement = null;
 var selectedItem = null;
+var previousCanvasMode = null;
 
 function drawCanvas() {
 	var context = getContextFromJquery(canvasElement);
-
 	var canvasMode = getCanvasMode();
+	var shouldRedrawMenuItems = false;
+	if (previousCanvasMode != canvasMode) {
+		previousCanvasMode = canvasMode;
+		shouldRedrawMenuItems = true;
+	}
+
 	context.clearRect(0, 0, canvasElement.width(), canvasElement.height());
 	context.rect(0, 0, canvasElement.width(), canvasElement.height());
 	context.fillStyle = canvasMode == window.mapMode.satelite ? window.colours.sateliteBackground : window.colours.tile;
@@ -14,7 +20,9 @@ function drawCanvas() {
 
 	tileGrid.draw(context, canvasMode);
 	hexGrid.draw(context, canvasMode);
-	redrawMenuItems(canvasMode);
+	if (shouldRedrawMenuItems) {
+		redrawMenuItems(canvasMode);
+	}
 	canvasElement.focus();
 };
 
