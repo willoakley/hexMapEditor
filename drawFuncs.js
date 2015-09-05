@@ -133,6 +133,28 @@ window.drawFuncs = {
 		context.stroke();
 	},
 
+	_cachedDrawableMaps: [],
+	_loadDrawableMap: function(id, json) {
+		if (window.drawFuncs._cachedDrawableMaps[id] == undefined) {
+			var pathJson = "";
+			switch(id) {
+				case "tempTiles": { pathJson = '{"id":"tempTiles","description":"tempTiles","drawPath":"n:,n:,n:,sw:,nw:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:,s:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,sw:,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,se:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,se:,s:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,sw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,s:_outlineHex,se:,ne:_outlineHex,se:,ne:_outlineHex"}'; break; }
+				case "tempHalfTiles": { pathJson = '{"id":"tempTiles","description":"tempTiles","drawPath":"n:,n:,n:,sw:,nw:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:,s:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,sw:,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,se:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex"}'; break; }
+				case "tempRiverOne": { pathJson = '{"id":"tempRiver","description":"tempRiver","drawPath":"n:,n:,n:depthOneRiver,sw:depthOneRiver,s:depthOneRiver,s:depthOneRiver,se:depthOneRiver,se:depthOneRiver,sw:depthOneRiver,se:depthOneRiver,sw:depthOneRiver,s:depthOneRiver" }'; break; }
+				case "tempRiverTwo": { pathJson = '{"id":"tempRiver", "description":"tempRiver", "drawPath":"n:,n:,n:depthOneRiver,sw:depthOneRiver,se:depthOneRiver,sw:depthZeroRiver,s:depthZeroRiver,s:depthZeroRiver,se:depthOneRiver,s:depthOneRiver,s:depthOneRiver,n:,n:,ne:depthZeroRiver,ne:depthZeroRiver,nw:depthZeroRiver,n:depthZeroRiver"}'; break; }
+				case "tempRiverThree": { pathJson = '{"id":"tempRiver", "description":"tempRiver", "drawPath":"n:,n:,n:depthOneRiver,se:depthOneRiver,s:depthOneRiver,s:depthOneRiver,s:depthOneRiver,s:depthOneRiver,sw:depthOneRiver,se:depthOneRiver,sw:depthOneRiver"}'; break; }
+				case "tempRiverFour": { pathJson = '{"id":"tempRiver", "description":"tempRiver","drawPath":"se:,se:,se:depthOneRiver,n:depthOneRiver,n:depthOneRiver,nw:depthOneRiver,nw:depthOneRiver,s:depthOneRiver,s:depthOneRiver,s:depthOneRiver,sw:depthOneRiver,s:depthOneRiver"}'; break; }
+				case "tempRiverFive": { pathJson = '{"id":"tempRiver","description":"tempRiver","drawPath":",s:,s:,s:depthOneRiver,n:depthOneRiver,n:depthOneRiver,ne:depthOneRiver,n:depthOneRiver,n:depthOneRiver,ne:depthOneRiver,se:depthOneRiver"}'; break; }
+				case "tempRiverSix": { pathJson = '{ "id":"tempRiver", "description":"tempRiver","drawPath":"s,s:,s:depthOneRiver,n:depthOneRiver,n:depthOneRiver,ne:depthOneRiver,n:depthOneRiver,n:depthOneRiver,nw:depthOneRiver,sw:depthOneRiver,s:depthTwoRiver,sw:depthOneRiver,s:depthOneRiver,se:depthTwoRiver,s:depthOneRiver,n:,n:depthTwoRiver,ne:depthTwoRiver,n:depthOneRiver"}'; break; }
+				default: { throw "Missing path for " + id; break; }
+			}
+
+			window.drawFuncs._cachedDrawableMaps[id] = window.drawableFactory.newDrawableFromJson(pathJson);
+		}
+
+		return window.drawFuncs._cachedDrawableMaps[id];
+	},
+
 	// - - - - - - - - - - - - - - - - - - - - - - Tile types - - - - - - - - - - - - - - - - - - - - - - - - - -
 	_tileBackingImages: {},
 
@@ -146,10 +168,7 @@ window.drawFuncs = {
 		$("body").append(tileHexesCanvas);
 
 		var tileHexes = window.newGrid(scale / 7, { sx: 9, sy: 7 }, { px: 0, py: 0 });
-		tileHexes.addItem(
-			{ gx: 4, gy: 3 },
-			"n",
-			window.drawableFactory.newDrawableFromJson('{"id":"tempTiles","description":"tempTiles","drawPath":"n:,n:,n:,sw:,nw:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:,s:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,sw:,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,se:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,se:,s:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,sw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,s:_outlineHex,se:,ne:_outlineHex,se:,ne:_outlineHex"}'));
+		tileHexes.addItem({ gx: 4, gy: 3 }, "n", window.drawFuncs._loadDrawableMap("tempTiles"));
 		tileHexes.draw(tileHexesCanvas[0].getContext("2d"));
 
 		var backingHexImage = new Image();
@@ -169,10 +188,7 @@ window.drawFuncs = {
 		$("body").append(tileHexesCanvas);
 
 		var tileHexes = window.newGrid(scale / 7, { sx: 9, sy: 4 }, { px: 0, py: 0 });
-		tileHexes.addItem(
-			{ gx: 4, gy: 3 },
-			"n",
-			window.drawableFactory.newDrawableFromJson('{"id":"tempTiles","description":"tempTiles","drawPath":"n:,n:,n:,sw:,nw:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:,s:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,sw:,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,ne:_outlineHex,se:_outlineHex,se:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex,sw:_outlineHex,nw:_outlineHex"}'));
+		tileHexes.addItem({ gx: 4, gy: 3 }, "n", window.drawFuncs._loadDrawableMap("tempHalfTiles"));
 		tileHexes.draw(tileHexesCanvas[0].getContext("2d"));
 
 		var backingHexImage = new Image();
@@ -233,11 +249,7 @@ window.drawFuncs = {
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
 
-		var river = tempGrid.addItem(
-			tileCentreIndex,
-			rotation,
-			window.drawableFactory.newDrawableFromJson('{"id":"tempRiver","description":"tempRiver","drawPath":"n:,n:,n:depthOneRiver,sw:depthOneRiver,s:depthOneRiver,s:depthOneRiver,se:depthOneRiver,se:depthOneRiver,sw:depthOneRiver,se:depthOneRiver,sw:depthOneRiver,s:depthOneRiver" }'));
-
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawFuncs._loadDrawableMap("tempRiverOne"));
 		river.state = state;
 		tempGrid.draw(context);
 	},
@@ -252,12 +264,8 @@ window.drawFuncs = {
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var river = tempGrid.addItem(
-			tileCentreIndex,
-			rotation,
-			window.drawableFactory.newDrawableFromJson('{"id":"tempRiver", "description":"tempRiver", "drawPath":"n:,n:,n:depthOneRiver,sw:depthOneRiver,se:depthOneRiver,sw:depthZeroRiver,s:depthZeroRiver,s:depthZeroRiver,se:depthOneRiver,s:depthOneRiver,s:depthOneRiver,n:,n:,ne:depthZeroRiver,ne:depthZeroRiver,nw:depthZeroRiver,n:depthZeroRiver"}'));
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawFuncs._loadDrawableMap("tempRiverTwo"));
 		river.state = state;
-
 		tempGrid.draw(context);
 	},
 
@@ -271,11 +279,7 @@ window.drawFuncs = {
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var river = tempGrid.addItem(
-			tileCentreIndex,
-			rotation, 
-			window.drawableFactory.newDrawableFromJson('{"id":"tempRiver", "description":"tempRiver", "drawPath":"n:,n:,n:depthOneRiver,se:depthOneRiver,s:depthOneRiver,s:depthOneRiver,s:depthOneRiver,s:depthOneRiver,sw:depthOneRiver,se:depthOneRiver,sw:depthOneRiver"}'));
-
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawFuncs._loadDrawableMap("tempRiverThree"));
 		river.state = state;
 		tempGrid.draw(context);
 	},
@@ -290,13 +294,8 @@ window.drawFuncs = {
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var river = tempGrid.addItem(
-			tileCentreIndex,
-			rotation,
-			window.drawableFactory.newDrawableFromJson('{"id":"tempRiver", "description":"tempRiver","drawPath":"se:,se:,se:depthOneRiver,n:depthOneRiver,n:depthOneRiver,nw:depthOneRiver,nw:depthOneRiver,s:depthOneRiver,s:depthOneRiver,s:depthOneRiver,sw:depthOneRiver,s:depthOneRiver"}'));
-
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawFuncs._loadDrawableMap("tempRiverFour"));
 		river.state = state;
-
 		tempGrid.draw(context);
 	},
 
@@ -310,11 +309,7 @@ window.drawFuncs = {
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var river = tempGrid.addItem(
-			tileCentreIndex,
-			rotation,
-			window.drawableFactory.newDrawableFromJson('{"id":"tempRiver","description":"tempRiver","drawPath":",s:,s:,s:depthOneRiver,n:depthOneRiver,n:depthOneRiver,ne:depthOneRiver,n:depthOneRiver,n:depthOneRiver,ne:depthOneRiver,se:depthOneRiver"}'));
-
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawFuncs._loadDrawableMap("tempRiverFive"));
 		river.state = state;
 		tempGrid.draw(context);
 	},
@@ -329,11 +324,7 @@ window.drawFuncs = {
 		context.drawImage(window.drawFuncs._getTileBackingImage(scale), pixelLocation.px, pixelLocation.py);
 
 		var tempGrid = window.newGrid(scale / 7, { sx: 9, sy: 7 }, pixelLocation);
-		var river = tempGrid.addItem(
-			tileCentreIndex,
-			rotation,
-			window.drawableFactory.newDrawableFromJson('{ "id":"tempRiver", "description":"tempRiver","drawPath":"s,s:,s:depthOneRiver,n:depthOneRiver,n:depthOneRiver,ne:depthOneRiver,n:depthOneRiver,n:depthOneRiver,nw:depthOneRiver,sw:depthOneRiver,s:depthTwoRiver,sw:depthOneRiver,s:depthOneRiver,se:depthTwoRiver,s:depthOneRiver,n:,n:depthTwoRiver,ne:depthTwoRiver,n:depthOneRiver"}'));
-
+		var river = tempGrid.addItem(tileCentreIndex, rotation, window.drawFuncs._loadDrawableMap("tempRiverSix"));
 		river.state = state;
 		tempGrid.draw(context);
 	},
