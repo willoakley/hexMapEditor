@@ -64,7 +64,7 @@ window.newGrid = function (scale, size, offset) {
 					currentIndex = window.gridCompas.getNeghbouringGridIndex(currentIndex, moveDirection);
 				}
 
-				if (current.draw !== undefined) {
+				if (current.draw !== undefined && current.draw.length > 0) {
 					// index is affected only if we would draw something there
 					affectedPositions[count] = currentIndex;
 					count++;
@@ -313,8 +313,8 @@ window.newGrid = function (scale, size, offset) {
 					}
 
 					var pixelLocation = this._getPixelLocationFormGridIndex(positionedGridIndexesForDrawPath[i]);
-					if (!shouldSateliteDrawThisItem) {
-						current.draw(context, pixelLocation, this._scale, item.positioning.facing, item.state, item.itemArgs);
+					if (!shouldSateliteDrawThisItem && current.draw.length > 0) {
+						window.drawFuncs[current.draw](context, pixelLocation, this._scale, item.positioning.facing, item.state, item.itemArgs);
 					}
 
 					if (isHighlightedItem) {

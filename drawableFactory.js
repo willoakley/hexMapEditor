@@ -14,7 +14,7 @@ window.drawableFactory = {
 
 		var pathDrawFunctionArray = [];
 		for(var ii in drawableItem.drawPath) {
-			pathDrawFunctionArray[ii] = { move: drawableItem.drawPath[ii].move, draw: window.drawFuncs[newDrawFunction] };
+			pathDrawFunctionArray[ii] = { move: drawableItem.drawPath[ii].move, draw: newDrawFunction };
 		}
 
 		return {
@@ -48,25 +48,12 @@ window.drawableFactory = {
 			}
 
 			if (actions.length == 1) {
-				extractedDraw = window.drawFuncs[actions[0]];
+				extractedDraw = actions[0];
 			}
 
 			if (actions.length > 1) {
-				if (actions[0].length == 0 || actions[0].length > 2) {
-					throw "bad move detected in path at position " + ii;
-				}
-
-				// TODO replace this with just saving the name and evaluating on the draw action.
-				if (actions[1].length > 0) {				
-					if (window.drawFuncs[actions[1]] == undefined) {
-						throw "action " + actions[1] + " does not exist from path element " + ii;
-					}
-
-					extractedDraw = window.drawFuncs[actions[1]];
-				}
-
-				if (window.gridCompas.directionValues[actions[0]] == undefined) {
-					throw "move " + actions[0] + " is not a valid compas direction from path element " + ii;
+				if (actions[1].length > 0) {
+					extractedDraw = actions[1];
 				}
 
 				extractedMove = actions[0];
