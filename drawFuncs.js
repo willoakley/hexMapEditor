@@ -145,7 +145,7 @@ window.drawFuncs = {
 				case "tempRiverThree": { pathJson = '{"id":"tempRiver", "description":"tempRiver", "drawPath":"n:,n:,n:depthOneRiver,se:depthOneRiver,s:depthOneRiver,s:depthOneRiver,s:depthOneRiver,s:depthOneRiver,sw:depthOneRiver,se:depthOneRiver,sw:depthOneRiver"}'; break; }
 				case "tempRiverFour": { pathJson = '{"id":"tempRiver", "description":"tempRiver","drawPath":"se:,se:,se:depthOneRiver,n:depthOneRiver,n:depthOneRiver,nw:depthOneRiver,nw:depthOneRiver,s:depthOneRiver,s:depthOneRiver,s:depthOneRiver,sw:depthOneRiver,s:depthOneRiver"}'; break; }
 				case "tempRiverFive": { pathJson = '{"id":"tempRiver","description":"tempRiver","drawPath":",s:,s:,s:depthOneRiver,n:depthOneRiver,n:depthOneRiver,ne:depthOneRiver,n:depthOneRiver,n:depthOneRiver,ne:depthOneRiver,se:depthOneRiver"}'; break; }
-				case "tempRiverSix": { pathJson = '{ "id":"tempRiver", "description":"tempRiver","drawPath":"s,s:,s:depthOneRiver,n:depthOneRiver,n:depthOneRiver,ne:depthOneRiver,n:depthOneRiver,n:depthOneRiver,nw:depthOneRiver,sw:depthOneRiver,s:depthTwoRiver,sw:depthOneRiver,s:depthOneRiver,se:depthTwoRiver,s:depthOneRiver,n:,n:depthTwoRiver,ne:depthTwoRiver,n:depthOneRiver"}'; break; }
+				case "tempRiverSix": { pathJson = '{ "id":"tempRiver", "description":"tempRiver","drawPath":"s:,s:,s:depthOneRiver,n:depthOneRiver,n:depthOneRiver,ne:depthOneRiver,n:depthOneRiver,n:depthOneRiver,nw:depthOneRiver,sw:depthOneRiver,s:depthTwoRiver,sw:depthOneRiver,s:depthOneRiver,se:depthTwoRiver,s:depthOneRiver,n:,n:depthTwoRiver,ne:depthTwoRiver,n:depthOneRiver"}'; break; }
 				default: { throw "Missing path for " + id; break; }
 			}
 
